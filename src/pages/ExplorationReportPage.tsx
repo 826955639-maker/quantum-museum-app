@@ -1,3 +1,5 @@
+import HeroAtomCanvas from "../components/HeroAtomCanvas";
+
 /* ── Inline SVG assets ── */
 
 function BookSVG() {
@@ -364,15 +366,7 @@ export default function ExplorationReportPage() {
 
       {/* ── Hero Banner ── */}
       <section className="report-hero report-card">
-        <div className="report-galaxy" aria-hidden="true">
-          <div className="galaxy-stars" />
-          <div className="galaxy-ring rg1" />
-          <div className="galaxy-ring rg2" />
-          <div className="galaxy-ring rg3" />
-          <div className="galaxy-ring rg4" />
-          <div className="galaxy-core" />
-          <div className="galaxy-flare" />
-        </div>
+        <HeroAtomCanvas />
         <div className="report-hero__copy">
           {/* Floating particle orbs */}
           <div className="rh-particles" aria-hidden="true">

@@ -82,9 +82,10 @@ function ResultQuantumGlyph() {
 type ExhibitionOverviewPageProps = {
   onOpenCreation: () => void;
   onOpenPerception: () => void;
+  onOpenMaze: () => void;
 };
 
-export default function ExhibitionOverviewPage({ onOpenCreation, onOpenPerception }: ExhibitionOverviewPageProps) {
+export default function ExhibitionOverviewPage({ onOpenCreation, onOpenPerception, onOpenMaze }: ExhibitionOverviewPageProps) {
   return (
     <section className="overview-layout" aria-labelledby="overview-title">
       <header className="overview-heading">
@@ -116,6 +117,10 @@ export default function ExhibitionOverviewPage({ onOpenCreation, onOpenPerceptio
                 }
                 if (zone.id === "perception") {
                   onOpenPerception();
+                  return;
+                }
+                if (zone.id === "future") {
+                  onOpenMaze();
                   return;
                 }
                 console.log(`查看${zone.title}`);

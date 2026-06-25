@@ -10,8 +10,9 @@ import ExplorationReportPage from "./pages/ExplorationReportPage";
 
 const PerceptionInteractionPage = lazy(() => import("./pages/PerceptionInteractionPage"));
 const CreationInteractionPage = lazy(() => import("./pages/CreationInteractionPage"));
+const MazeInteractionPage = lazy(() => import("./pages/MazeInteractionPage"));
 
-type CurrentPage = "standard" | "creationInteraction" | "perceptionInteraction";
+type CurrentPage = "standard" | "creationInteraction" | "perceptionInteraction" | "mazeInteraction";
 
 export default function App() {
   const [selectedNav, setSelectedNav] = useState<NavigationId>("home");
@@ -38,6 +39,10 @@ export default function App() {
           <Suspense fallback={<section className="perception-route-loading">正在加载光波实验...</section>}>
             <PerceptionInteractionPage onBack={returnToOverview} />
           </Suspense>
+        ) : currentPage === "mazeInteraction" ? (
+          <Suspense fallback={<section className="perception-route-loading">正在加载量子迷宫...</section>}>
+            <MazeInteractionPage onBack={returnToOverview} />
+          </Suspense>
         ) : (
           <>
             <div className="ambient ambient-one" aria-hidden="true" />
@@ -49,6 +54,7 @@ export default function App() {
               <ExhibitionOverviewPage
                 onOpenCreation={() => setCurrentPage("creationInteraction")}
                 onOpenPerception={() => setCurrentPage("perceptionInteraction")}
+                onOpenMaze={() => setCurrentPage("mazeInteraction")}
               />
             ) : selectedNav === "settings" ? (
               <SettingsPage />
