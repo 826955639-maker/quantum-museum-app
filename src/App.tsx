@@ -6,6 +6,7 @@ import TopBar from "./components/TopBar";
 import Icon from "./components/Icon";
 import ExhibitionOverviewPage from "./pages/ExhibitionOverviewPage";
 import SettingsPage from "./pages/SettingsPage";
+import ExplorationReportPage from "./pages/ExplorationReportPage";
 
 const PerceptionInteractionPage = lazy(() => import("./pages/PerceptionInteractionPage"));
 const CreationInteractionPage = lazy(() => import("./pages/CreationInteractionPage"));
@@ -51,6 +52,8 @@ export default function App() {
               />
             ) : selectedNav === "settings" ? (
               <SettingsPage />
+            ) : selectedNav === "record" ? (
+              <ExplorationReportPage />
             ) : (
               <section className="home-layout">
                 <HeroPanel />
