@@ -1,6 +1,6 @@
 import Icon, { type IconName } from "./Icon";
 
-export type NavigationId = "home" | "map" | "zones" | "record" | "favorites" | "settings";
+export type NavigationId = "home" | "map" | "zones" | "record" | "settings";
 
 type SidebarProps = {
   selected: NavigationId;
@@ -12,7 +12,6 @@ const navigation: Array<{ id: NavigationId; label: string; icon: IconName }> = [
   { id: "map", label: "地图导览", icon: "map" },
   { id: "zones", label: "展区总览", icon: "cube" },
   { id: "record", label: "探索记录", icon: "record" },
-  { id: "favorites", label: "我的收藏", icon: "heart" },
 ];
 
 function AtomLogo() {
