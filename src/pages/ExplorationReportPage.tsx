@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import HeroAtomCanvas from "../components/HeroAtomCanvas";
+import ExplorationRecordSection from "../components/ExplorationRecordSection";
 
 /* ── Inline SVG assets ── */
 
@@ -360,9 +362,17 @@ function ThumbQuantumCompute() {
   );
 }
 
-export default function ExplorationReportPage() {
+type ExplorationReportPageProps = {
+  onReturnToMap?: () => void;
+};
+
+export default function ExplorationReportPage({ onReturnToMap }: ExplorationReportPageProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollToTop = () => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
-    <div className="report-layout">
+    <div className="report-scroll" ref={scrollRef}>
+      <div className="report-layout">
 
       {/* ── Hero Banner ── */}
       <section className="report-hero report-card">
@@ -554,6 +564,11 @@ export default function ExplorationReportPage() {
         <span>你的每一次探索，都是科学未来的一小步。期待下次在量子世界再相遇！</span>
         <span className="report-toast__star" aria-hidden="true">✦</span>
       </div>
+
+      </div>
+
+      {/* ── Scroll-continued detail section ── */}
+      <ExplorationRecordSection onViewReport={scrollToTop} onReturnToMap={onReturnToMap} />
 
     </div>
   );

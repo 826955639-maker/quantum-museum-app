@@ -62,7 +62,7 @@ export default function App() {
             ) : selectedNav === "map" ? (
               <MapGuidePage />
             ) : selectedNav === "record" ? (
-              <ExplorationReportPage />
+              <ExplorationReportPage onReturnToMap={() => selectNavigation("map")} />
             ) : (
               <section className="home-layout">
                 <HeroPanel />
