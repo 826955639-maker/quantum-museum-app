@@ -330,35 +330,55 @@ function ThumbQuantumCompute() {
   return (
     <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="tqc" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#1e40af" stopOpacity="0" />
+        <radialGradient id="tqc-glow" cx="50%" cy="60%" r="55%">
+          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#3b1f7a" stopOpacity="0" />
         </radialGradient>
+        <linearGradient id="tqc-top" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#d7c5ff" />
+          <stop offset="100%" stopColor="#8b5cf6" />
+        </linearGradient>
+        <linearGradient id="tqc-left" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7c4fe6" />
+          <stop offset="100%" stopColor="#3a1a86" />
+        </linearGradient>
+        <linearGradient id="tqc-right" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#5a2fc0" />
+          <stop offset="100%" stopColor="#25135e" />
+        </linearGradient>
       </defs>
-      <rect x="5" y="5" width="70" height="50" rx="2" fill="url(#tqc)" />
-      {/* Grid lines */}
-      <line x1="5" y1="20" x2="75" y2="20" stroke="#3b82f6" strokeWidth="0.6" strokeOpacity="0.4" />
-      <line x1="5" y1="35" x2="75" y2="35" stroke="#3b82f6" strokeWidth="0.6" strokeOpacity="0.4" />
-      <line x1="5" y1="50" x2="75" y2="50" stroke="#3b82f6" strokeWidth="0.6" strokeOpacity="0.4" />
-      <line x1="20" y1="5" x2="20" y2="55" stroke="#3b82f6" strokeWidth="0.6" strokeOpacity="0.4" />
-      <line x1="40" y1="5" x2="40" y2="55" stroke="#3b82f6" strokeWidth="0.6" strokeOpacity="0.4" />
-      <line x1="60" y1="5" x2="60" y2="55" stroke="#3b82f6" strokeWidth="0.6" strokeOpacity="0.4" />
-      {/* Circuit paths */}
-      <path d="M20 20 H40 V35 H60" stroke="#60a5fa" strokeWidth="1.5" fill="none" />
-      <path d="M20 35 H30 V20" stroke="#60a5fa" strokeWidth="1.5" fill="none" strokeOpacity="0.6" />
-      <path d="M40 20 V10 H60 V20" stroke="#818cf8" strokeWidth="1.2" fill="none" strokeOpacity="0.7" />
-      {/* Nodes */}
-      <circle cx="20" cy="20" r="3.5" fill="#3b82f6" />
-      <circle cx="40" cy="20" r="3.5" fill="#6366f1" />
-      <circle cx="60" cy="20" r="3.5" fill="#3b82f6" />
-      <circle cx="20" cy="35" r="3.5" fill="#6366f1" />
-      <circle cx="40" cy="35" r="3.5" fill="#3b82f6" />
-      <circle cx="60" cy="35" r="3.5" fill="#6366f1" />
-      {/* Glow on center node */}
-      <circle cx="40" cy="35" r="6" fill="#3b82f6" fillOpacity="0.25" />
-      {/* State labels */}
-      <text x="38" y="23" fontSize="5" fill="#fff" fillOpacity="0.9" fontFamily="monospace">|0⟩</text>
-      <text x="58" y="38" fontSize="5" fill="#fff" fillOpacity="0.9" fontFamily="monospace">|1⟩</text>
+      <ellipse cx="40" cy="44" rx="34" ry="14" fill="url(#tqc-glow)" />
+      {/* isometric floor grid */}
+      <g stroke="#6d4bd0" strokeWidth="0.5" strokeOpacity="0.4">
+        <path d="M40 50 8 40M40 50 72 40M40 44 16 37M40 44 64 37" />
+      </g>
+      {/* three glowing 3D pillars of increasing height (quantum states) */}
+      {[
+        { x: 22, h: 14, top: 34 },
+        { x: 40, h: 26, top: 20 },
+        { x: 58, h: 20, top: 27 },
+      ].map((b, i) => {
+        const w = 9;
+        const d = 4; // iso depth
+        const baseY = 46;
+        const topY = b.top;
+        return (
+          <g key={i}>
+            {/* left face */}
+            <path d={`M${b.x - w} ${topY + d} L${b.x} ${topY} L${b.x} ${baseY} L${b.x - w} ${baseY + d} Z`} fill="url(#tqc-left)" />
+            {/* right face */}
+            <path d={`M${b.x} ${topY} L${b.x + w} ${topY + d} L${b.x + w} ${baseY + d} L${b.x} ${baseY} Z`} fill="url(#tqc-right)" />
+            {/* top face */}
+            <path d={`M${b.x - w} ${topY + d} L${b.x} ${topY} L${b.x + w} ${topY + d} L${b.x} ${topY + 2 * d} Z`} fill="url(#tqc-top)" />
+            {/* glow edge */}
+            <path d={`M${b.x - w} ${topY + d} L${b.x} ${topY} L${b.x + w} ${topY + d}`} stroke="#e8dcff" strokeWidth="0.6" strokeOpacity="0.7" fill="none" />
+          </g>
+        );
+      })}
+      {/* state labels + floating bits */}
+      <text x="40" y="15" fontSize="6" fill="#e8dcff" fillOpacity="0.95" fontFamily="monospace" textAnchor="middle">|0⟩+|1⟩</text>
+      <circle cx="16" cy="20" r="1.4" fill="#c4b5fd" />
+      <circle cx="66" cy="18" r="1.2" fill="#f59e0b" fillOpacity="0.85" />
     </svg>
   );
 }

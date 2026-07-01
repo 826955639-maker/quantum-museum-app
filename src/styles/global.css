@@ -3758,10 +3758,11 @@ input:focus-visible {
   place-items: center;
   width: 3.1cqw;
   height: 3.1cqw;
+  border: 1px solid rgba(196, 181, 253, 0.4);
   border-radius: 50%;
-  background: linear-gradient(140deg, #7c3aed, #4c1d95);
-  color: #e8dcff;
-  box-shadow: 0 0 0.9cqw rgba(124, 58, 237, 0.5);
+  background: radial-gradient(circle at 50% 36%, rgba(167, 139, 250, 0.55), rgba(76, 29, 149, 0.55) 68%);
+  color: #efe7ff;
+  box-shadow: 0 0 0.9cqw rgba(139, 92, 246, 0.4), inset 0 0 0.6cqw rgba(196, 181, 253, 0.3);
 }
 .rec-done__icon svg { width: 1.7cqw; height: 1.7cqw; }
 .rec-done__copy { display: flex; flex-direction: column; gap: 0.15cqw; min-width: 0; }

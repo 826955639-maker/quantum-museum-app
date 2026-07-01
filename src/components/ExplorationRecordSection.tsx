@@ -112,19 +112,19 @@ function IconBranch() {
 }
 function IconDocCheck() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M7 3h7l4 4v14H7z" />
-      <path d="M14 3v4h4" />
-      <path d="m9.5 13 2 2 3.5-4" />
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6.5 2.5h7L18 7v13.5a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="#ffffff" fillOpacity="0.16" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M13 2.6V7.2h4.4" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="m8.6 13.4 2.1 2.1 4.1-4.6" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 function IconMapPin() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Z" />
-      <path d="M9 4v13M15 6.5v13" />
-      <circle cx="12" cy="10" r="2.3" />
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M8.8 3.6 3.4 6v13.4l5.4-2.4 6.4 2.4 5.4-2.4V3.6l-5.4 2.4-6.4-2.4Z" fill="#ffffff" fillOpacity="0.16" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M8.8 3.6v13.4M15.2 6v13.4" stroke="#fff" strokeWidth="1.2" strokeOpacity="0.7" />
+      <path d="M12 8.2a2.6 2.6 0 0 0-2.6 2.6c0 1.9 2.6 4.2 2.6 4.2s2.6-2.3 2.6-4.2A2.6 2.6 0 0 0 12 8.2Z" fill="#fff" />
     </svg>
   );
 }
@@ -208,29 +208,45 @@ function ThumbMultipath() {
   return (
     <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="rm-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#1e1b4b" stopOpacity="0" />
+        <radialGradient id="rm-glow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#6d28d9" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#0d0a24" stopOpacity="0" />
         </radialGradient>
+        <linearGradient id="rm-trace" x1="0" x2="1">
+          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
+          <stop offset="50%" stopColor="#c4b5fd" />
+          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.3" />
+        </linearGradient>
       </defs>
-      <ellipse cx="65" cy="50" rx="58" ry="40" fill="url(#rm-glow)" />
-      {/* multi paths from source to target */}
-      <g stroke="#8b5cf6" strokeWidth="1.3" fill="none" opacity="0.8">
-        <path d="M18 50C40 24 60 30 78 44s24 8 36 6" />
-        <path d="M18 50C36 62 58 74 82 62s20-14 30-6" />
-        <path d="M18 50C42 44 62 50 82 50s20 0 30 0" strokeDasharray="3 4" />
+      <rect x="0" y="0" width="130" height="100" fill="url(#rm-glow)" />
+      {/* faint circuit-board grid */}
+      <g stroke="#4a3a86" strokeWidth="0.5" strokeOpacity="0.3">
+        <path d="M0 25h130M0 50h130M0 75h130M32 0v100M65 0v100M98 0v100" />
       </g>
-      {/* nodes along paths */}
-      <g fill="#c4b5fd">
-        <circle cx="48" cy="34" r="2" />
-        <circle cx="78" cy="44" r="2" />
-        <circle cx="60" cy="68" r="2" />
-        <circle cx="90" cy="58" r="2" />
+      {/* right-angled circuit traces (multiple paths source→target) */}
+      <g stroke="url(#rm-trace)" strokeWidth="1.6" fill="none" strokeLinejoin="round" strokeLinecap="round">
+        <path d="M16 50H40V24H72V50H98V32H114" />
+        <path d="M16 50H30V72H58V50" opacity="0.85" />
+        <path d="M72 50V76H98V68H114" opacity="0.85" />
       </g>
-      {/* source + target */}
-      <circle cx="18" cy="50" r="5" fill="#a78bfa" />
-      <circle cx="112" cy="50" r="5" fill="#8b5cf6" />
-      <circle cx="18" cy="50" r="8" fill="none" stroke="#a78bfa" strokeWidth="1" opacity="0.5" />
+      {/* solder nodes */}
+      <g fill="#0d0a24" stroke="#c4b5fd" strokeWidth="1.3">
+        <circle cx="40" cy="24" r="3" />
+        <circle cx="72" cy="24" r="3" />
+        <circle cx="72" cy="50" r="3" />
+        <circle cx="30" cy="72" r="3" />
+        <circle cx="58" cy="50" r="3" />
+        <circle cx="98" cy="32" r="3" />
+        <circle cx="98" cy="68" r="3" />
+      </g>
+      {/* source + target terminals */}
+      <circle cx="16" cy="50" r="6" fill="#a78bfa" />
+      <circle cx="16" cy="50" r="9" fill="none" stroke="#a78bfa" strokeWidth="1" opacity="0.5" />
+      <circle cx="114" cy="32" r="4" fill="#8b5cf6" />
+      <circle cx="114" cy="68" r="4" fill="#8b5cf6" />
+      {/* travelling pulses */}
+      <circle cx="55" cy="24" r="1.6" fill="#fbe7a6" />
+      <circle cx="98" cy="50" r="1.4" fill="#fff" opacity="0.8" />
     </svg>
   );
 }
