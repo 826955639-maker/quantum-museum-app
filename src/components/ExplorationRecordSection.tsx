@@ -55,8 +55,8 @@ function CatSVG() {
 }
 function WaveSVG() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M2 12c1-2.5 2-4 3.5-4s2.5 2.5 4 2.5S12 8 13.5 8s2.5 2.5 4 2.5S20 9.5 22 12" />
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 25h4l3-9 5 20 5-29 5 34 5-25 4 17 3-8h4" />
     </svg>
   );
 }

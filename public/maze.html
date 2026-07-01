@@ -148,7 +148,7 @@
             <div class="absolute w-8 h-8 bg-purple-600 rounded-full blur-sm opacity-60 animate-pulse"></div>
             <i class="fa-solid fa-atom text-purple-300 text-xl z-10 animate-[spin_8s_linear_infinite]"></i>
           </div>
-          <span class="text-[9px] text-gray-900 font-extrabold tracking-widest text-center mt-1 scale-90 leading-tight">量子微馆<br><span class="text-[6px] text-gray-400 font-normal">QUANTUM EXPLORE</span></span>
+          <span class="text-[9px] text-gray-900 font-extrabold tracking-widest text-center mt-1 scale-90 leading-tight">量子探微馆<br><span class="text-[6px] text-gray-400 font-normal">QUANTUM EXPLORATION</span></span>
         </div>
 
         <!-- Navigation items -->
@@ -177,11 +177,6 @@
             <span class="text-[10px] font-bold mt-1">探索记录</span>
           </button>
 
-          <!-- Item 5: 我的收藏 -->
-          <button class="flex flex-col items-center justify-center w-full py-2.5 rounded-2xl text-gray-400 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200">
-            <i class="fa-solid fa-heart text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">我的收藏</span>
-          </button>
         </nav>
 
         <!-- Bottom setting icon -->
@@ -247,16 +242,15 @@
               </div>
 
               <!-- Floating HUD Glass Console on the Left side -->
-              <div class="absolute left-5 top-5 bottom-5 w-60 glass-card rounded-2xl p-4 flex flex-col justify-between z-10 border border-purple-500/25 shadow-xl select-none">
-                
+              <div class="absolute left-4 top-5 bottom-5 w-48 glass-card rounded-2xl p-3.5 flex flex-col justify-between z-10 border border-purple-500/25 shadow-xl select-none">
+
                 <!-- Title inside HUD -->
                 <div>
                   <div class="flex items-center gap-2 mb-1">
                     <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
                     <span id="status-indicator-text" class="text-[10px] uppercase font-black tracking-widest text-purple-400 text-glow-purple">叠加演化中</span>
                   </div>
-                  <h2 class="text-md font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-300">量子全息控制端</h2>
-                  <p class="text-[10px] text-gray-400 mt-1">波函数多维度并行控制面板</p>
+                  <h2 class="text-sm font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-300">量子全息控制端</h2>
                 </div>
 
                 <!-- Exploration Status checkboxes -->
@@ -265,7 +259,7 @@
                   <div class="space-y-1">
                     <!-- Mode 1: 普通探索 -->
                     <label id="mode-normal-btn" class="flex items-center justify-between px-3 py-2 rounded-xl border border-zinc-800/60 bg-zinc-950/60 cursor-pointer hover:bg-zinc-900/40 transition-all duration-200">
-                      <span class="text-xs text-gray-400 font-semibold">普通经典探索</span>
+                      <span class="text-xs text-gray-400 font-semibold">经典探索</span>
                       <div class="relative flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-600 transition-all">
                         <div id="mode-normal-dot" class="w-2 h-2 rounded-full bg-transparent transition-all"></div>
                       </div>
@@ -274,7 +268,7 @@
                     <!-- Mode 2: 多路径探索 (Active by default) -->
                     <label id="mode-multi-btn" class="flex items-center justify-between px-3 py-2 rounded-xl border border-purple-500/40 bg-purple-950/40 cursor-pointer hover:bg-purple-950/60 transition-all duration-200">
                       <span class="text-xs text-purple-200 font-extrabold flex items-center gap-1.5">
-                        多路径重叠态
+                        多路径叠加
                         <i class="fa-solid fa-wave-square text-[9px] text-purple-400 animate-pulse"></i>
                       </span>
                       <div class="relative flex items-center justify-center w-3.5 h-3.5 rounded-full border border-purple-400 transition-all">
@@ -284,7 +278,7 @@
 
                     <!-- Mode 3: 收敛模式 -->
                     <label id="mode-collapse-btn" class="flex items-center justify-between px-3 py-2 rounded-xl border border-zinc-800/60 bg-zinc-950/60 cursor-pointer hover:bg-zinc-900/40 transition-all duration-200">
-                      <span class="text-xs text-gray-400 font-semibold">干涉消噪收敛</span>
+                      <span class="text-xs text-gray-400 font-semibold">干涉收敛</span>
                       <div class="relative flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-600 transition-all">
                         <div id="mode-collapse-dot" class="w-2 h-2 rounded-full bg-transparent transition-all"></div>
                       </div>
@@ -387,7 +381,7 @@
           </div>
 
           <!-- RIGHT SIDEBAR: Webcam Recognition & Gesture Instruction Guides -->
-          <div class="w-[330px] flex flex-col gap-3 shrink-0">
+          <div class="w-[272px] flex flex-col gap-3 shrink-0">
             
             <!-- Real-Time Gesture Recognition (Webcam Frame in Right-Top) -->
             <div class="glass-card rounded-[24px] p-4 flex flex-col border border-purple-900/20 relative overflow-hidden">
@@ -444,10 +438,10 @@
                 </h3>
                 <div class="bg-purple-950/15 border border-purple-900/20 rounded-xl p-3">
                   <p class="text-[11px] text-purple-200 leading-relaxed font-medium">
-                    在经典力学里，探索迷宫必须像无头苍蝇一样一条条去尝试。
+                    经典迷宫只能一条条去试。
                   </p>
                   <p class="text-[11px] text-gray-400 leading-relaxed mt-2">
-                    但在量子迷宫中，你可以发挥<b>“量子纠缠与相干”</b>特性。借由展开手掌释放相干粒子包，粒子会<b>同时处于所有可能路径的叠加态</b>！
+                    量子迷宫里，展开手掌释放相干粒子，粒子会<b>同时处于所有路径的叠加态</b>！
                   </p>
                 </div>
               </div>
