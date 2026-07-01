@@ -2850,7 +2850,7 @@ input:focus-visible {
 }
 
 .rpt-badge__medal {
-  width: 4.2cqw;
+  width: 5cqw;
   filter: drop-shadow(0 0.3cqw 0.7cqw rgba(76, 29, 149, 0.55));
   transition: transform 0.25s var(--ease);
 }
@@ -2899,14 +2899,15 @@ input:focus-visible {
 
 .report-book {
   position: absolute;
-  right: 2cqw;
+  right: 1cqw;
   top: 50%;
-  width: 12cqw;
-  height: 12cqw;
+  width: 16cqw;
+  height: 14cqw;
   pointer-events: none;
-  filter: drop-shadow(0 0 1.5cqw rgba(139, 92, 246, 0.4));
+  filter: drop-shadow(0 0 1.8cqw rgba(139, 92, 246, 0.45));
   animation: bookFloat 5s ease-in-out infinite alternate;
 }
+.report-book svg { width: 100%; height: 100%; display: block; transform: scale(1.12); transform-origin: center; }
 
 @keyframes bookFloat {
   0%   { transform: translateY(-50%) rotate(-3deg); }
@@ -2972,6 +2973,8 @@ input:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transform: scale(1.12);
+  transform-origin: center;
 }
 
 .rpt-thumb span {
@@ -3059,10 +3062,11 @@ input:focus-visible {
 }
 
 .report-share__planet {
-  width: 5cqw;
-  height: 5cqw;
+  width: 8.4cqw;
+  height: 7.5cqw;
   flex-shrink: 0;
-  opacity: 0.88;
+  margin-right: -0.6cqw;
+  opacity: 0.95;
 }
 
 /* QR code card */
@@ -3798,7 +3802,7 @@ input:focus-visible {
 }
 .rec-badge__medal {
   display: block;
-  width: 5.6cqw;
+  width: 7cqw;
   filter: drop-shadow(0 0.4cqw 0.9cqw rgba(76, 29, 149, 0.55));
   transition: transform 0.25s var(--ease);
 }
@@ -3881,7 +3885,7 @@ input:focus-visible {
   background: linear-gradient(150deg, rgba(59, 31, 122, 0.6), rgba(13, 12, 42, 0.9));
   border: 1px solid rgba(139, 92, 246, 0.2);
 }
-.rec-level__thumb svg { width: 100%; height: 100%; display: block; }
+.rec-level__thumb svg { width: 100%; height: 100%; display: block; transform: scale(1.16); transform-origin: center; }
 .rec-level__body { display: flex; flex-direction: column; gap: 0.35cqw; min-width: 0; }
 .rec-level__num {
   display: inline-grid;
