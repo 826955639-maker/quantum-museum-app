@@ -2849,28 +2849,13 @@ input:focus-visible {
   line-height: 1.2;
 }
 
-.rpt-badge__hex {
-  display: grid;
-  place-items: center;
-  width: 3.6cqw;
-  height: 3.6cqw;
-  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-  background: linear-gradient(135deg, rgba(109, 40, 217, 0.85), rgba(49, 20, 100, 0.95));
-  box-shadow: 0 0 1cqw rgba(139, 92, 246, 0.6);
-  color: #c4b5fd;
+.rpt-badge__medal {
+  width: 4.2cqw;
+  filter: drop-shadow(0 0.3cqw 0.7cqw rgba(76, 29, 149, 0.55));
+  transition: transform 0.25s var(--ease);
 }
-
-.rpt-badge__hex--glow {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(79, 30, 160, 0.98));
-  box-shadow:
-    0 0 0.8cqw rgba(196, 181, 253, 0.7),
-    0 0 2cqw rgba(139, 92, 246, 0.5);
-}
-
-.rpt-badge__hex svg {
-  width: 1.6cqw;
-  height: 1.6cqw;
-}
+.rpt-badge:hover .rpt-badge__medal { transform: translateY(-0.15cqw) scale(1.05); }
+.rpt-badge__medal svg { width: 100%; height: auto; display: block; }
 
 /* ── Knowledge Card ── */
 .report-knowledge {
@@ -3810,25 +3795,14 @@ input:focus-visible {
   text-align: center;
   gap: 0.55cqw;
 }
-.rec-badge__hex {
-  display: grid;
-  place-items: center;
-  width: 5cqw;
-  height: 5.6cqw;
-  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-  background: linear-gradient(150deg, #8b5cf6, #4c1d95);
-  box-shadow: 0 0 1.4cqw rgba(139, 92, 246, 0.55);
+.rec-badge__medal {
+  display: block;
+  width: 5.6cqw;
+  filter: drop-shadow(0 0.4cqw 0.9cqw rgba(76, 29, 149, 0.55));
+  transition: transform 0.25s var(--ease);
 }
-.rec-badge__hex-inner {
-  display: grid;
-  place-items: center;
-  width: 4.3cqw;
-  height: 4.85cqw;
-  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-  background: linear-gradient(150deg, #1a1440, #0d0a24);
-  color: #d7c5ff;
-}
-.rec-badge__hex-inner svg { width: 2cqw; height: 2cqw; }
+.rec-badge:hover .rec-badge__medal { transform: translateY(-0.2cqw) scale(1.04); }
+.rec-badge__medal svg { width: 100%; height: auto; display: block; }
 .rec-badge figcaption { display: flex; flex-direction: column; gap: 0.15cqw; }
 .rec-badge figcaption strong { color: #f2eeff; font-size: 1.02cqw; font-weight: 600; }
 .rec-badge figcaption small { color: rgba(255, 255, 255, 0.45); font-size: 0.82cqw; line-height: 1.3; }

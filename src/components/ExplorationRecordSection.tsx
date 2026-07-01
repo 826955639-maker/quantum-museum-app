@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "./Icon";
+import BadgeMedal, { type BadgeType } from "./BadgeMedal";
 
 /* ── Small line icons ── */
 
@@ -67,16 +68,6 @@ function MazeSVG() {
     </svg>
   );
 }
-function EyeSVG() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" />
-      <circle cx="12" cy="12" r="3" />
-      <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 /* Tab icons */
 function TabSmiley() {
   return (
@@ -251,10 +242,10 @@ const completed = [
   { id: "maze", title: "量子迷宫", desc: "体验多路径与概率分布", glyph: <MazeSVG /> },
 ];
 
-const badges = [
-  { id: "observer", title: "观察者徽章", desc: "理解观测如何影响结果", glyph: <EyeSVG /> },
-  { id: "wave", title: "光波探索徽章", desc: "掌握光的波动性知识", glyph: <WaveSVG /> },
-  { id: "maze", title: "迷宫挑战徽章", desc: "完成多路径探索挑战", glyph: <MazeSVG /> },
+const badges: Array<{ id: string; title: string; desc: string; medal: BadgeType }> = [
+  { id: "observer", title: "观察者徽章", desc: "理解观测如何影响结果", medal: "eye" },
+  { id: "wave", title: "光波探索徽章", desc: "掌握光的波动性知识", medal: "wave" },
+  { id: "maze", title: "迷宫挑战徽章", desc: "完成多路径探索挑战", medal: "maze" },
 ];
 
 const tabs = [
@@ -336,8 +327,8 @@ export default function ExplorationRecordSection({ onViewReport, onReturnToMap }
           <div className="rec-badges">
             {badges.map((badge) => (
               <figure className="rec-badge" key={badge.id}>
-                <span className="rec-badge__hex">
-                  <span className="rec-badge__hex-inner">{badge.glyph}</span>
+                <span className="rec-badge__medal">
+                  <BadgeMedal type={badge.medal} />
                 </span>
                 <figcaption>
                   <strong>{badge.title}</strong>

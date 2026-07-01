@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import HeroAtomCanvas from "../components/HeroAtomCanvas";
 import ExplorationRecordSection from "../components/ExplorationRecordSection";
+import BadgeMedal from "../components/BadgeMedal";
 
 /* ── Inline SVG assets ── */
 
@@ -456,21 +457,15 @@ export default function ExplorationReportPage({ onReturnToMap }: ExplorationRepo
           </h2>
           <div className="rpt-badges-row">
             <div className="rpt-badge">
-              <div className="rpt-badge__hex rpt-badge__hex--glow">
-                <EyeSVG />
-              </div>
+              <div className="rpt-badge__medal"><BadgeMedal type="eye" /></div>
               <span>观察者徽章</span>
             </div>
             <div className="rpt-badge">
-              <div className="rpt-badge__hex">
-                <WaveSVG />
-              </div>
+              <div className="rpt-badge__medal"><BadgeMedal type="wave" /></div>
               <span>光波探索徽章</span>
             </div>
             <div className="rpt-badge">
-              <div className="rpt-badge__hex">
-                <MazeSVG />
-              </div>
+              <div className="rpt-badge__medal"><BadgeMedal type="maze" /></div>
               <span>迷宫挑战徽章</span>
             </div>
           </div>
