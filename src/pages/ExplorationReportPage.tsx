@@ -9,97 +9,164 @@ function BookSVG() {
   return (
     <svg viewBox="0 0 140 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="bkGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#c4b5fd" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
+        <radialGradient id="bkAura" cx="50%" cy="46%" r="52%">
+          <stop offset="0%" stopColor="#7c6bff" stopOpacity="0.4" />
+          <stop offset="55%" stopColor="#4c2fbf" stopOpacity="0.14" />
+          <stop offset="100%" stopColor="#1a1145" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="bkCover" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3b1f7a" />
-          <stop offset="55%" stopColor="#5b26c9" />
-          <stop offset="100%" stopColor="#18164a" />
+        <linearGradient id="bkPageL" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#6a54e6" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#3320a0" stopOpacity="0.75" />
         </linearGradient>
-        <linearGradient id="bkRightPage" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#1e1b4b" />
-          <stop offset="100%" stopColor="#0d0c2a" />
+        <linearGradient id="bkPageR" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#8b74ff" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#3a24aa" stopOpacity="0.8" />
         </linearGradient>
-        <linearGradient id="bkSpine" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#4c1d95" />
-          <stop offset="100%" stopColor="#2e177a" />
-        </linearGradient>
-        <filter id="bkShadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#6d28d9" floodOpacity="0.55" />
+        <filter id="bkSoft" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="1.4" />
         </filter>
       </defs>
 
-      {/* Ambient glow */}
-      <ellipse cx="70" cy="65" rx="62" ry="58" fill="url(#bkGlow)" />
+      {/* ambient aura */}
+      <ellipse cx="70" cy="62" rx="64" ry="52" fill="url(#bkAura)" />
 
-      {/* Orbital ring behind book */}
-      <ellipse cx="70" cy="78" rx="52" ry="14" stroke="#6d28d9" strokeWidth="1.2" strokeOpacity="0.5" fill="none" transform="rotate(-8 70 78)" />
+      {/* orbit trail behind */}
+      <ellipse cx="70" cy="74" rx="62" ry="18" stroke="#9d84f5" strokeWidth="1.1" strokeOpacity="0.4" fill="none" transform="rotate(-18 70 74)" />
 
-      {/* Left page / cover */}
-      <rect x="26" y="22" width="42" height="66" rx="3" fill="url(#bkCover)" stroke="#7c3aed" strokeWidth="0.8" filter="url(#bkShadow)" />
+      {/* page stack thickness under left page */}
+      <g stroke="#2a1c74" strokeWidth="1" strokeOpacity="0.7">
+        <path d="M70 84 26 71" />
+        <path d="M70 87 27 74" />
+      </g>
+      {/* page stack under right page */}
+      <g stroke="#2a1c74" strokeWidth="1" strokeOpacity="0.7">
+        <path d="M70 84 114 71" />
+        <path d="M70 87 113 74" />
+      </g>
 
-      {/* Spine crease */}
-      <rect x="64" y="22" width="4" height="66" rx="1" fill="url(#bkSpine)" />
+      {/* left open page */}
+      <path d="M70 82 68 58 20 47 24 70Z" fill="url(#bkPageL)" stroke="#b7a4ff" strokeWidth="1.1" strokeOpacity="0.85" />
+      {/* left page faint lines */}
+      <g stroke="#c9baff" strokeWidth="0.9" strokeOpacity="0.4">
+        <path d="M31 56 58 62" />
+        <path d="M29 61 55 67" />
+        <path d="M27 66 40 69" />
+      </g>
 
-      {/* Right page */}
-      <rect x="68" y="22" width="36" height="66" rx="2" fill="url(#bkRightPage)" stroke="#3b1780" strokeWidth="0.5" />
+      {/* right open page */}
+      <path d="M70 82 72 58 120 47 116 70Z" fill="url(#bkPageR)" stroke="#c3b0ff" strokeWidth="1.1" />
+      {/* right page faint lines */}
+      <g stroke="#d6c9ff" strokeWidth="0.9" strokeOpacity="0.4">
+        <path d="M82 57 110 51" />
+        <path d="M83 62 112 56" />
+      </g>
 
-      {/* Right page lines */}
-      <line x1="75" y1="34" x2="98" y2="34" stroke="#6d28d9" strokeWidth="1.1" strokeOpacity="0.55" />
-      <line x1="75" y1="41" x2="96" y2="41" stroke="#6d28d9" strokeWidth="1.1" strokeOpacity="0.38" />
-      <line x1="75" y1="48" x2="99" y2="48" stroke="#6d28d9" strokeWidth="1.1" strokeOpacity="0.46" />
-      <line x1="75" y1="55" x2="94" y2="55" stroke="#6d28d9" strokeWidth="1.1" strokeOpacity="0.3" />
-      <line x1="75" y1="62" x2="97" y2="62" stroke="#6d28d9" strokeWidth="1.1" strokeOpacity="0.36" />
+      {/* spine highlight */}
+      <path d="M70 82 70 58" stroke="#e6dcff" strokeWidth="1.4" strokeOpacity="0.85" />
 
-      {/* Left page decoration – atom symbol */}
-      <circle cx="47" cy="55" r="9" stroke="#a78bfa" strokeWidth="1.2" fill="none" strokeOpacity="0.6" />
-      <ellipse cx="47" cy="55" rx="9" ry="3.5" stroke="#c4b5fd" strokeWidth="0.8" fill="none" transform="rotate(60 47 55)" strokeOpacity="0.5" />
-      <ellipse cx="47" cy="55" rx="9" ry="3.5" stroke="#c4b5fd" strokeWidth="0.8" fill="none" transform="rotate(-60 47 55)" strokeOpacity="0.5" />
-      <circle cx="47" cy="55" r="2" fill="#c4b5fd" fillOpacity="0.9" />
+      {/* atom symbol on right page */}
+      <g transform="rotate(-8 96 63)">
+        <ellipse cx="96" cy="63" rx="13" ry="5" stroke="#d9ccff" strokeWidth="1.1" fill="none" strokeOpacity="0.85" />
+        <ellipse cx="96" cy="63" rx="13" ry="5" stroke="#c4b5fd" strokeWidth="1" fill="none" transform="rotate(60 96 63)" strokeOpacity="0.7" />
+        <ellipse cx="96" cy="63" rx="13" ry="5" stroke="#c4b5fd" strokeWidth="1" fill="none" transform="rotate(-60 96 63)" strokeOpacity="0.7" />
+        <circle cx="96" cy="63" r="2.4" fill="#f4f0ff" />
+      </g>
 
-      {/* Bottom orbit ring in front */}
-      <ellipse cx="70" cy="90" rx="46" ry="12" stroke="#8b5cf6" strokeWidth="1.5" strokeOpacity="0.7" fill="none" transform="rotate(-8 70 90)" />
+      {/* orbit trails in front */}
+      <ellipse cx="70" cy="76" rx="58" ry="16" stroke="#c8b8ff" strokeWidth="1.4" strokeOpacity="0.8" fill="none" transform="rotate(-18 70 76)" />
+      <ellipse cx="70" cy="72" rx="52" ry="22" stroke="#8b74ff" strokeWidth="0.9" strokeOpacity="0.45" fill="none" transform="rotate(14 70 72)" />
 
-      {/* Sparkle dots */}
-      <circle cx="28" cy="30" r="1.8" fill="#c4b5fd" opacity="0.6">
-        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.1s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="110" cy="35" r="2.2" fill="#f59e0b" opacity="0.7">
-        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.7s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="118" cy="72" r="1.5" fill="#c4b5fd" opacity="0.5">
-        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="22" cy="80" r="1.2" fill="#a78bfa" opacity="0.5">
-        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="90" cy="18" r="1.6" fill="#fff" opacity="0.4">
-        <animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.4s" repeatCount="indefinite" />
-      </circle>
-      {/* 4-point star near top right */}
-      <path d="M108 24 l1.2 3.5 3.5 1.2-3.5 1.2-1.2 3.5-1.2-3.5-3.5-1.2 3.5-1.2Z" fill="#f59e0b" opacity="0.85">
-        <animate attributeName="opacity" values="0.5;1;0.5" dur="1.9s" repeatCount="indefinite" />
+      {/* bright points riding the orbit */}
+      <circle cx="14" cy="84" r="2.4" fill="#fff" filter="url(#bkSoft)" />
+      <circle cx="126" cy="64" r="2" fill="#e8dcff" filter="url(#bkSoft)" />
+      <circle cx="70" cy="58" r="1.6" fill="#fff" />
+
+      {/* scattered stars */}
+      <g fill="#d7c9ff">
+        <circle cx="30" cy="30" r="1.5" opacity="0.8" />
+        <circle cx="112" cy="30" r="1.2" opacity="0.7" />
+        <circle cx="120" cy="96" r="1.3" opacity="0.6" />
+        <circle cx="24" cy="98" r="1.1" opacity="0.6" />
+        <circle cx="52" cy="24" r="1" opacity="0.5" />
+        <circle cx="90" cy="102" r="1" opacity="0.5" />
+      </g>
+      {/* sparkles */}
+      <path d="M110 26 l1.3 3.6 3.6 1.3-3.6 1.3-1.3 3.6-1.3-3.6-3.6-1.3 3.6-1.3Z" fill="#fff" opacity="0.9">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+      </path>
+      <path d="M26 40 l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#c4b5fd" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.6s" repeatCount="indefinite" />
+      </path>
+      <path d="M98 100 l0.9 2.6 2.6 0.9-2.6 0.9-0.9 2.6-0.9-2.6-2.6-0.9 2.6-0.9Z" fill="#fbe7a6" opacity="0.85">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite" />
       </path>
     </svg>
   );
 }
 
 function PlanetSVG() {
+  const cx = 45;
+  const cy = 41;
+  // two logarithmic spiral arms of fading dots
+  const arm = (offset: number, key: string) =>
+    Array.from({ length: 18 }, (_, i) => {
+      const t = i / 17;
+      const ang = offset + t * Math.PI * 2.3;
+      const r = 3 + t * 34;
+      const x = cx + Math.cos(ang) * r;
+      const y = cy + Math.sin(ang) * r * 0.52;
+      const s = 1.5 * (1 - t) + 0.35;
+      return <circle key={`${key}-${i}`} cx={x} cy={y} r={s} fill="#c9b8ff" opacity={0.9 - t * 0.55} />;
+    });
+
   return (
-    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg viewBox="0 0 90 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="planetBody" cx="38%" cy="32%" r="62%">
-          <stop offset="0%" stopColor="#8b5cf6" />
-          <stop offset="55%" stopColor="#6d28d9" />
-          <stop offset="100%" stopColor="#1e1b4b" />
+        <radialGradient id="glxCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="22%" stopColor="#e6dcff" />
+          <stop offset="52%" stopColor="#9d7bff" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#5a2fc0" stopOpacity="0" />
         </radialGradient>
+        <radialGradient id="glxHalo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#7c4fe6" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#3a1a86" stopOpacity="0" />
+        </radialGradient>
+        <filter id="glxSoft" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="1.2" />
+        </filter>
       </defs>
-      <ellipse cx="40" cy="40" rx="36" ry="11" stroke="#6d28d9" strokeWidth="1.5" fill="none" opacity="0.38" transform="rotate(-22 40 40)" />
-      <circle cx="40" cy="40" r="18" fill="url(#planetBody)" />
-      <ellipse cx="40" cy="40" rx="32" ry="10" stroke="#a78bfa" strokeWidth="2" fill="none" opacity="0.75" transform="rotate(-22 40 40)" />
-      <circle cx="33" cy="34" r="3.5" fill="#fff" fillOpacity="0.12" />
+
+      {/* halo */}
+      <ellipse cx={cx} cy={cy} rx="42" ry="24" fill="url(#glxHalo)" transform={`rotate(-20 ${cx} ${cy})`} />
+
+      {/* spiral arms */}
+      <g transform={`rotate(-20 ${cx} ${cy})`}>
+        {arm(0, "a")}
+        {arm(Math.PI, "b")}
+      </g>
+
+      {/* orbit ring */}
+      <ellipse cx={cx} cy={cy} rx="38" ry="13" stroke="#b7a4ff" strokeWidth="1.3" strokeOpacity="0.7" fill="none" transform={`rotate(-20 ${cx} ${cy})`} />
+
+      {/* bright core */}
+      <circle cx={cx} cy={cy} r="16" fill="url(#glxCore)" />
+      <circle cx={cx} cy={cy} r="3" fill="#fff" filter="url(#glxSoft)" />
+
+      {/* scattered field stars */}
+      <g fill="#e2d7ff">
+        <circle cx="12" cy="16" r="1.1" opacity="0.7" />
+        <circle cx="80" cy="20" r="1.3" opacity="0.7" />
+        <circle cx="84" cy="58" r="1" opacity="0.6" />
+        <circle cx="16" cy="62" r="1.2" opacity="0.6" />
+        <circle cx="70" cy="68" r="0.9" opacity="0.5" />
+      </g>
+      <path d="M82 30 l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.85">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="2.3s" repeatCount="indefinite" />
+      </path>
+      <path d="M14 46 l0.8 2.4 2.4 0.8-2.4 0.8-0.8 2.4-0.8-2.4-2.4-0.8 2.4-0.8Z" fill="#c4b5fd" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.9s" repeatCount="indefinite" />
+      </path>
     </svg>
   );
 }
