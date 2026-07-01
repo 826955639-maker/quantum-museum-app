@@ -7,6 +7,7 @@ import Icon from "./components/Icon";
 import ExhibitionOverviewPage from "./pages/ExhibitionOverviewPage";
 import SettingsPage from "./pages/SettingsPage";
 import ExplorationReportPage from "./pages/ExplorationReportPage";
+import MapGuidePage from "./pages/MapGuidePage";
 
 const PerceptionInteractionPage = lazy(() => import("./pages/PerceptionInteractionPage"));
 const CreationInteractionPage = lazy(() => import("./pages/CreationInteractionPage"));
@@ -58,6 +59,8 @@ export default function App() {
               />
             ) : selectedNav === "settings" ? (
               <SettingsPage />
+            ) : selectedNav === "map" ? (
+              <MapGuidePage />
             ) : selectedNav === "record" ? (
               <ExplorationReportPage />
             ) : (
