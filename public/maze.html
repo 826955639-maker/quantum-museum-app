@@ -29,6 +29,14 @@
       overflow-x: hidden;
     }
 
+    /* The WebGL canvas must always display at exactly the container's size —
+       renderer.setSize(w, h, false) only updates the buffer, never the CSS. */
+    #canvas-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
     .glow-purple {
       box-shadow: 0 0 30px rgba(168, 85, 247, 0.65);
     }
@@ -761,7 +769,7 @@
       camera.lookAt(0, 0, 0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-      renderer.setSize(width, height);
+      renderer.setSize(width, height, false);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       container.appendChild(renderer.domElement);
 
@@ -789,6 +797,7 @@
       createShockwaveSystem();
       createGlowNodes();
       setupInteractionListeners(container);
+      onWindowResize();
       animate();
     }
 
@@ -1157,10 +1166,28 @@
 
     function onWindowResize() {
       const container = document.getElementById('canvas-container');
-      if (!container) return;
-      camera.aspect = container.clientWidth / container.clientHeight;
+      if (!container || !renderer || !camera) return;
+      const w = container.clientWidth, h = container.clientHeight;
+      if (!w || !h) return;
+      // Buffer + aspect track the container; CSS size is pinned to 100% in the stylesheet.
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+
+      // Fit-to-frame: place the camera along a fixed 65° elevation so the maze
+      // disc (radius ~11.2 incl. margin) fills ~87% of the limiting dimension,
+      // centered on the canvas. Recomputed on every size change.
+      const halfV = (camera.fov / 2) * Math.PI / 180;
+      const halfH = Math.atan(Math.tan(halfV) * camera.aspect);
+      const elev  = 1.14;   // ≈65.3°, same viewing angle as the original design
+      const fill  = 0.92;
+      const R     = 11.2;
+      // 1.05: perspective margin — the near rim of the tilted disc projects larger
+      const dV = (R * 1.05) / (Math.tan(halfV) * fill);
+      const dH = R / (Math.tan(halfH) * fill);
+      const d  = Math.max(dV, dH);
+      camera.position.set(0, Math.sin(elev) * d, Math.cos(elev) * d);
+      camera.lookAt(0, 0, 0);
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
     }
 
     function animate() {
