@@ -1,29 +1,40 @@
 export type BadgeType = "eye" | "wave" | "maze";
 
-/* Center icon drawn in the medal's 104×116 coordinate space, centred on (52,52) */
-function MedalIcon({ type }: { type: BadgeType }) {
-  const common = {
-    fill: "none",
-    stroke: "#efe7ff",
-    strokeWidth: 1.25,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-  };
+/* Hexagon path helpers — pointy-top hexagon around (60,58) */
+function hexPath(r: number, cx = 60, cy = 58) {
+  const pts = [90, 30, -30, -90, 210, 150].map((deg) => {
+    const a = (deg * Math.PI) / 180;
+    return `${(cx + Math.cos(a) * r).toFixed(2)},${(cy - Math.sin(a) * r).toFixed(2)}`;
+  });
+  return `M${pts.join("L")}Z`;
+}
+
+/* Glyph drawn in a 24×24 box centred on (60,58) */
+function Glyph({ type, glow }: { type: BadgeType; glow?: boolean }) {
+  const stroke = glow
+    ? { stroke: "#b79dff", strokeWidth: 4.6, opacity: 0.85, filter: "url(#bm-blur)" }
+    : { stroke: "#f4efff", strokeWidth: 2.1 };
   return (
-    <g transform="translate(31.6 31.6) scale(1.7)" {...common}>
+    <g
+      transform="translate(41.5 39.5) scale(1.55)"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...stroke}
+    >
       {type === "eye" && (
         <>
-          <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" />
-          <circle cx="12" cy="12" r="3" />
-          <circle cx="12" cy="12" r="1.1" fill="#efe7ff" stroke="none" />
+          <path d="M2 12s3.6-6.6 10-6.6S22 12 22 12s-3.6 6.6-10 6.6S2 12 2 12Z" />
+          <circle cx="12" cy="12" r="3.4" />
+          <circle cx="12" cy="12" r="1.2" fill={glow ? "none" : "#f4efff"} stroke="none" />
         </>
       )}
       {type === "wave" && (
-        <path d="M2.5 12.5h2l1.5-4.5 2.5 10 2.5-14.5 2.5 17 2.5-12.5 2 8.5 1.5-4h2" />
+        <path d="M2 12.5h3.2l1.6-4 2.4 8.5L12 4.5l2.6 13 2.2-9 1.6 3.5H22" />
       )}
       {type === "maze" && (
         <>
-          <rect x="3" y="3" width="18" height="18" rx="1.4" />
+          <rect x="3" y="3" width="18" height="18" rx="1.6" />
           <path d="M3 9h5M3 15h4M9 3v5M15 3v4M21 9h-4M21 15h-6M9 21v-5M15 21v-4M11 9h2v6h-2z" />
         </>
       )}
@@ -31,94 +42,121 @@ function MedalIcon({ type }: { type: BadgeType }) {
   );
 }
 
-/* Ornate hexagonal award medal — glossy face, engraved inner, rivets, laurel, sparkles */
+/* Award medal recreated from the reference sheet:
+   dotted ring + diamond sparkles, laurel wreath, metallic bevelled
+   hexagon rim, deep-space face with star specks, glowing white glyph */
 export default function BadgeMedal({ type }: { type: BadgeType }) {
   const uid = `bm-${type}`;
-  const main = "52,10 90,33 90,79 52,102 14,79 14,33";
-  const ring = "52,3 97,29 97,83 52,109 7,83 7,29";
-  const inner = "52,20 81,37.5 81,74.5 52,92 23,74.5 23,37.5";
-  const rivets: Array<[number, number]> = [
-    [52, 10],
-    [90, 33],
-    [90, 79],
-    [52, 102],
-    [14, 79],
-    [14, 33],
-  ];
+  // laurel leaves along two lower arcs
+  const laurel = (side: 1 | -1) =>
+    Array.from({ length: 6 }, (_, i) => {
+      const a = (108 + i * 13) * (Math.PI / 180); // from lower-side upward
+      const rr = 50;
+      const x = 60 + side * Math.sin(a) * rr;
+      const y = 58 + Math.cos(a) * rr + 8;
+      const rot = side * (28 + i * 13);
+      return (
+        <ellipse
+          key={i}
+          cx={x}
+          cy={y}
+          rx="4.6"
+          ry="1.9"
+          transform={`rotate(${90 - rot} ${x} ${y})`}
+        />
+      );
+    });
 
   return (
-    <svg viewBox="0 0 104 118" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="badge-medal">
+    <svg viewBox="0 0 120 124" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="badge-medal">
       <defs>
-        <linearGradient id={`${uid}-face`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#c9b0ff" />
-          <stop offset="42%" stopColor="#8b5cf6" />
-          <stop offset="100%" stopColor="#3a1a86" />
+        <linearGradient id={`${uid}-rim`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#e6dcff" />
+          <stop offset="30%" stopColor="#9d7bf0" />
+          <stop offset="62%" stopColor="#6337d0" />
+          <stop offset="100%" stopColor="#391c96" />
         </linearGradient>
-        <linearGradient id={`${uid}-gloss`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        <linearGradient id={`${uid}-rim2`} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stopColor="#c9b6ff" />
+          <stop offset="100%" stopColor="#4c27b0" />
         </linearGradient>
-        <radialGradient id={`${uid}-glow`} cx="50%" cy="45%" r="55%">
-          <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#6d28d9" stopOpacity="0" />
+        <radialGradient id={`${uid}-face`} cx="50%" cy="38%" r="70%">
+          <stop offset="0%" stopColor="#2c1d6e" />
+          <stop offset="55%" stopColor="#1a1050" />
+          <stop offset="100%" stopColor="#0d0730" />
         </radialGradient>
-        <filter id={`${uid}-soft`} x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="2.4" />
+        <radialGradient id={`${uid}-aura`} cx="50%" cy="48%" r="50%">
+          <stop offset="0%" stopColor="#7c5cff" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#3a1c8c" stopOpacity="0" />
+        </radialGradient>
+        <filter id="bm-blur" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="1.8" />
+        </filter>
+        <filter id={`${uid}-soft`} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="1" />
         </filter>
       </defs>
 
-      {/* ambient glow */}
-      <polygon points={main} fill={`url(#${uid}-glow)`} filter={`url(#${uid}-soft)`} opacity="0.9" />
+      {/* ambient aura */}
+      <circle cx="60" cy="58" r="52" fill={`url(#${uid}-aura)`} />
 
-      {/* dotted outer ring */}
-      <polygon
-        points={ring}
-        fill="none"
-        stroke="#a78bfa"
-        strokeWidth="1"
-        strokeOpacity="0.55"
-        strokeDasharray="1.4 3.4"
+      {/* dotted circular ring */}
+      <circle
+        cx="60"
+        cy="58"
+        r="51"
+        stroke="#b9a6ee"
+        strokeOpacity="0.75"
+        strokeWidth="1.6"
+        strokeDasharray="0.2 5.2"
         strokeLinecap="round"
+        fill="none"
       />
+      {/* small ring beads left/right */}
+      <circle cx="8" cy="58" r="1.6" fill="#cabaff" opacity="0.9" />
+      <circle cx="112" cy="58" r="1.6" fill="#cabaff" opacity="0.9" />
 
-      {/* laurel wreath wrapping the lower sides */}
-      <g stroke="#8b6ce0" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.9">
-        <path d="M40 104C31 101 25 93 23 82" />
-        <path d="M64 104c9-3 15-11 17-22" />
+      {/* diamond sparkles top & bottom of the ring */}
+      <path d="M60 0l3.2 6-3.2 6-3.2-6Z" fill="#e8ddff" />
+      <path d="M60 112l3.2 6-3.2 6-3.2-6Z" fill="#e8ddff" opacity="0.95" />
+
+      {/* laurel wreath */}
+      <g fill="#5b4a9e" opacity="0.95">
+        {laurel(1)}
+        {laurel(-1)}
       </g>
-      <g fill="#9d7bec" opacity="0.9">
-        <ellipse cx="27" cy="94" rx="3.1" ry="1.7" transform="rotate(52 27 94)" />
-        <ellipse cx="24" cy="86" rx="3" ry="1.6" transform="rotate(72 24 86)" />
-        <ellipse cx="23" cy="78" rx="2.7" ry="1.5" transform="rotate(88 23 78)" />
-        <ellipse cx="77" cy="94" rx="3.1" ry="1.7" transform="rotate(-52 77 94)" />
-        <ellipse cx="80" cy="86" rx="3" ry="1.6" transform="rotate(-72 80 86)" />
-        <ellipse cx="81" cy="78" rx="2.7" ry="1.5" transform="rotate(-88 81 78)" />
-      </g>
-
-      {/* medal face */}
-      <polygon points={main} fill={`url(#${uid}-face)`} stroke="#d6c4ff" strokeWidth="1.4" />
-      {/* top gloss */}
-      <polygon points="14,33 52,10 90,33 52,48" fill={`url(#${uid}-gloss)`} />
-      {/* engraved inner hexagon */}
-      <polygon points={inner} fill="none" stroke="#e6d9ff" strokeWidth="1" strokeOpacity="0.55" />
-
-      {/* rivets on each vertex */}
-      <g fill="#efe7ff">
-        {rivets.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="1.7" />
-        ))}
+      <g stroke="#5b4a9e" strokeWidth="1.4" fill="none" opacity="0.9">
+        <path d="M27 96c8 8 18 12 28 13" />
+        <path d="M93 96c-8 8-18 12-28 13" />
       </g>
 
-      {/* icon */}
-      <MedalIcon type={type} />
+      {/* metallic rim (rounded via stroke join) */}
+      <path d={hexPath(38)} fill={`url(#${uid}-rim)`} stroke={`url(#${uid}-rim)`} strokeWidth="9" strokeLinejoin="round" />
+      {/* inner bevel step */}
+      <path d={hexPath(33.5)} fill="none" stroke={`url(#${uid}-rim2)`} strokeWidth="3.4" strokeLinejoin="round" />
+      {/* deep-space face */}
+      <path d={hexPath(31)} fill={`url(#${uid}-face)`} stroke="#cabaff" strokeOpacity="0.55" strokeWidth="1" strokeLinejoin="round" />
 
-      {/* sparkles */}
-      <g fill="#fbe7a6">
-        <path d="M30 22l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1Z" opacity="0.9" />
-        <path d="M75 18l0.8 2.2 2.2 0.8-2.2 0.8-0.8 2.2-0.8-2.2-2.2-0.8 2.2-0.8Z" opacity="0.8" />
+      {/* rim top gloss */}
+      <path d="M35 41 60 26.5 85 41" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.2" strokeLinecap="round" fill="none" filter={`url(#${uid}-soft)`} />
+
+      {/* face star specks */}
+      <g fill="#cabaff">
+        <circle cx="45" cy="42" r="0.9" opacity="0.85" />
+        <circle cx="76" cy="47" r="0.7" opacity="0.7" />
+        <circle cx="42" cy="72" r="0.7" opacity="0.6" />
+        <circle cx="78" cy="70" r="0.9" opacity="0.75" />
       </g>
-      <circle cx="68" cy="30" r="1.1" fill="#fff" opacity="0.7" />
-      <circle cx="34" cy="34" r="1" fill="#fff" opacity="0.6" />
+      {/* tiny diamond sparkles inside face, above & below glyph */}
+      <path d="M60 33.5l1.7 3-1.7 3-1.7-3Z" fill="#e8ddff" opacity="0.9" />
+      <path d="M60 76.5l1.7 3-1.7 3-1.7-3Z" fill="#e8ddff" opacity="0.85" />
+
+      {/* glyph: glow underlay + crisp white */}
+      <Glyph type={type} glow />
+      <Glyph type={type} />
+
+      {/* side light streaks on the face (lens flare feel) */}
+      <path d="M31 58h10M79 58h10" stroke="#e8ddff" strokeOpacity="0.5" strokeWidth="1" strokeLinecap="round" filter={`url(#${uid}-soft)`} />
     </svg>
   );
 }

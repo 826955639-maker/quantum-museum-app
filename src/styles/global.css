@@ -2821,28 +2821,33 @@ input:focus-visible {
   line-height: 1.2;
 }
 
+/* Coin-style medal: metallic gradient rim + deep-space face + glowing glyph */
 .rpt-round-icon__circle {
   display: grid;
   place-items: center;
-  width: 3.5cqw;
-  height: 3.5cqw;
-  border: 1px solid rgba(167, 139, 250, 0.62);
+  width: 3.6cqw;
+  height: 3.6cqw;
+  border: 0.24cqw solid transparent;
   border-radius: 50%;
-  color: #e2d6ff;
-  background: radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.55), rgba(46, 24, 110, 0.5) 52%, rgba(13, 10, 41, 0.85) 100%);
+  color: #f4efff;
+  background:
+    radial-gradient(circle at 50% 32%, #2c1d6e 0%, #1a1050 52%, #0d0730 100%) padding-box,
+    linear-gradient(175deg, #e6dcff 0%, #9d7bf0 32%, #6337d0 64%, #391c96 100%) border-box;
   box-shadow:
-    inset 0 0.14cqw 0.5cqw rgba(226, 214, 255, 0.3),
-    inset 0 -0.3cqw 0.7cqw rgba(30, 15, 80, 0.6),
-    0 0 0.9cqw rgba(124, 58, 237, 0.5),
-    0 0 2cqw rgba(109, 40, 217, 0.25);
+    inset 0 0.14cqw 0.45cqw rgba(226, 214, 255, 0.28),
+    0 0 0.9cqw rgba(124, 58, 237, 0.55),
+    0 0 2cqw rgba(109, 40, 217, 0.28);
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.rpt-round-icon__circle svg {
+  filter: drop-shadow(0 0 0.28cqw rgba(183, 157, 255, 0.95));
 }
 .rpt-round-icon:hover .rpt-round-icon__circle {
   transform: translateY(-0.12cqw);
   box-shadow:
-    inset 0 0.14cqw 0.5cqw rgba(226, 214, 255, 0.4),
-    0 0 1.2cqw rgba(139, 92, 246, 0.75),
-    0 0 2.4cqw rgba(109, 40, 217, 0.4);
+    inset 0 0.14cqw 0.45cqw rgba(226, 214, 255, 0.38),
+    0 0 1.3cqw rgba(139, 92, 246, 0.8),
+    0 0 2.6cqw rgba(109, 40, 217, 0.45);
 }
 
 .rpt-round-icon__circle svg {
@@ -2871,7 +2876,7 @@ input:focus-visible {
 }
 
 .rpt-badge__medal {
-  width: 5cqw;
+  width: 6.2cqw;
   filter: drop-shadow(0 0.3cqw 0.7cqw rgba(76, 29, 149, 0.55));
   transition: transform 0.25s var(--ease);
 }
@@ -3828,7 +3833,7 @@ input:focus-visible {
 }
 .rec-badge__medal {
   display: block;
-  width: 7cqw;
+  width: 8.4cqw;
   filter: drop-shadow(0 0.4cqw 0.9cqw rgba(76, 29, 149, 0.55));
   transition: transform 0.25s var(--ease);
 }

@@ -15,12 +15,12 @@ function BookSVG() {
           <stop offset="100%" stopColor="#1a1145" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="bkPageL" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#6a54e6" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#3320a0" stopOpacity="0.75" />
+          <stop offset="0%" stopColor="#8a70ff" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#4630c4" stopOpacity="0.9" />
         </linearGradient>
         <linearGradient id="bkPageR" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#8b74ff" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#3a24aa" stopOpacity="0.8" />
+          <stop offset="0%" stopColor="#a48eff" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#4e35cc" stopOpacity="0.92" />
         </linearGradient>
         <filter id="bkSoft" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.4" />
@@ -105,66 +105,72 @@ function BookSVG() {
 }
 
 function PlanetSVG() {
-  const cx = 45;
-  const cy = 41;
-  // two logarithmic spiral arms of fading dots
-  const arm = (offset: number, key: string) =>
-    Array.from({ length: 18 }, (_, i) => {
-      const t = i / 17;
-      const ang = offset + t * Math.PI * 2.3;
-      const r = 3 + t * 34;
-      const x = cx + Math.cos(ang) * r;
-      const y = cy + Math.sin(ang) * r * 0.52;
-      const s = 1.5 * (1 - t) + 0.35;
-      return <circle key={`${key}-${i}`} cx={x} cy={y} r={s} fill="#c9b8ff" opacity={0.9 - t * 0.55} />;
-    });
-
+  const cx = 46;
+  const cy = 40;
   return (
-    <svg viewBox="0 0 90 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg viewBox="0 0 92 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="glxCore" cx="50%" cy="50%" r="50%">
+        <radialGradient id="glxBody" cx="36%" cy="28%" r="75%">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="22%" stopColor="#e6dcff" />
-          <stop offset="52%" stopColor="#9d7bff" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#5a2fc0" stopOpacity="0" />
+          <stop offset="14%" stopColor="#c3c8ff" />
+          <stop offset="42%" stopColor="#5f5ceb" />
+          <stop offset="75%" stopColor="#3527ab" />
+          <stop offset="100%" stopColor="#1c1166" />
         </radialGradient>
         <radialGradient id="glxHalo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#7c4fe6" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="#6b54f0" stopOpacity="0.45" />
           <stop offset="100%" stopColor="#3a1a86" stopOpacity="0" />
         </radialGradient>
+        <linearGradient id="glxRing" x1="0" x2="1">
+          <stop offset="0%" stopColor="#8f7bff" stopOpacity="0.05" />
+          <stop offset="45%" stopColor="#cfc4ff" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#7c5cff" stopOpacity="0.2" />
+        </linearGradient>
         <filter id="glxSoft" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="1.2" />
+          <feGaussianBlur stdDeviation="1.1" />
         </filter>
       </defs>
 
-      {/* halo */}
-      <ellipse cx={cx} cy={cy} rx="42" ry="24" fill="url(#glxHalo)" transform={`rotate(-20 ${cx} ${cy})`} />
+      {/* ambient halo */}
+      <ellipse cx={cx} cy={cy} rx="44" ry="30" fill="url(#glxHalo)" />
 
-      {/* spiral arms */}
-      <g transform={`rotate(-20 ${cx} ${cy})`}>
-        {arm(0, "a")}
-        {arm(Math.PI, "b")}
+      {/* back halves of swirl rings (behind the sphere) */}
+      <g fill="none">
+        <path d="M14 32C22 22 62 18 78 30" stroke="url(#glxRing)" strokeWidth="1.6" opacity="0.8" />
+        <path d="M8 44C14 30 70 22 86 36" stroke="#8f7bff" strokeWidth="1" opacity="0.4" />
       </g>
 
-      {/* orbit ring */}
-      <ellipse cx={cx} cy={cy} rx="38" ry="13" stroke="#b7a4ff" strokeWidth="1.3" strokeOpacity="0.7" fill="none" transform={`rotate(-20 ${cx} ${cy})`} />
+      {/* glossy sphere */}
+      <circle cx={cx} cy={cy} r="16" fill="url(#glxBody)" />
+      {/* specular highlight */}
+      <ellipse cx={cx - 6} cy={cy - 8} rx="5" ry="3.4" fill="#ffffff" opacity="0.75" filter="url(#glxSoft)" transform={`rotate(-28 ${cx - 6} ${cy - 8})`} />
+      {/* bottom bounce light */}
+      <path d={`M${cx - 11} ${cy + 10}a16 16 0 0 0 22 0`} stroke="#9d8cff" strokeWidth="1.4" opacity="0.5" fill="none" filter="url(#glxSoft)" />
 
-      {/* bright core */}
-      <circle cx={cx} cy={cy} r="16" fill="url(#glxCore)" />
-      <circle cx={cx} cy={cy} r="3" fill="#fff" filter="url(#glxSoft)" />
+      {/* front swirl rings (crossing in front of the sphere) */}
+      <g fill="none">
+        <path d="M6 50C24 62 72 56 88 40" stroke="url(#glxRing)" strokeWidth="2" />
+        <path d="M12 58C32 68 74 60 86 48" stroke="#a793ff" strokeWidth="1.1" opacity="0.55" />
+        <path d="M4 40C10 52 40 62 66 58" stroke="#8f7bff" strokeWidth="0.9" opacity="0.4" />
+      </g>
 
-      {/* scattered field stars */}
+      {/* ring rider particles */}
+      <circle cx="20" cy="55.5" r="1.9" fill="#ffffff" filter="url(#glxSoft)" />
+      <circle cx="74" cy="52.5" r="1.6" fill="#e2d9ff" filter="url(#glxSoft)" />
+      <circle cx="84" cy="37" r="1.3" fill="#cfc4ff" />
+      <circle cx="12" cy="34" r="1.2" fill="#cfc4ff" />
+
+      {/* field stars + sparkles */}
       <g fill="#e2d7ff">
-        <circle cx="12" cy="16" r="1.1" opacity="0.7" />
-        <circle cx="80" cy="20" r="1.3" opacity="0.7" />
-        <circle cx="84" cy="58" r="1" opacity="0.6" />
-        <circle cx="16" cy="62" r="1.2" opacity="0.6" />
-        <circle cx="70" cy="68" r="0.9" opacity="0.5" />
+        <circle cx="16" cy="14" r="1" opacity="0.7" />
+        <circle cx="82" cy="16" r="1.2" opacity="0.7" />
+        <circle cx="88" cy="66" r="0.9" opacity="0.55" />
+        <circle cx="10" cy="68" r="1" opacity="0.55" />
       </g>
-      <path d="M82 30 l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.85">
-        <animate attributeName="opacity" values="0.4;1;0.4" dur="2.3s" repeatCount="indefinite" />
+      <path d="M78 22l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.9">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="2.3s" repeatCount="indefinite" />
       </path>
-      <path d="M14 46 l0.8 2.4 2.4 0.8-2.4 0.8-0.8 2.4-0.8-2.4-2.4-0.8 2.4-0.8Z" fill="#c4b5fd" opacity="0.8">
+      <path d="M14 48l0.8 2.4 2.4 0.8-2.4 0.8-0.8 2.4-0.8-2.4-2.4-0.8 2.4-0.8Z" fill="#c4b5fd" opacity="0.8">
         <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.9s" repeatCount="indefinite" />
       </path>
     </svg>
@@ -325,52 +331,95 @@ function ThumbSuperposition() {
   return (
     <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="ts1a" cx="40%" cy="40%" r="60%">
-          <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.3" />
+        <radialGradient id="ts1-core" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="30%" stopColor="#c9c2ff" />
+          <stop offset="65%" stopColor="#6c55e8" stopOpacity="0.65" />
+          <stop offset="100%" stopColor="#3a24aa" stopOpacity="0" />
         </radialGradient>
-        <radialGradient id="ts1b" cx="60%" cy="60%" r="60%">
-          <stop offset="0%" stopColor="#c4b5fd" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#6d28d9" stopOpacity="0.2" />
+        <radialGradient id="ts1-neb" cx="45%" cy="50%" r="60%">
+          <stop offset="0%" stopColor="#5b45d6" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#150d40" stopOpacity="0" />
         </radialGradient>
+        <filter id="ts1-soft" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="0.8" />
+        </filter>
       </defs>
-      <circle cx="30" cy="30" r="18" fill="url(#ts1a)" opacity="0.75" />
-      <circle cx="50" cy="30" r="18" fill="url(#ts1b)" opacity="0.65" />
-      {/* intersection highlight */}
-      <path d="M40 14.5a18 18 0 0 1 0 31 18 18 0 0 1 0-31Z" fill="#c4b5fd" fillOpacity="0.25" />
-      {/* orbit ring */}
-      <ellipse cx="40" cy="30" rx="36" ry="10" stroke="#a78bfa" strokeWidth="0.8" strokeOpacity="0.5" fill="none" />
-      <circle cx="40" cy="20" r="2" fill="#fff" fillOpacity="0.9" />
-      <circle cx="18" cy="30" r="1.5" fill="#f59e0b" fillOpacity="0.8" />
-      <circle cx="62" cy="30" r="1.5" fill="#f59e0b" fillOpacity="0.8" />
+      {/* nebula wash */}
+      <ellipse cx="37" cy="30" rx="36" ry="24" fill="url(#ts1-neb)" />
+      {/* concentric tilted orbit swirls */}
+      <g fill="none" stroke="#a793ff" transform="rotate(-14 37 30)">
+        <ellipse cx="37" cy="30" rx="13" ry="5.5" strokeWidth="0.9" opacity="0.9" />
+        <ellipse cx="37" cy="30" rx="21" ry="9.5" strokeWidth="0.8" opacity="0.65" />
+        <ellipse cx="37" cy="30" rx="29" ry="13.5" strokeWidth="0.7" opacity="0.45" />
+        <ellipse cx="37" cy="30" rx="36" ry="17.5" strokeWidth="0.6" opacity="0.28" />
+      </g>
+      {/* bright core with cross flare */}
+      <circle cx="37" cy="30" r="9" fill="url(#ts1-core)" />
+      <path d="M37 22v16M29 30h16" stroke="#ffffff" strokeWidth="0.9" opacity="0.8" filter="url(#ts1-soft)" />
+      {/* orbit rider stars */}
+      <g fill="#ffffff">
+        <circle cx="52" cy="24" r="1.6" filter="url(#ts1-soft)" />
+        <circle cx="20" cy="37" r="1.3" filter="url(#ts1-soft)" />
+        <circle cx="61" cy="35" r="1.1" />
+        <circle cx="14" cy="24" r="1" />
+      </g>
+      {/* 4-point sparkles */}
+      <path d="M58 14l0.9 2.5 2.5 0.9-2.5 0.9-0.9 2.5-0.9-2.5-2.5-0.9 2.5-0.9Z" fill="#e8ddff" opacity="0.9" />
+      <path d="M16 48l0.7 2 2 0.7-2 0.7-0.7 2-0.7-2-2-0.7 2-0.7Z" fill="#c4b5fd" opacity="0.8" />
+      <g fill="#cabaff" opacity="0.7">
+        <circle cx="70" cy="46" r="0.9" />
+        <circle cx="8" cy="12" r="0.8" />
+        <circle cx="46" cy="50" r="0.8" />
+      </g>
     </svg>
   );
 }
 
 function ThumbWaveParticle() {
+  // bright star flare: cross spikes + core
+  const flare = (x: number, y: number, s: number, o = 1) => (
+    <g opacity={o}>
+      <path d={`M${x} ${y - s}L${x} ${y + s}M${x - s} ${y}L${x + s} ${y}`} stroke="#ffffff" strokeWidth={s * 0.16} strokeLinecap="round" filter="url(#twp-soft)" />
+      <circle cx={x} cy={y} r={s * 0.28} fill="#ffffff" filter="url(#twp-soft)" />
+      <circle cx={x} cy={y} r={s * 0.75} fill="url(#twp-halo)" />
+    </g>
+  );
   return (
     <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <linearGradient id="twp" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.2" />
-          <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0.2" />
+        <linearGradient id="twp-trail" x1="0" x2="1">
+          <stop offset="0%" stopColor="#8f7bff" stopOpacity="0.05" />
+          <stop offset="50%" stopColor="#cfc4ff" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#8f7bff" stopOpacity="0.1" />
         </linearGradient>
+        <radialGradient id="twp-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#b7a2ff" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#5b3fd0" stopOpacity="0" />
+        </radialGradient>
+        <filter id="twp-soft" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="0.7" />
+        </filter>
       </defs>
-      {/* Wave */}
-      <path d="M4 30 C12 18 18 42 26 30 C34 18 40 42 48 30 C56 18 62 42 70 30 C74 24 76 30 80 28" stroke="url(#twp)" strokeWidth="2" fill="none" />
-      {/* Second wave offset */}
-      <path d="M4 35 C12 23 18 47 26 35 C34 23 40 47 48 35 C56 23 62 47 70 35" stroke="#6366f1" strokeWidth="1" strokeOpacity="0.35" fill="none" />
-      {/* Particle dots on wave */}
-      <circle cx="4" cy="30" r="2.5" fill="#c4b5fd" />
-      <circle cx="26" cy="30" r="2.5" fill="#c4b5fd" />
-      <circle cx="48" cy="30" r="2.5" fill="#c4b5fd" />
-      <circle cx="70" cy="30" r="2.5" fill="#c4b5fd" />
-      <circle cx="15" cy="18" r="1.8" fill="#a78bfa" fillOpacity="0.8" />
-      <circle cx="37" cy="42" r="1.8" fill="#a78bfa" fillOpacity="0.8" />
-      <circle cx="59" cy="18" r="1.8" fill="#a78bfa" fillOpacity="0.8" />
-      {/* Glow center */}
-      <circle cx="40" cy="30" r="5" fill="#8b5cf6" fillOpacity="0.25" />
+      {/* crossing light trails (wave paths) */}
+      <g fill="none">
+        <path d="M2 40C20 12 52 14 78 34" stroke="url(#twp-trail)" strokeWidth="1.4" />
+        <path d="M4 18C28 44 58 48 78 24" stroke="url(#twp-trail)" strokeWidth="1.2" />
+        <path d="M2 30C26 30 44 50 78 44" stroke="#8f7bff" strokeWidth="0.9" opacity="0.5" />
+        <path d="M8 52C30 36 62 12 76 10" stroke="#a793ff" strokeWidth="0.8" opacity="0.4" />
+      </g>
+      {/* star flares at the intersections (particle detections) */}
+      {flare(30, 25, 9)}
+      {flare(54, 33, 7, 0.95)}
+      {flare(42, 44, 5.4, 0.85)}
+      {flare(66, 17, 4.4, 0.8)}
+      {/* faint dust */}
+      <g fill="#cabaff" opacity="0.75">
+        <circle cx="12" cy="12" r="0.9" />
+        <circle cx="70" cy="50" r="0.9" />
+        <circle cx="18" cy="46" r="0.8" />
+        <circle cx="60" cy="8" r="0.7" />
+      </g>
     </svg>
   );
 }
@@ -379,55 +428,59 @@ function ThumbQuantumCompute() {
   return (
     <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="tqc-glow" cx="50%" cy="60%" r="55%">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#3b1f7a" stopOpacity="0" />
+        <radialGradient id="tqc-glow" cx="50%" cy="62%" r="55%">
+          <stop offset="0%" stopColor="#4f6df0" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#1d1a66" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="tqc-top" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#d7c5ff" />
-          <stop offset="100%" stopColor="#8b5cf6" />
+          <stop offset="0%" stopColor="#eef4ff" />
+          <stop offset="100%" stopColor="#9fbaff" />
         </linearGradient>
         <linearGradient id="tqc-left" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7c4fe6" />
-          <stop offset="100%" stopColor="#3a1a86" />
+          <stop offset="0%" stopColor="#7f9bff" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#3346c8" stopOpacity="0.3" />
         </linearGradient>
         <linearGradient id="tqc-right" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#5a2fc0" />
-          <stop offset="100%" stopColor="#25135e" />
+          <stop offset="0%" stopColor="#5a72ee" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#242a8e" stopOpacity="0.28" />
         </linearGradient>
+        <filter id="tqc-soft" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="0.7" />
+        </filter>
       </defs>
       <ellipse cx="40" cy="44" rx="34" ry="14" fill="url(#tqc-glow)" />
-      {/* isometric floor grid */}
-      <g stroke="#6d4bd0" strokeWidth="0.5" strokeOpacity="0.4">
-        <path d="M40 50 8 40M40 50 72 40M40 44 16 37M40 44 64 37" />
-      </g>
-      {/* three glowing 3D pillars of increasing height (quantum states) */}
+      {/* iso platform */}
+      <path d="M40 56 12 46l28-10 28 10Z" fill="#3346c8" fillOpacity="0.18" stroke="#7f9bff" strokeOpacity="0.5" strokeWidth="0.6" />
+      <path d="M40 53 19 45.5 40 38l21 7.5Z" fill="none" stroke="#9fbaff" strokeOpacity="0.4" strokeWidth="0.5" />
+      {/* glass blocks (translucent, bright edges) */}
       {[
-        { x: 22, h: 14, top: 34 },
-        { x: 40, h: 26, top: 20 },
-        { x: 58, h: 20, top: 27 },
+        { x: 25, top: 33, base: 45 },
+        { x: 40, top: 18, base: 42 },
+        { x: 55, top: 26, base: 45 },
       ].map((b, i) => {
-        const w = 9;
-        const d = 4; // iso depth
-        const baseY = 46;
-        const topY = b.top;
+        const w = 8.5;
+        const d = 3.8;
         return (
           <g key={i}>
-            {/* left face */}
-            <path d={`M${b.x - w} ${topY + d} L${b.x} ${topY} L${b.x} ${baseY} L${b.x - w} ${baseY + d} Z`} fill="url(#tqc-left)" />
-            {/* right face */}
-            <path d={`M${b.x} ${topY} L${b.x + w} ${topY + d} L${b.x + w} ${baseY + d} L${b.x} ${baseY} Z`} fill="url(#tqc-right)" />
-            {/* top face */}
-            <path d={`M${b.x - w} ${topY + d} L${b.x} ${topY} L${b.x + w} ${topY + d} L${b.x} ${topY + 2 * d} Z`} fill="url(#tqc-top)" />
-            {/* glow edge */}
-            <path d={`M${b.x - w} ${topY + d} L${b.x} ${topY} L${b.x + w} ${topY + d}`} stroke="#e8dcff" strokeWidth="0.6" strokeOpacity="0.7" fill="none" />
+            <path d={`M${b.x - w} ${b.top + d} L${b.x} ${b.top} L${b.x} ${b.base} L${b.x - w} ${b.base + d} Z`} fill="url(#tqc-left)" />
+            <path d={`M${b.x} ${b.top} L${b.x + w} ${b.top + d} L${b.x + w} ${b.base + d} L${b.x} ${b.base} Z`} fill="url(#tqc-right)" />
+            <path d={`M${b.x - w} ${b.top + d} L${b.x} ${b.top} L${b.x + w} ${b.top + d} L${b.x} ${b.top + 2 * d} Z`} fill="url(#tqc-top)" fillOpacity="0.9" />
+            {/* luminous edges */}
+            <path
+              d={`M${b.x - w} ${b.top + d} L${b.x} ${b.top} L${b.x + w} ${b.top + d} M${b.x - w} ${b.top + d} V${b.base + d} M${b.x + w} ${b.top + d} V${b.base + d} M${b.x} ${b.top + 2 * d} V${b.base}`}
+              stroke="#cfe0ff"
+              strokeWidth="0.55"
+              strokeOpacity="0.85"
+              fill="none"
+            />
           </g>
         );
       })}
-      {/* state labels + floating bits */}
-      <text x="40" y="15" fontSize="6" fill="#e8dcff" fillOpacity="0.95" fontFamily="monospace" textAnchor="middle">|0⟩+|1⟩</text>
-      <circle cx="16" cy="20" r="1.4" fill="#c4b5fd" />
-      <circle cx="66" cy="18" r="1.2" fill="#f59e0b" fillOpacity="0.85" />
+      {/* data sparks rising */}
+      <circle cx="33" cy="14" r="1" fill="#cfe0ff" filter="url(#tqc-soft)" />
+      <circle cx="48" cy="10" r="1.2" fill="#ffffff" filter="url(#tqc-soft)" />
+      <circle cx="62" cy="18" r="0.9" fill="#9fbaff" />
+      <path d="M18 20l0.8 2.2 2.2 0.8-2.2 0.8-0.8 2.2-0.8-2.2-2.2-0.8 2.2-0.8Z" fill="#e8f0ff" opacity="0.85" />
     </svg>
   );
 }
