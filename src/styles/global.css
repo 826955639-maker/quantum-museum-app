@@ -1687,7 +1687,8 @@ input:focus-visible {
   bottom: 1.55cqw;
   left: 10.85cqw;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 31.5cqw;
+  /* Right status column removed — the main settings card now spans full width */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) 4.65cqw;
   gap: 1.12cqw;
   min-width: 0;
@@ -3341,21 +3342,26 @@ input:focus-visible {
   align-items: flex-start;
   flex: 1;
   gap: 0.5cqw;
+  /* keep the medal + label group vertically centred with breathing room so the
+     badge name is never clipped by the fixed-height card */
+  padding-bottom: 0.35cqw;
 }
 
 .rpt-badge {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.45cqw;
+  gap: 0.3cqw;
   color: #aaa3c3;
-  font-size: 0.72cqw;
+  font-size: 0.74cqw;
   text-align: center;
   line-height: 1.2;
 }
 
+/* Medal sized to fit the card height while leaving room for its label
+   (was 6.2cqw, which pushed the name out of the fixed-height card). */
 .rpt-badge__medal {
-  width: 6.2cqw;
+  width: 5cqw;
   filter: drop-shadow(0 0.3cqw 0.7cqw rgba(76, 29, 149, 0.55));
   transition: transform 0.25s var(--ease);
 }
@@ -4195,7 +4201,9 @@ input:focus-visible {
   grid-template-rows: auto auto;
   column-gap: 1.12cqw;
   row-gap: 1.12cqw;
-  align-items: start;
+  /* stretch both columns to the same row height so the left stack's bottom
+     edge lines up with the right 分层讲解 card's bottom edge */
+  align-items: stretch;
   padding-bottom: 0.5cqw;
 }
 
@@ -4206,6 +4214,13 @@ input:focus-visible {
   flex-direction: column;
   gap: 1.12cqw;
   min-width: 0;
+  min-height: 0;
+}
+
+/* the two stacked cards share the stretched height evenly → aligned bottom */
+.rec-left > .rec-card {
+  flex: 1 1 0;
+  min-height: 0;
 }
 .rec-layers { grid-column: 2; grid-row: 1; }
 .rec-next { grid-column: 1 / -1; grid-row: 2; }

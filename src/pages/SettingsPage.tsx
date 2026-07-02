@@ -195,7 +195,6 @@ export default function SettingsPage() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [caption, setCaption] = useState(true);
   const [voice, setVoice] = useState(true);
-  const [returnReminder] = useState(true);
 
   const [feedback, setFeedback] = useState<string | null>(null);
   const [showReturn, setShowReturn] = useState(false);
@@ -240,17 +239,6 @@ export default function SettingsPage() {
       }
     }, 1100);
   };
-
-  const onState = (on: boolean) => (on ? "已开启" : "未开启");
-
-  const statusRows: Array<{ label: string; value: string; on?: boolean }> = [
-    { label: "当前语言", value: language },
-    { label: "讲解模式", value: guideMode },
-    { label: "字幕", value: onState(caption), on: caption },
-    { label: "语音", value: onState(voice), on: voice },
-    { label: "高对比", value: onState(highContrast), on: highContrast },
-    { label: "归还提醒", value: onState(returnReminder), on: returnReminder },
-  ];
 
   return (
     <section
@@ -350,27 +338,6 @@ export default function SettingsPage() {
           </SettingModule>
         </div>
       </section>
-
-      {/* ── Side: single status overview ── */}
-      <aside className="settings-side" aria-label="本次体验状态">
-        <section className="settings-side-card status-card">
-          <h2>本次体验状态</h2>
-          <ul className="status-list">
-            {statusRows.map((row) => (
-              <li className="status-row" key={row.label}>
-                <span className="status-row__label">{row.label}</span>
-                <span className={`status-row__value${row.on === false ? " is-off" : ""}`}>
-                  {row.on !== undefined && <i className="status-row__dot" aria-hidden="true" />}
-                  {row.value}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <button className="status-end-btn" type="button" onClick={endExperience}>
-            结束本次体验并清除记录
-          </button>
-        </section>
-      </aside>
 
       {/* ── Bottom hint (reused) ── */}
       <button className="guide-hint settings-hint" type="button" onClick={() => flash("设置仅影响本次 iPad 使用，归还后自动恢复默认")}>
