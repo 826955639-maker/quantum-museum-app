@@ -1146,6 +1146,13 @@
       });
       elem.addEventListener('touchend', () => { isMouseDown = false; });
       window.addEventListener('resize', onWindowResize);
+      // Track container size directly — late-loading CDN styles/fonts can reflow
+      // the layout after init, and window 'resize' never fires inside an iframe.
+      if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(() => onWindowResize()).observe(elem);
+      }
+      setTimeout(onWindowResize, 400);
+      setTimeout(onWindowResize, 1200);
     }
 
     function onWindowResize() {

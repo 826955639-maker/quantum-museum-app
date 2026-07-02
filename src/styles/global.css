@@ -2765,10 +2765,13 @@ input:focus-visible {
   place-items: center;
   width: 3cqw;
   height: 3cqw;
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  border: 1px solid rgba(167, 139, 250, 0.55);
   border-radius: 50%;
-  color: #c4b5fd;
-  background: rgba(15, 12, 50, 0.8);
+  color: #d7c9ff;
+  background: radial-gradient(circle at 50% 32%, rgba(124, 79, 230, 0.45), rgba(13, 10, 41, 0.85) 68%);
+  box-shadow:
+    inset 0 0.12cqw 0.4cqw rgba(196, 181, 253, 0.28),
+    0 0 0.7cqw rgba(124, 58, 237, 0.4);
 }
 
 .rpt-node__icon svg {
@@ -2817,11 +2820,23 @@ input:focus-visible {
   place-items: center;
   width: 3.5cqw;
   height: 3.5cqw;
-  border: 1px solid rgba(139, 92, 246, 0.5);
+  border: 1px solid rgba(167, 139, 250, 0.62);
   border-radius: 50%;
-  color: #c4b5fd;
-  background: radial-gradient(circle at 50% 35%, rgba(103, 62, 222, 0.4), rgba(13, 10, 41, 0.7) 62%);
-  box-shadow: 0 0 0.8cqw rgba(99, 50, 231, 0.3);
+  color: #e2d6ff;
+  background: radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.55), rgba(46, 24, 110, 0.5) 52%, rgba(13, 10, 41, 0.85) 100%);
+  box-shadow:
+    inset 0 0.14cqw 0.5cqw rgba(226, 214, 255, 0.3),
+    inset 0 -0.3cqw 0.7cqw rgba(30, 15, 80, 0.6),
+    0 0 0.9cqw rgba(124, 58, 237, 0.5),
+    0 0 2cqw rgba(109, 40, 217, 0.25);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.rpt-round-icon:hover .rpt-round-icon__circle {
+  transform: translateY(-0.12cqw);
+  box-shadow:
+    inset 0 0.14cqw 0.5cqw rgba(226, 214, 255, 0.4),
+    0 0 1.2cqw rgba(139, 92, 246, 0.75),
+    0 0 2.4cqw rgba(109, 40, 217, 0.4);
 }
 
 .rpt-round-icon__circle svg {
