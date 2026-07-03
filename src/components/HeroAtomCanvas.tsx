@@ -74,8 +74,10 @@ export default function HeroAtomCanvas() {
       const time = reduceMotion ? 0 : (now - startTime) / 1000;
       ctx.clearRect(0, 0, width, height);
 
-      const centerX = width * 0.5;
-      const centerY = height * 0.5;
+      // Galaxy sits in the right portion of the hero so it never overlaps the
+      // title/subtitle on the left (matches reference p2 composition).
+      const centerX = width * 0.66;
+      const centerY = height * 0.47;
       const scale = Math.min(width, height);
 
       const wash = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, scale * 0.55);

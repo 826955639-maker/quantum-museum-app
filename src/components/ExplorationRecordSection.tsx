@@ -130,195 +130,234 @@ function IconMapPin() {
 }
 
 /* ── Layered-explanation thumbnails ── */
+/* Isometric wireframe cube helper (front face + visible back edges) */
+function WireCube({
+  cx,
+  cy,
+  s,
+  d,
+  stroke = "#c3b0ff",
+  sw = 1.1,
+  opacity = 1,
+  face = "rgba(150,120,255,0.08)",
+}: {
+  cx: number;
+  cy: number;
+  s: number;
+  d?: number;
+  stroke?: string;
+  sw?: number;
+  opacity?: number;
+  face?: string;
+}) {
+  const h = s / 2;
+  const dd = d ?? s * 0.42;
+  const f = [
+    [cx - h, cy - h],
+    [cx + h, cy - h],
+    [cx + h, cy + h],
+    [cx - h, cy + h],
+  ];
+  const b = f.map(([x, y]) => [x + dd, y - dd]);
+  return (
+    <g stroke={stroke} strokeWidth={sw} fill="none" opacity={opacity} strokeLinejoin="round">
+      {/* top face fill for a hint of volume */}
+      <path d={`M${f[0]} L${b[0]} L${b[1]} L${f[1]} Z`} fill={face} stroke="none" />
+      {/* back edges (top + right) */}
+      <path d={`M${b[0]} L${b[1]} L${b[2]}`} strokeOpacity="0.55" />
+      <path d={`M${f[0]} L${b[0]}`} strokeOpacity="0.55" />
+      <path d={`M${f[2]} L${b[2]}`} strokeOpacity="0.55" />
+      {/* front face */}
+      <path d={`M${f[0]} L${f[1]} L${f[2]} L${f[3]} Z`} />
+      {/* right edge to back */}
+      <path d={`M${f[1]} L${b[1]}`} strokeOpacity="0.7" />
+    </g>
+  );
+}
+
+/* p6 #1 — Schrödinger cat sealed inside a glowing wireframe cube */
 function ThumbPossibility() {
   return (
     <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="rp-glow" cx="50%" cy="58%" r="58%">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.6" />
-          <stop offset="55%" stopColor="#5b2fc0" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#1a1145" stopOpacity="0" />
+        <radialGradient id="rp-floor" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#a678ff" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#3a1f7a" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="rp-cube" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#c4b5fd" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#6d28d9" stopOpacity="0.45" />
-        </linearGradient>
+        <radialGradient id="rp-aura" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stopColor="#6a4ee0" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#0d0a24" stopOpacity="0" />
+        </radialGradient>
         <filter id="rp-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.6" />
+          <feGaussianBlur stdDeviation="1.4" />
         </filter>
       </defs>
-      <ellipse cx="65" cy="58" rx="56" ry="42" fill="url(#rp-glow)" />
+      <ellipse cx="66" cy="50" rx="60" ry="42" fill="url(#rp-aura)" />
+      {/* floor bloom beneath the cube */}
+      <ellipse cx="66" cy="82" rx="30" ry="6" fill="url(#rp-floor)" filter="url(#rp-soft)" />
 
-      {/* floor ripple rings under cube */}
-      <g stroke="#8b5cf6" fill="none">
-        <ellipse cx="65" cy="82" rx="34" ry="8" strokeWidth="1" strokeOpacity="0.5" />
-        <ellipse cx="65" cy="82" rx="46" ry="11" strokeWidth="0.8" strokeOpacity="0.28" />
-      </g>
+      {/* orbit trail behind */}
+      <ellipse cx="66" cy="52" rx="52" ry="15" stroke="#8b6ce0" strokeWidth="0.9" strokeOpacity="0.4" fill="none" transform="rotate(-18 66 52)" />
 
-      {/* ghost cat faces (superposed possibilities) */}
-      <g stroke="#c4b5fd" strokeWidth="1.3" fill="none" opacity="0.75">
-        <path d="M27 27l-2.5-5 5 2.5M41 27l2.5-5-5 2.5" />
-        <path d="M43.5 27c0 4.8-3.5 7-9.5 7s-9.5-2.2-9.5-7c0-3.4 2.3-4.6 4-4.6h11c1.7 0 4 1.2 4 4.6Z" />
-        <circle cx="30.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <circle cx="37.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <path d="M32.5 31.5c.5.4 1 .5 1.5.5s1-.1 1.5-.5" strokeWidth="0.9" />
-      </g>
-      <g stroke="#c4b5fd" strokeWidth="1.3" fill="none" opacity="0.75">
-        <path d="M89 27l-2.5-5 5 2.5M103 27l2.5-5-5 2.5" />
-        <path d="M105.5 27c0 4.8-3.5 7-9.5 7s-9.5-2.2-9.5-7c0-3.4 2.3-4.6 4-4.6h11c1.7 0 4 1.2 4 4.6Z" />
-        <circle cx="92.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <circle cx="99.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <path d="M94.5 31.5c.5.4 1 .5 1.5.5s1-.1 1.5-.5" strokeWidth="0.9" />
-      </g>
+      {/* wireframe containment cube */}
+      <WireCube cx={68} cy={48} s={40} d={16} stroke="#cbbcff" sw={1.2} />
 
-      {/* orbit trails around the cube */}
-      <ellipse cx="65" cy="60" rx="44" ry="13" stroke="#a78bfa" strokeWidth="1" strokeOpacity="0.55" fill="none" transform="rotate(-14 65 60)" />
-      <ellipse cx="65" cy="60" rx="38" ry="17" stroke="#8b5cf6" strokeWidth="0.8" strokeOpacity="0.35" fill="none" transform="rotate(18 65 60)" />
-
-      {/* central glass cube with cat face */}
-      <g stroke="#e8dcff" strokeWidth="1.5">
-        <path d="M65 38 44 49v22l21 11 21-11V49Z" fill="url(#rp-cube)" fillOpacity="0.3" />
-        <path d="m44 49 21 11 21-11M65 60v22" strokeOpacity="0.75" />
+      {/* Schrödinger cat silhouette (sitting, facing left) */}
+      <g filter="url(#rp-soft)">
+        <path
+          d="M54 62 C50 60 50 46 56 43 L59 34 L62 42 L66 34 L69 43 C74 47 74 60 70 62 Z"
+          fill="#0d0a24"
+        />
       </g>
-      {/* cat face on front-left face */}
-      <g stroke="#f4f0ff" strokeWidth="1.1" fill="none" opacity="0.9" transform="translate(48 56) scale(0.62)">
-        <path d="M2 8 0 2l5 3M18 8l2-6-5 3" />
-        <path d="M20 8c0 5-3.6 7.4-10 7.4S0 13 0 8" />
-        <circle cx="6" cy="9.5" r="1" fill="#f4f0ff" stroke="none" />
-        <circle cx="14" cy="9.5" r="1" fill="#f4f0ff" stroke="none" />
-        <path d="M8.5 12.8c.7.5 1.4.7 1.5.7.1 0 .8-.2 1.5-.7" strokeWidth="0.9" />
-      </g>
+      <path
+        d="M54 62 C50 60 50 46 56 43 L59 34 L62 42 L66 34 L69 43 C74 47 74 60 70 62 Z"
+        fill="#0b0820"
+        stroke="#a78bfa"
+        strokeWidth="1"
+        strokeOpacity="0.7"
+        strokeLinejoin="round"
+      />
+      {/* curling tail */}
+      <path d="M70 60 C80 61 83 53 78 49 C82 53 78 58 71 57" fill="#0b0820" stroke="#a78bfa" strokeWidth="0.9" strokeOpacity="0.6" />
+      {/* glowing eyes */}
+      <circle cx="60" cy="49" r="1.1" fill="#c4b5fd" />
+      <circle cx="65" cy="49" r="1.1" fill="#c4b5fd" />
 
-      {/* bright orbit riders + sparkles */}
-      <circle cx="23" cy="66" r="2" fill="#fff" filter="url(#rp-soft)" />
-      <circle cx="108" cy="53" r="1.8" fill="#e8dcff" filter="url(#rp-soft)" />
-      <circle cx="65" cy="16" r="1.6" fill="#f59e0b" />
+      {/* orbit trails in front */}
+      <ellipse cx="66" cy="54" rx="50" ry="13" stroke="#cdbdff" strokeWidth="1.2" strokeOpacity="0.8" fill="none" transform="rotate(-16 66 54)" />
+      <ellipse cx="66" cy="50" rx="44" ry="19" stroke="#8b74ff" strokeWidth="0.8" strokeOpacity="0.45" fill="none" transform="rotate(14 66 50)" />
+
+      {/* riders + sparkles */}
+      <circle cx="18" cy="60" r="2" fill="#fff" filter="url(#rp-soft)" />
+      <circle cx="112" cy="46" r="1.7" fill="#e8dcff" filter="url(#rp-soft)" />
+      <path d="M22 40l1.1 3 3 1.1-3 1.1-1.1 3-1.1-3-3-1.1 3-1.1Z" fill="#fff" opacity="0.9" />
+      <path d="M108 66l0.9 2.4 2.4 0.9-2.4 0.9-0.9 2.4-0.9-2.4-2.4-0.9 2.4-0.9Z" fill="#c4b5fd" opacity="0.8" />
       <g fill="#d7c9ff">
-        <circle cx="16" cy="38" r="1.1" opacity="0.7" />
-        <circle cx="115" cy="34" r="1.2" opacity="0.7" />
-        <circle cx="52" cy="14" r="1" opacity="0.55" />
-        <circle cx="82" cy="90" r="1" opacity="0.5" />
+        <circle cx="34" cy="24" r="1" opacity="0.7" />
+        <circle cx="98" cy="22" r="1.1" opacity="0.7" />
+        <circle cx="120" cy="78" r="1" opacity="0.5" />
       </g>
-      <path d="M112 74l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.85" />
     </svg>
   );
 }
 
+/* p6 #2 — dashed light wave dispersing through a wireframe prism on a grid floor */
 function ThumbLightForms() {
   return (
     <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <linearGradient id="rl-wave" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.15" />
-          <stop offset="55%" stopColor="#c4b5fd" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.6" />
+          <stop offset="0%" stopColor="#7c5cff" stopOpacity="0.2" />
+          <stop offset="55%" stopColor="#d7c9ff" />
+          <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.7" />
         </linearGradient>
-        <radialGradient id="rl-burst" cx="0%" cy="50%" r="100%">
-          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.5" />
+        <linearGradient id="rl-ray" x1="0" x2="1">
+          <stop offset="0%" stopColor="#c96bff" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#ff6ec7" />
+        </linearGradient>
+        <radialGradient id="rl-prism" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#3b1f7a" stopOpacity="0" />
         </radialGradient>
         <filter id="rl-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.4" />
+          <feGaussianBlur stdDeviation="1.3" />
         </filter>
       </defs>
 
-      {/* diffraction glow bursting right of the slit */}
-      <ellipse cx="66" cy="50" rx="52" ry="38" fill="url(#rl-burst)" />
-
-      {/* incoming waves */}
-      <g stroke="url(#rl-wave)" fill="none" strokeLinecap="round">
-        <path d="M6 34c7-11 11 11 18 0s11 11 18 0" strokeWidth="2.2" />
-        <path d="M6 50c7-11 11 11 18 0s11 11 18 0" strokeWidth="1.8" opacity="0.75" />
-        <path d="M6 66c7-11 11 11 18 0s11 11 18 0" strokeWidth="1.4" opacity="0.5" />
+      {/* perspective grid floor */}
+      <g stroke="#4a3a86" strokeWidth="0.6" strokeOpacity="0.42" fill="none">
+        <path d="M6 92h118M16 84h98M26 76h78M34 70h62" />
+        <path d="M6 92 46 70M34 92 52 70M64 92 60 70M94 92 68 70M124 92 76 70" />
       </g>
 
-      {/* barrier slit (glowing) */}
-      <rect x="59" y="18" width="5" height="24" rx="2.5" fill="#a78bfa" />
-      <rect x="59" y="58" width="5" height="24" rx="2.5" fill="#a78bfa" />
-      <rect x="59" y="18" width="5" height="24" rx="2.5" fill="#c4b5fd" opacity="0.6" filter="url(#rl-soft)" />
-      <rect x="59" y="58" width="5" height="24" rx="2.5" fill="#c4b5fd" opacity="0.6" filter="url(#rl-soft)" />
+      {/* glowing dashed sine wave (under-glow + crisp dashes) */}
+      <path d="M6 44C16 22 26 22 36 44S56 66 66 44" stroke="#a78bfa" strokeWidth="5" strokeOpacity="0.3" fill="none" strokeLinecap="round" filter="url(#rl-soft)" />
+      <path d="M6 44C16 22 26 22 36 44S56 66 66 44" stroke="url(#rl-wave)" strokeWidth="3" fill="none" strokeLinecap="round" strokeDasharray="7 6" />
 
-      {/* radiating ripple arcs from the slit */}
-      <g stroke="#c4b5fd" fill="none" strokeLinecap="round">
-        <path d="M66 39a11 11 0 0 1 0 22" strokeWidth="1.8" opacity="0.95" />
-        <path d="M66 32a18 18 0 0 1 0 36" strokeWidth="1.5" opacity="0.75" />
-        <path d="M66 25a25 25 0 0 1 0 50" strokeWidth="1.2" opacity="0.55" />
-        <path d="M66 18a32 32 0 0 1 0 64" strokeWidth="1" opacity="0.38" />
-        <path d="M66 11a39 39 0 0 1 0 78" strokeWidth="0.8" opacity="0.24" />
+      {/* prism glow */}
+      <ellipse cx="96" cy="46" rx="30" ry="24" fill="url(#rl-prism)" />
+
+      {/* wireframe triangular prism / tetrahedron */}
+      <g stroke="#d0c0ff" strokeWidth="1.1" fill="none" strokeLinejoin="round">
+        <path d="M96 24 L80 58 L112 54 Z" />
+        <path d="M96 24 L96 62 M80 58 L96 62 L112 54" strokeOpacity="0.6" />
       </g>
+      <path d="M96 24 L80 58 L112 54 Z" fill="#9f7bff" fillOpacity="0.12" stroke="none" />
 
-      {/* detected particle dots on the ripples */}
-      <circle cx="97" cy="32" r="2.2" fill="#fff" filter="url(#rl-soft)" />
-      <circle cx="106" cy="50" r="2.4" fill="#e8dcff" filter="url(#rl-soft)" />
-      <circle cx="97" cy="68" r="2" fill="#fff" filter="url(#rl-soft)" />
-      <circle cx="86" cy="42" r="1.5" fill="#c4b5fd" />
-      <circle cx="86" cy="58" r="1.5" fill="#c4b5fd" />
+      {/* pink refraction ray fanning out of the prism */}
+      <path d="M104 48 L128 40" stroke="url(#rl-ray)" strokeWidth="2.6" strokeLinecap="round" filter="url(#rl-soft)" />
+      <path d="M104 50 L128 48" stroke="#ff8ad4" strokeWidth="1.1" strokeOpacity="0.7" strokeLinecap="round" />
+      <path d="M104 52 L128 56" stroke="#c96bff" strokeWidth="0.9" strokeOpacity="0.5" strokeLinecap="round" />
 
-      {/* ambient stars */}
+      {/* incoming photon + stars */}
+      <circle cx="30" cy="24" r="2" fill="#fff" filter="url(#rl-soft)" />
+      <circle cx="16" cy="60" r="1.5" fill="#c4b5fd" />
       <g fill="#d7c9ff">
-        <circle cx="14" cy="16" r="1.1" opacity="0.7" />
-        <circle cx="118" cy="14" r="1.2" opacity="0.6" />
-        <circle cx="120" cy="86" r="1" opacity="0.5" />
-        <circle cx="20" cy="86" r="1" opacity="0.5" />
+        <circle cx="46" cy="16" r="1" opacity="0.7" />
+        <circle cx="120" cy="18" r="1.1" opacity="0.6" />
+        <circle cx="70" cy="20" r="0.9" opacity="0.5" />
       </g>
-      <path d="M116 70l0.9 2.6 2.6 0.9-2.6 0.9-0.9 2.6-0.9-2.6-2.6-0.9 2.6-0.9Z" fill="#fbe7a6" opacity="0.85" />
     </svg>
   );
 }
 
+/* p6 #3 — entangled wireframe cubes floating over a concentric platform */
 function ThumbMultipath() {
   return (
     <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="rm-glow" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stopColor="#6d28d9" stopOpacity="0.4" />
+        <radialGradient id="rm-plat" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#8f7bff" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#1a1145" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="rm-aura" cx="50%" cy="45%" r="60%">
+          <stop offset="0%" stopColor="#5b45d6" stopOpacity="0.32" />
           <stop offset="100%" stopColor="#0d0a24" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="rm-trace" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.35" />
-          <stop offset="50%" stopColor="#e2d6ff" />
-          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.35" />
-        </linearGradient>
         <filter id="rm-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.5" />
+          <feGaussianBlur stdDeviation="1.2" />
         </filter>
       </defs>
-      <rect x="0" y="0" width="130" height="100" fill="url(#rm-glow)" />
+      <rect x="0" y="0" width="130" height="100" fill="url(#rm-aura)" />
 
-      {/* faint background maze traces */}
-      <g stroke="#4a3a86" strokeWidth="0.7" strokeOpacity="0.35" fill="none" strokeLinejoin="round">
-        <path d="M8 12h26v14h-14M56 8v14h22V8M104 14h18v20h-12M10 88h20V74M64 92v-12h26v12M112 84h12V64" />
+      {/* concentric diamond platform + bloom */}
+      <ellipse cx="65" cy="76" rx="30" ry="12" fill="url(#rm-plat)" filter="url(#rm-soft)" />
+      <g stroke="#b9a6ff" fill="none">
+        <path d="M65 66 L91 76 L65 86 L39 76 Z" strokeWidth="1.1" strokeOpacity="0.75" />
+        <path d="M65 70 L83 76 L65 82 L47 76 Z" strokeWidth="0.9" strokeOpacity="0.5" />
+        <path d="M65 73 L74 76 L65 79 L56 76 Z" strokeWidth="0.7" strokeOpacity="0.35" />
       </g>
 
-      {/* winding luminous multi-paths (serpentine, like a real maze route) */}
-      <g stroke="url(#rm-trace)" strokeWidth="1.8" fill="none" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M12 56 24 42h16l8 12 14-20h16l10 14 12-8 16 4" />
-        <path d="M12 56l14 16 18-6 12 12 16-10 14 6 16-14 12 4" opacity="0.85" />
-        <path d="M12 56h20l14-26 20 10 14-14 18 8" opacity="0.6" strokeDasharray="4 5" />
+      {/* dashed entanglement links + vertical drop lines */}
+      <g stroke="#a793ff" strokeWidth="0.9" fill="none">
+        <path d="M30 34 L60 48" strokeDasharray="3 4" />
+        <path d="M100 36 L72 48" strokeDasharray="3 4" />
+        <path d="M65 58 L65 68" strokeDasharray="2 4" strokeOpacity="0.6" />
+        <path d="M30 44 L36 66" strokeDasharray="2 4" strokeOpacity="0.4" />
+        <path d="M100 46 L94 66" strokeDasharray="2 4" strokeOpacity="0.4" />
       </g>
-      {/* glow duplicate of the main path */}
-      <path d="M12 56 24 42h16l8 12 14-20h16l10 14 12-8 16 4" stroke="#c4b5fd" strokeWidth="3.4" strokeOpacity="0.28" fill="none" strokeLinejoin="round" strokeLinecap="round" filter="url(#rm-soft)" />
 
-      {/* glowing waypoint nodes */}
+      {/* three wireframe cubes (center large, two small floating) */}
+      <WireCube cx={30} cy={34} s={16} d={7} stroke="#c3b0ff" sw={1} opacity={0.92} />
+      <WireCube cx={100} cy={36} s={16} d={7} stroke="#c3b0ff" sw={1} opacity={0.92} />
+      <WireCube cx={65} cy={48} s={24} d={10} stroke="#e0d3ff" sw={1.3} />
+
+      {/* glowing connection nodes */}
       <g fill="#fff">
-        <circle cx="40" cy="42" r="2.2" filter="url(#rm-soft)" />
-        <circle cx="62" cy="34" r="2" filter="url(#rm-soft)" />
-        <circle cx="78" cy="34" r="1.8" filter="url(#rm-soft)" />
-        <circle cx="100" cy="40" r="2.2" filter="url(#rm-soft)" />
-        <circle cx="44" cy="66" r="1.8" filter="url(#rm-soft)" />
-        <circle cx="72" cy="72" r="2" filter="url(#rm-soft)" />
-        <circle cx="102" cy="64" r="1.8" filter="url(#rm-soft)" />
+        <circle cx="30" cy="34" r="1.6" filter="url(#rm-soft)" />
+        <circle cx="100" cy="36" r="1.6" filter="url(#rm-soft)" />
+        <circle cx="65" cy="48" r="2" filter="url(#rm-soft)" />
       </g>
-      <g fill="#fbe7a6">
-        <circle cx="88" cy="48" r="1.6" />
-        <circle cx="30" cy="72" r="1.4" />
-      </g>
+      <circle cx="46" cy="41" r="1" fill="#e8dcff" />
+      <circle cx="84" cy="42" r="1" fill="#e8dcff" />
 
-      {/* source + exit terminals */}
-      <circle cx="12" cy="56" r="4.5" fill="#a78bfa" />
-      <circle cx="12" cy="56" r="7.5" fill="none" stroke="#a78bfa" strokeWidth="1" opacity="0.5" />
-      <circle cx="118" cy="48" r="3.6" fill="#8b5cf6" />
-      <circle cx="118" cy="48" r="6.4" fill="none" stroke="#c4b5fd" strokeWidth="0.9" opacity="0.6" />
+      {/* field stars */}
+      <g fill="#d7c9ff">
+        <circle cx="14" cy="20" r="1" opacity="0.7" />
+        <circle cx="120" cy="22" r="1.1" opacity="0.6" />
+        <circle cx="16" cy="60" r="0.9" opacity="0.5" />
+        <circle cx="116" cy="60" r="0.9" opacity="0.5" />
+      </g>
     </svg>
   );
 }

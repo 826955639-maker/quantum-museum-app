@@ -117,73 +117,71 @@ function BookSVG() {
   );
 }
 
+/* 分享卡 spiral galaxy (recreated to match reference p4): a tilted spiral
+   disc — bright white-violet core, two logarithmic star-dot arms, a rim
+   orbit ring and scattered field stars. */
 function PlanetSVG() {
   const cx = 46;
   const cy = 40;
+  const tilt = -22;
+  // two logarithmic spiral arms rendered as tapering star dots
+  const arm = (offset: number, key: string) =>
+    Array.from({ length: 22 }, (_, i) => {
+      const t = i / 21;
+      const ang = offset + t * Math.PI * 2.35;
+      const r = 2.5 + t * 33;
+      const x = cx + Math.cos(ang) * r;
+      const y = cy + Math.sin(ang) * r * 0.5; // flatten the disc
+      const s = 1.7 * (1 - t) + 0.35;
+      return (
+        <circle key={`${key}-${i}`} cx={x} cy={y} r={s} fill={t < 0.4 ? "#eae4ff" : "#b9a6ff"} opacity={0.95 - t * 0.55} />
+      );
+    });
+
   return (
     <svg viewBox="0 0 92 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="glxBody" cx="36%" cy="28%" r="75%">
+        <radialGradient id="glxCore" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="14%" stopColor="#c3c8ff" />
-          <stop offset="42%" stopColor="#5f5ceb" />
-          <stop offset="75%" stopColor="#3527ab" />
-          <stop offset="100%" stopColor="#1c1166" />
+          <stop offset="24%" stopColor="#e6dcff" />
+          <stop offset="54%" stopColor="#9d7bff" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#5a2fc0" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="glxHalo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#6b54f0" stopOpacity="0.45" />
+          <stop offset="0%" stopColor="#7c4fe6" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#3a1a86" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="glxRing" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8f7bff" stopOpacity="0.05" />
-          <stop offset="45%" stopColor="#cfc4ff" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#7c5cff" stopOpacity="0.2" />
-        </linearGradient>
         <filter id="glxSoft" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.1" />
         </filter>
       </defs>
 
-      {/* ambient halo */}
-      <ellipse cx={cx} cy={cy} rx="44" ry="30" fill="url(#glxHalo)" />
+      {/* ambient disc halo */}
+      <ellipse cx={cx} cy={cy} rx="42" ry="24" fill="url(#glxHalo)" transform={`rotate(${tilt} ${cx} ${cy})`} />
 
-      {/* back halves of swirl rings (behind the sphere) */}
-      <g fill="none">
-        <path d="M14 32C22 22 62 18 78 30" stroke="url(#glxRing)" strokeWidth="1.6" opacity="0.8" />
-        <path d="M8 44C14 30 70 22 86 36" stroke="#8f7bff" strokeWidth="1" opacity="0.4" />
+      {/* spiral arms + rim orbit ring (all sharing the disc tilt) */}
+      <g transform={`rotate(${tilt} ${cx} ${cy})`}>
+        <ellipse cx={cx} cy={cy} rx="37" ry="13" stroke="#b7a4ff" strokeWidth="1.2" strokeOpacity="0.65" fill="none" />
+        {arm(0, "a")}
+        {arm(Math.PI, "b")}
       </g>
 
-      {/* glossy sphere */}
-      <circle cx={cx} cy={cy} r="16" fill="url(#glxBody)" />
-      {/* specular highlight */}
-      <ellipse cx={cx - 6} cy={cy - 8} rx="5" ry="3.4" fill="#ffffff" opacity="0.75" filter="url(#glxSoft)" transform={`rotate(-28 ${cx - 6} ${cy - 8})`} />
-      {/* bottom bounce light */}
-      <path d={`M${cx - 11} ${cy + 10}a16 16 0 0 0 22 0`} stroke="#9d8cff" strokeWidth="1.4" opacity="0.5" fill="none" filter="url(#glxSoft)" />
-
-      {/* front swirl rings (crossing in front of the sphere) */}
-      <g fill="none">
-        <path d="M6 50C24 62 72 56 88 40" stroke="url(#glxRing)" strokeWidth="2" />
-        <path d="M12 58C32 68 74 60 86 48" stroke="#a793ff" strokeWidth="1.1" opacity="0.55" />
-        <path d="M4 40C10 52 40 62 66 58" stroke="#8f7bff" strokeWidth="0.9" opacity="0.4" />
-      </g>
-
-      {/* ring rider particles */}
-      <circle cx="20" cy="55.5" r="1.9" fill="#ffffff" filter="url(#glxSoft)" />
-      <circle cx="74" cy="52.5" r="1.6" fill="#e2d9ff" filter="url(#glxSoft)" />
-      <circle cx="84" cy="37" r="1.3" fill="#cfc4ff" />
-      <circle cx="12" cy="34" r="1.2" fill="#cfc4ff" />
+      {/* luminous core */}
+      <circle cx={cx} cy={cy} r="14" fill="url(#glxCore)" />
+      <circle cx={cx} cy={cy} r="2.6" fill="#fff" filter="url(#glxSoft)" />
 
       {/* field stars + sparkles */}
       <g fill="#e2d7ff">
-        <circle cx="16" cy="14" r="1" opacity="0.7" />
+        <circle cx="14" cy="14" r="1" opacity="0.7" />
         <circle cx="82" cy="16" r="1.2" opacity="0.7" />
-        <circle cx="88" cy="66" r="0.9" opacity="0.55" />
-        <circle cx="10" cy="68" r="1" opacity="0.55" />
+        <circle cx="86" cy="62" r="0.9" opacity="0.55" />
+        <circle cx="10" cy="64" r="1" opacity="0.55" />
+        <circle cx="70" cy="70" r="0.8" opacity="0.5" />
       </g>
-      <path d="M78 22l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.9">
+      <path d="M80 26l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.9">
         <animate attributeName="opacity" values="0.5;1;0.5" dur="2.3s" repeatCount="indefinite" />
       </path>
-      <path d="M14 48l0.8 2.4 2.4 0.8-2.4 0.8-0.8 2.4-0.8-2.4-2.4-0.8 2.4-0.8Z" fill="#c4b5fd" opacity="0.8">
+      <path d="M12 46l0.8 2.4 2.4 0.8-2.4 0.8-0.8 2.4-0.8-2.4-2.4-0.8 2.4-0.8Z" fill="#c4b5fd" opacity="0.8">
         <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.9s" repeatCount="indefinite" />
       </path>
     </svg>
