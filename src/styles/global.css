@@ -3410,15 +3410,15 @@ input:focus-visible {
 
 .report-book {
   position: absolute;
-  right: 1cqw;
+  right: 0.4cqw;
   top: 50%;
-  width: 16cqw;
+  width: 18cqw;
   height: 14cqw;
   pointer-events: none;
   filter: drop-shadow(0 0 1.8cqw rgba(139, 92, 246, 0.45));
   animation: bookFloat 5s ease-in-out infinite alternate;
 }
-.report-book svg { width: 100%; height: 100%; display: block; transform: scale(1.12); transform-origin: center; }
+.report-book svg { width: 100%; height: 100%; display: block; }
 
 @keyframes bookFloat {
   0%   { transform: translateY(-50%) rotate(-3deg); }
