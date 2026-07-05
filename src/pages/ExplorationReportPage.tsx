@@ -59,95 +59,95 @@ function BookSVG() {
       </defs>
 
       {/* ambient aura */}
-      <ellipse cx="94" cy="80" rx="82" ry="60" fill="url(#bkAura)" />
+      <ellipse cx="90" cy="80" rx="84" ry="60" fill="url(#bkAura)" />
 
       {/* ── back orbit arcs (behind the book) ── */}
-      <ellipse cx="92" cy="92" rx="80" ry="26" stroke="url(#bkOrbitGold)" strokeWidth="1.5" fill="none" opacity="0.55" transform="rotate(-17 92 92)" />
-      <ellipse cx="92" cy="86" rx="72" ry="34" stroke="url(#bkOrbitViolet)" strokeWidth="1.1" fill="none" opacity="0.5" transform="rotate(11 92 86)" />
+      <ellipse cx="90" cy="88" rx="82" ry="27" stroke="url(#bkOrbitGold)" strokeWidth="1.5" fill="none" opacity="0.55" transform="rotate(-16 90 88)" />
+      <ellipse cx="90" cy="82" rx="74" ry="35" stroke="url(#bkOrbitViolet)" strokeWidth="1.1" fill="none" opacity="0.5" transform="rotate(12 90 82)" />
 
-      {/* ── page-stack thickness (many translucent sheets) ── */}
-      {/* left stack */}
-      <path d="M42 104 C58 112 78 116 92 118 L92 128 C77 126 56 121 40 112 Z" fill="url(#bkStackL)" />
-      <g stroke="#c9b6ff" strokeWidth="0.6" strokeOpacity="0.45" fill="none">
-        <path d="M42 107 C58 114 78 118 92 120" />
-        <path d="M41 110 C57 117 78 121 92 123" />
-        <path d="M40 112.5 C56 119 78 123 92 125" />
+      {/* ── fanned page sheets on the outer edges (the open-book "many pages") ── */}
+      <g stroke="#b7a4ff" strokeWidth="0.7" strokeOpacity="0.5" fill="none">
+        <path d="M33 90 C29 77 29 62 33 50" />
+        <path d="M30 89 C26 77 26 63 30 51" />
+        <path d="M27 88 C23 77 23 64 27 53" />
       </g>
-      {/* right stack */}
-      <path d="M92 118 C108 116 130 111 146 103 L148 112 C132 121 110 126 92 128 Z" fill="url(#bkStackR)" />
-      <g stroke="#d8ccff" strokeWidth="0.6" strokeOpacity="0.45" fill="none">
-        <path d="M92 120 C108 118 130 113 146 106" />
-        <path d="M92 122.5 C108 120 131 115 147 108.5" />
-        <path d="M92 125 C108 123 132 118 148 111" />
+      <g stroke="#d0c0ff" strokeWidth="0.7" strokeOpacity="0.5" fill="none">
+        <path d="M147 90 C151 77 151 62 147 50" />
+        <path d="M150 89 C154 77 154 63 150 51" />
+        <path d="M153 88 C157 77 157 64 153 53" />
       </g>
 
-      {/* ── left page surface (curved, lifted outer edge) ── */}
+      {/* ── front page-block thickness (nearest the viewer, at the spine) ── */}
+      <path d="M34 90 C52 98 72 101 90 104 L90 111 C72 108 52 105 35 97 Z" fill="url(#bkStackL)" />
+      <g stroke="#c9b6ff" strokeWidth="0.55" strokeOpacity="0.45" fill="none">
+        <path d="M35 93 C52 100 72 103 90 106" />
+        <path d="M35 96 C52 103 72 106 90 108.5" />
+      </g>
+      <path d="M90 104 C108 101 128 98 146 90 L146 97 C128 105 108 108 90 111 Z" fill="url(#bkStackR)" />
+      <g stroke="#d8ccff" strokeWidth="0.55" strokeOpacity="0.45" fill="none">
+        <path d="M90 106 C108 103 128 100 145 93" />
+        <path d="M90 108.5 C108 106 128 103 145 96" />
+      </g>
+
+      {/* ── left page surface (opens up-and-out; spine is the low valley) ── */}
       <path
-        d="M92 116
-           C74 115 52 111 36 103
-           C30 90 27 76 31 62
-           C50 57 74 53 92 54 Z"
+        d="M90 104
+           C72 101 52 98 34 90
+           C30 77 30 63 34 50
+           C52 54 72 59 89 64
+           C90 77 90 90 90 104 Z"
         fill="url(#bkPageL)"
         stroke="#d6c9ff"
         strokeWidth="1.3"
-        strokeOpacity="0.9"
+        strokeOpacity="0.92"
         strokeLinejoin="round"
       />
-      {/* inner page layers (translucent sheets peeking) */}
-      <g stroke="#c9b6ff" strokeWidth="0.7" strokeOpacity="0.4" fill="none">
-        <path d="M35 100 C31 88 29 76 33 64" />
-        <path d="M39 101 C35 89 33 78 37 66" />
-      </g>
-      {/* left page text lines (follow the page curve) */}
+      {/* left page text lines (follow the page tilt) */}
       <g stroke="#e6ddff" strokeWidth="0.9" strokeOpacity="0.6" fill="none">
-        <path d="M44 70 C58 67 72 65 84 65" />
-        <path d="M44 77 C58 74 72 72 84 72" />
-        <path d="M45 84 C58 81 71 79 82 79" />
-        <path d="M47 91 C58 89 69 87 78 87" />
+        <path d="M42 63 C56 65 70 68 84 71" />
+        <path d="M40 70 C54 72 68 75 83 78" />
+        <path d="M39 77 C52 79 66 82 82 85" />
+        <path d="M38 84 C50 86 62 88 74 90" />
       </g>
 
-      {/* ── right page surface (slightly higher, curved) ── */}
+      {/* ── right page surface (mirror; rises to the outer-back corner) ── */}
       <path
-        d="M92 54
-           C110 52 134 55 152 60
-           C157 74 155 89 149 102
-           C132 111 110 116 92 116 Z"
+        d="M89 64
+           C106 59 126 54 146 50
+           C150 63 150 77 146 90
+           C128 98 110 101 90 104
+           C90 90 89 77 89 64 Z"
         fill="url(#bkPageR)"
         stroke="#e2d6ff"
         strokeWidth="1.3"
         strokeLinejoin="round"
       />
-      {/* right inner page layers */}
-      <g stroke="#e2d6ff" strokeWidth="0.7" strokeOpacity="0.4" fill="none">
-        <path d="M150 63 C155 76 153 90 147 102" />
-        <path d="M146 61 C151 74 149 88 143 100" />
-      </g>
 
-      {/* central spine — bright rim-light crease */}
-      <path d="M92 54 C93 74 93 96 92 116" stroke="#f4efff" strokeWidth="1.6" strokeOpacity="0.92" fill="none" filter="url(#bkSoft)" />
-      <path d="M92 54 C93 74 93 96 92 116" stroke="#fff" strokeWidth="0.8" strokeOpacity="0.9" fill="none" />
+      {/* central spine valley — bright rim-light fold */}
+      <path d="M90 104 C90 90 89 77 89 64" stroke="#f4efff" strokeWidth="1.7" strokeOpacity="0.95" fill="none" filter="url(#bkSoft)" />
+      <path d="M90 104 C90 90 89 77 89 64" stroke="#fff" strokeWidth="0.8" strokeOpacity="0.95" fill="none" />
 
-      {/* top-edge rim highlights (lifted page edges catching light) */}
-      <path d="M31 62 C50 57 74 53 92 54" stroke="#efe7ff" strokeWidth="1" strokeOpacity="0.75" fill="none" filter="url(#bkSoft)" />
-      <path d="M92 54 C110 52 134 55 152 60" stroke="#efe7ff" strokeWidth="1" strokeOpacity="0.75" fill="none" filter="url(#bkSoft)" />
+      {/* top-edge rim highlights (lifted far page edges catching light) */}
+      <path d="M34 50 C52 54 72 59 89 64" stroke="#efe7ff" strokeWidth="1" strokeOpacity="0.78" fill="none" filter="url(#bkSoft)" />
+      <path d="M89 64 C106 59 126 54 146 50" stroke="#efe7ff" strokeWidth="1" strokeOpacity="0.78" fill="none" filter="url(#bkSoft)" />
 
       {/* ── atom symbol on the right page ── */}
-      <g transform="rotate(-7 120 84)">
-        <circle cx="120" cy="84" r="16" fill="#a78bfa" fillOpacity="0.12" />
-        <ellipse cx="120" cy="84" rx="15" ry="5.6" stroke="#f0e9ff" strokeWidth="1.2" fill="none" strokeOpacity="0.92" />
-        <ellipse cx="120" cy="84" rx="15" ry="5.6" stroke="#dccdff" strokeWidth="1.05" fill="none" transform="rotate(60 120 84)" strokeOpacity="0.75" />
-        <ellipse cx="120" cy="84" rx="15" ry="5.6" stroke="#dccdff" strokeWidth="1.05" fill="none" transform="rotate(-60 120 84)" strokeOpacity="0.75" />
-        <circle cx="120" cy="84" r="3.4" fill="#fff" filter="url(#bkSoft)" />
-        <circle cx="120" cy="84" r="2" fill="#fff" />
+      <g transform="rotate(-8 118 76)">
+        <circle cx="118" cy="76" r="15" fill="#a78bfa" fillOpacity="0.12" />
+        <ellipse cx="118" cy="76" rx="14" ry="5.2" stroke="#f0e9ff" strokeWidth="1.2" fill="none" strokeOpacity="0.92" />
+        <ellipse cx="118" cy="76" rx="14" ry="5.2" stroke="#dccdff" strokeWidth="1.05" fill="none" transform="rotate(60 118 76)" strokeOpacity="0.75" />
+        <ellipse cx="118" cy="76" rx="14" ry="5.2" stroke="#dccdff" strokeWidth="1.05" fill="none" transform="rotate(-60 118 76)" strokeOpacity="0.75" />
+        <circle cx="118" cy="76" r="3.2" fill="#fff" filter="url(#bkSoft)" />
+        <circle cx="118" cy="76" r="1.9" fill="#fff" />
       </g>
 
       {/* soft under-glow beneath the book */}
-      <ellipse cx="92" cy="122" rx="52" ry="10" fill="#7c5cff" opacity="0.28" filter="url(#bkGlow)" />
+      <ellipse cx="90" cy="114" rx="54" ry="10" fill="#7c5cff" opacity="0.3" filter="url(#bkGlow)" />
 
       {/* ── front orbit arcs (interwoven, gold + violet) ── */}
-      <ellipse cx="92" cy="100" rx="78" ry="22" stroke="url(#bkOrbitGold)" strokeWidth="2" fill="none" transform="rotate(-15 92 100)" />
-      <ellipse cx="92" cy="92" rx="70" ry="30" stroke="url(#bkOrbitViolet)" strokeWidth="1.5" fill="none" opacity="0.85" transform="rotate(12 92 92)" />
-      <ellipse cx="92" cy="96" rx="82" ry="16" stroke="#e8dcff" strokeWidth="0.9" strokeOpacity="0.5" fill="none" transform="rotate(-8 92 96)" />
+      <ellipse cx="90" cy="98" rx="80" ry="22" stroke="url(#bkOrbitGold)" strokeWidth="2" fill="none" transform="rotate(-14 90 98)" />
+      <ellipse cx="90" cy="90" rx="72" ry="30" stroke="url(#bkOrbitViolet)" strokeWidth="1.5" fill="none" opacity="0.85" transform="rotate(13 90 90)" />
+      <ellipse cx="90" cy="94" rx="84" ry="15" stroke="#e8dcff" strokeWidth="0.9" strokeOpacity="0.5" fill="none" transform="rotate(-8 90 94)" />
 
       {/* ── energy particles riding the orbits ── */}
       <circle cx="14" cy="104" r="2.6" fill="#fff" filter="url(#bkSoft)" />
