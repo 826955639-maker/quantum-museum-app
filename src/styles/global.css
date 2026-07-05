@@ -176,20 +176,22 @@ input:focus-visible {
 
 .top-actions {
   position: absolute;
-  top: 3.82cqw;
+  /* lifted + shrunk so the whole row clears every page's content top
+     (row bottom ≈ 3.35 + 3.5 = 6.85cqw, above the earliest content at ~7.35cqw) */
+  top: 3.35cqw;
   right: 2.2cqw;
   display: flex;
   align-items: center;
-  gap: 1.35cqw;
+  gap: 1cqw;
   pointer-events: auto;
 }
 
 .search-box {
   display: flex;
   align-items: center;
-  width: 18.1cqw;
-  height: 4.25cqw;
-  padding: 0 1.5cqw;
+  width: 15.5cqw;
+  height: 3.5cqw;
+  padding: 0 1.25cqw;
   border: 1px solid rgba(142, 125, 204, 0.2);
   border-radius: 999px;
   background: rgba(9, 10, 34, 0.66);
@@ -207,20 +209,20 @@ input:focus-visible {
 
 .search-box svg {
   flex: 0 0 auto;
-  width: 1.5cqw;
-  height: 1.5cqw;
+  width: 1.3cqw;
+  height: 1.3cqw;
   color: #fff;
 }
 
 .search-box input {
   min-width: 0;
   flex: 1;
-  margin-left: 1cqw;
+  margin-left: 0.8cqw;
   border: 0;
   outline: 0;
   color: #efecff;
   background: transparent;
-  font-size: 1.12cqw;
+  font-size: 1cqw;
 }
 
 .search-box input::placeholder {
@@ -232,8 +234,8 @@ input:focus-visible {
   position: relative;
   display: grid;
   place-items: center;
-  width: 4.25cqw;
-  height: 4.25cqw;
+  width: 3.5cqw;
+  height: 3.5cqw;
   padding: 0;
   border: 1px solid rgba(139, 124, 195, 0.19);
   border-radius: 50%;
@@ -256,19 +258,19 @@ input:focus-visible {
 }
 
 .round-button svg {
-  width: 1.72cqw;
-  height: 1.72cqw;
+  width: 1.45cqw;
+  height: 1.45cqw;
 }
 
 .round-button:last-child svg {
-  transform: translateY(-0.16cqw);
+  transform: translateY(-0.14cqw);
 }
 
 .user-base {
   position: absolute;
-  bottom: 0.75cqw;
-  width: 1.75cqw;
-  height: 0.45cqw;
+  bottom: 0.62cqw;
+  width: 1.45cqw;
+  height: 0.38cqw;
   border: 1px solid currentColor;
   border-top: 0;
   border-radius: 0 0 50% 50%;
