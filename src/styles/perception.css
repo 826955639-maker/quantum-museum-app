@@ -223,11 +223,57 @@
 .perception-left-column {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1.4cqw;
   align-self: stretch;
   min-width: 0;
   height: 100%;
+}
+
+.perception-insight-card {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  padding: 1.2cqw;
+  overflow: hidden;
+  border-radius: 1.45cqw;
+}
+
+.perception-insight-card p {
+  margin: 0.7cqw 0 0;
+  color: #b9b3c6;
+  font-size: 0.82cqw;
+  line-height: 1.7;
+}
+
+.perception-insight-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.9cqw;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.perception-insight-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.45cqw;
+  color: #8f8999;
+  font-size: 0.72cqw;
+}
+
+.perception-insight-meta span i {
+  width: 0.42cqw;
+  height: 0.42cqw;
+  border-radius: 50%;
+  background: var(--perception-purple);
+}
+
+.perception-insight-meta strong {
+  color: #c6b3ff;
+  font-size: 0.78cqw;
+  font-weight: 700;
 }
 
 .perception-glass,

@@ -520,6 +520,21 @@ export default function PerceptionInteractionPage({ onBack }: PerceptionInteract
             </div>
           </aside>
 
+          <section className="perception-glass perception-insight-card" aria-label="光波解读">
+            <span className="perception-field-label">光波解读</span>
+            <p>
+              {mode === "wave"
+                ? "光以连续波纹向外扩散，波峰与波谷交替传递能量。"
+                : mode === "photon"
+                  ? "光以离散光点跳动，呈现能量的粒子化传递方式。"
+                  : "波动与粒子叠加交织，直观呈现光的波粒二象性。"}
+            </p>
+            <div className="perception-insight-meta">
+              <span><i />当前模式</span>
+              <strong>{mode === "wave" ? "光波模式" : mode === "photon" ? "光点模式" : "混合模式"}</strong>
+            </div>
+          </section>
+
           <section className="perception-glass perception-slider-card" aria-label="光波参数调节">
             <div className="perception-sliders">
               {([

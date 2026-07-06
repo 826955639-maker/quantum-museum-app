@@ -476,10 +476,14 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
       </button>
 
       <header className="creation-header">
-        <div className="creation-title-line">
-          <span>04 手势互动页 A：创见区</span>
-          <i>|</i>
-          <strong id="creation-title">薛定谔的猫</strong>
+        <div className="creation-title-block">
+          <span>04 手势互动页 A：创见区 | 薛定谔的猫</span>
+          <div>
+            <h1 id="creation-title">薛定谔的猫</h1>
+            <i>|</i>
+            <strong>让概念悬于一瞬</strong>
+          </div>
+          <p>打开之前，会发生什么？</p>
         </div>
         <div className="creation-header-tools">
           <label>
@@ -494,12 +498,6 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
 
       <main className="creation-content">
         <aside className="creation-telemetry" aria-label="实验状态与观察指标">
-          <section className="creation-glass creation-intro-card">
-            <h1>薛定谔的猫</h1>
-            <span>打开之前，会发生什么？</span>
-            <p>核心问题：如果不打开盒子，我们能确定里面的结果吗？</p>
-          </section>
-
           <section className="creation-glass creation-state-card">
             <span className="creation-card-label">实验状态</span>
             {(["A", "B", "C"] as ExperimentState[]).map((state) => (
