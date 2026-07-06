@@ -4420,6 +4420,23 @@ input:focus-visible {
   border: 1px solid rgba(139, 92, 246, 0.2);
 }
 .rec-level__thumb svg { width: 100%; height: 100%; display: block; transform: scale(1.16); transform-origin: center; }
+
+/* ── rational tech thumbnails (superposition / wave-particle / path-integral) ── */
+.thumb-tech { overflow: visible; }
+.thumb-sup__core { transform-box: fill-box; transform-origin: center; animation: thumbCoreBreathe 3.2s ease-in-out infinite; }
+.thumb-sup__cloud { animation: thumbCloudBreathe 5s ease-in-out infinite; }
+.thumb-wp__gate { animation: thumbGatePulse 2.6s ease-in-out infinite; }
+.thumb-path__flow { stroke-dasharray: 3 7; animation: thumbPathFlow 1.6s linear infinite; }
+@keyframes thumbCoreBreathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.42; } }
+@keyframes thumbCloudBreathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.62; } }
+@keyframes thumbGatePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.68; } }
+@keyframes thumbPathFlow { to { stroke-dashoffset: -20; } }
+/* hover feedback: intensify glow + speed up the energy flow */
+.rec-level:hover .rec-level__thumb { border-color: rgba(124, 92, 255, 0.5); box-shadow: 0 0 1.2cqw rgba(0, 209, 255, 0.18); }
+.rec-level:hover .thumb-path__flow { animation-duration: 0.9s; }
+@media (prefers-reduced-motion: reduce) {
+  .thumb-sup__core, .thumb-sup__cloud, .thumb-wp__gate, .thumb-path__flow { animation: none; }
+}
 .rec-level__body { display: flex; flex-direction: column; gap: 0.35cqw; min-width: 0; }
 .rec-level__num {
   display: inline-grid;

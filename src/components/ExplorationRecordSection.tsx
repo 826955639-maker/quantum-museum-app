@@ -130,195 +130,142 @@ function IconMapPin() {
 }
 
 /* ── Layered-explanation thumbnails ── */
+/* 01 多种可能 (Superposition) — the SAME hexagon rendered at three slightly
+   offset positions ("one form held in several states at once"), a bright core
+   particle, and a sparse, regular probability point-cloud. No box, no figure. */
 function ThumbPossibility() {
+  const hexPts = (cx: number, cy: number, r: number) =>
+    Array.from({ length: 6 }, (_, k) => {
+      const a = (Math.PI / 3) * k - Math.PI / 2;
+      return `${(cx + Math.cos(a) * r).toFixed(1)},${(cy + Math.sin(a) * r).toFixed(1)}`;
+    }).join(" ");
+  const cloud = Array.from({ length: 16 }, (_, k) => {
+    const a = (Math.PI * 2 * k) / 16 + (k % 2 ? 0.2 : 0);
+    const rr = 34 + (k % 3) * 6;
+    return [65 + Math.cos(a) * rr * 1.25, 50 + Math.sin(a) * rr * 0.9, k % 4 === 0 ? 1.4 : 0.9] as const;
+  });
   return (
-    <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg className="thumb-tech thumb-sup" viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="rp-glow" cx="50%" cy="58%" r="58%">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.6" />
-          <stop offset="55%" stopColor="#5b2fc0" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#1a1145" stopOpacity="0" />
+        <radialGradient id="sup-core" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+          <stop offset="45%" stopColor="#8fe6ff" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#00d1ff" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="rp-cube" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#c4b5fd" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#6d28d9" stopOpacity="0.45" />
-        </linearGradient>
-        <filter id="rp-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.6" />
-        </filter>
+        <filter id="sup-soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.4" /></filter>
       </defs>
-      <ellipse cx="65" cy="58" rx="56" ry="42" fill="url(#rp-glow)" />
 
-      {/* floor ripple rings under cube */}
-      <g stroke="#8b5cf6" fill="none">
-        <ellipse cx="65" cy="82" rx="34" ry="8" strokeWidth="1" strokeOpacity="0.5" />
-        <ellipse cx="65" cy="82" rx="46" ry="11" strokeWidth="0.8" strokeOpacity="0.28" />
-      </g>
-
-      {/* ghost cat faces (superposed possibilities) */}
-      <g stroke="#c4b5fd" strokeWidth="1.3" fill="none" opacity="0.75">
-        <path d="M27 27l-2.5-5 5 2.5M41 27l2.5-5-5 2.5" />
-        <path d="M43.5 27c0 4.8-3.5 7-9.5 7s-9.5-2.2-9.5-7c0-3.4 2.3-4.6 4-4.6h11c1.7 0 4 1.2 4 4.6Z" />
-        <circle cx="30.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <circle cx="37.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <path d="M32.5 31.5c.5.4 1 .5 1.5.5s1-.1 1.5-.5" strokeWidth="0.9" />
-      </g>
-      <g stroke="#c4b5fd" strokeWidth="1.3" fill="none" opacity="0.75">
-        <path d="M89 27l-2.5-5 5 2.5M103 27l2.5-5-5 2.5" />
-        <path d="M105.5 27c0 4.8-3.5 7-9.5 7s-9.5-2.2-9.5-7c0-3.4 2.3-4.6 4-4.6h11c1.7 0 4 1.2 4 4.6Z" />
-        <circle cx="92.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <circle cx="99.5" cy="28" r=".9" fill="#c4b5fd" stroke="none" />
-        <path d="M94.5 31.5c.5.4 1 .5 1.5.5s1-.1 1.5-.5" strokeWidth="0.9" />
+      {/* probability cloud — sparse regular points */}
+      <g className="thumb-sup__cloud" fill="#7c5cff">
+        {cloud.map(([x, y, r], i) => (
+          <circle key={i} cx={x} cy={y} r={r} opacity={0.16 + (i % 4 === 0 ? 0.36 : 0.12)} />
+        ))}
       </g>
 
-      {/* orbit trails around the cube */}
-      <ellipse cx="65" cy="60" rx="44" ry="13" stroke="#a78bfa" strokeWidth="1" strokeOpacity="0.55" fill="none" transform="rotate(-14 65 60)" />
-      <ellipse cx="65" cy="60" rx="38" ry="17" stroke="#8b5cf6" strokeWidth="0.8" strokeOpacity="0.35" fill="none" transform="rotate(18 65 60)" />
-
-      {/* central glass cube with cat face */}
-      <g stroke="#e8dcff" strokeWidth="1.5">
-        <path d="M65 38 44 49v22l21 11 21-11V49Z" fill="url(#rp-cube)" fillOpacity="0.3" />
-        <path d="m44 49 21 11 21-11M65 60v22" strokeOpacity="0.75" />
-      </g>
-      {/* cat face on front-left face */}
-      <g stroke="#f4f0ff" strokeWidth="1.1" fill="none" opacity="0.9" transform="translate(48 56) scale(0.62)">
-        <path d="M2 8 0 2l5 3M18 8l2-6-5 3" />
-        <path d="M20 8c0 5-3.6 7.4-10 7.4S0 13 0 8" />
-        <circle cx="6" cy="9.5" r="1" fill="#f4f0ff" stroke="none" />
-        <circle cx="14" cy="9.5" r="1" fill="#f4f0ff" stroke="none" />
-        <path d="M8.5 12.8c.7.5 1.4.7 1.5.7.1 0 .8-.2 1.5-.7" strokeWidth="0.9" />
+      {/* three superposed offset hexagons (cyan → purple → glow) */}
+      <g fill="none" strokeLinejoin="round">
+        <polygon points={hexPts(70.5, 46, 27)} stroke="#00d1ff" strokeWidth="1" strokeOpacity="0.42" />
+        <polygon points={hexPts(59.5, 54, 27)} stroke="#7c5cff" strokeWidth="1.2" strokeOpacity="0.62" />
+        <polygon points={hexPts(65, 50, 27)} stroke="#afa4ff" strokeWidth="1.5" fill="#7c5cff" fillOpacity="0.07" />
       </g>
 
-      {/* bright orbit riders + sparkles */}
-      <circle cx="23" cy="66" r="2" fill="#fff" filter="url(#rp-soft)" />
-      <circle cx="108" cy="53" r="1.8" fill="#e8dcff" filter="url(#rp-soft)" />
-      <circle cx="65" cy="16" r="1.6" fill="#f59e0b" />
-      <g fill="#d7c9ff">
-        <circle cx="16" cy="38" r="1.1" opacity="0.7" />
-        <circle cx="115" cy="34" r="1.2" opacity="0.7" />
-        <circle cx="52" cy="14" r="1" opacity="0.55" />
-        <circle cx="82" cy="90" r="1" opacity="0.5" />
-      </g>
-      <path d="M112 74l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.85" />
+      {/* structural core particle */}
+      <circle cx="65" cy="50" r="12" fill="url(#sup-core)" />
+      <circle className="thumb-sup__core" cx="65" cy="50" r="2.6" fill="#fff" filter="url(#sup-soft)" />
     </svg>
   );
 }
 
+/* 02 光的两种样子 (Wave–particle) — continuous sine waves (left) meet a bright
+   observation gate (middle) and resolve into a discrete, regular particle matrix
+   (right). Strong continuous-vs-discrete contrast; electric-purple → cool-blue. */
 function ThumbLightForms() {
+  const sine = (yc: number, amp: number) => {
+    let d = `M6 ${yc}`;
+    for (let x = 8; x <= 58; x += 2) {
+      const y = yc + Math.sin((x - 6) * 0.24) * amp;
+      d += ` L${x} ${y.toFixed(1)}`;
+    }
+    return d;
+  };
+  const cols = [78, 90, 102, 114, 124];
+  const rows = [26, 42, 58, 74];
   return (
-    <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg className="thumb-tech thumb-wp" viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <linearGradient id="rl-wave" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.15" />
-          <stop offset="55%" stopColor="#c4b5fd" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.6" />
+        <linearGradient id="wp-wave" x1="0" x2="1">
+          <stop offset="0%" stopColor="#7c5cff" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#afa4ff" stopOpacity="0.95" />
         </linearGradient>
-        <radialGradient id="rl-burst" cx="0%" cy="50%" r="100%">
-          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#3b1f7a" stopOpacity="0" />
-        </radialGradient>
-        <filter id="rl-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.4" />
-        </filter>
+        <filter id="wp-soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.2" /></filter>
       </defs>
 
-      {/* diffraction glow bursting right of the slit */}
-      <ellipse cx="66" cy="50" rx="52" ry="38" fill="url(#rl-burst)" />
-
-      {/* incoming waves */}
-      <g stroke="url(#rl-wave)" fill="none" strokeLinecap="round">
-        <path d="M6 34c7-11 11 11 18 0s11 11 18 0" strokeWidth="2.2" />
-        <path d="M6 50c7-11 11 11 18 0s11 11 18 0" strokeWidth="1.8" opacity="0.75" />
-        <path d="M6 66c7-11 11 11 18 0s11 11 18 0" strokeWidth="1.4" opacity="0.5" />
+      {/* continuous waves (left) */}
+      <g stroke="url(#wp-wave)" fill="none" strokeLinecap="round">
+        <path d={sine(34, 9)} strokeWidth="2" />
+        <path d={sine(50, 9)} strokeWidth="1.6" opacity="0.7" />
+        <path d={sine(66, 9)} strokeWidth="1.3" opacity="0.45" />
       </g>
 
-      {/* barrier slit (glowing) */}
-      <rect x="59" y="18" width="5" height="24" rx="2.5" fill="#a78bfa" />
-      <rect x="59" y="58" width="5" height="24" rx="2.5" fill="#a78bfa" />
-      <rect x="59" y="18" width="5" height="24" rx="2.5" fill="#c4b5fd" opacity="0.6" filter="url(#rl-soft)" />
-      <rect x="59" y="58" width="5" height="24" rx="2.5" fill="#c4b5fd" opacity="0.6" filter="url(#rl-soft)" />
-
-      {/* radiating ripple arcs from the slit */}
-      <g stroke="#c4b5fd" fill="none" strokeLinecap="round">
-        <path d="M66 39a11 11 0 0 1 0 22" strokeWidth="1.8" opacity="0.95" />
-        <path d="M66 32a18 18 0 0 1 0 36" strokeWidth="1.5" opacity="0.75" />
-        <path d="M66 25a25 25 0 0 1 0 50" strokeWidth="1.2" opacity="0.55" />
-        <path d="M66 18a32 32 0 0 1 0 64" strokeWidth="1" opacity="0.38" />
-        <path d="M66 11a39 39 0 0 1 0 78" strokeWidth="0.8" opacity="0.24" />
+      {/* observation gate (middle) */}
+      <g className="thumb-wp__gate">
+        <line x1="65" y1="14" x2="65" y2="86" stroke="#00d1ff" strokeWidth="2.2" filter="url(#wp-soft)" />
+        <line x1="65" y1="14" x2="65" y2="86" stroke="#eafaff" strokeWidth="0.9" />
+        <path d="M60 14h10M60 86h10" stroke="#00d1ff" strokeWidth="1.4" />
       </g>
 
-      {/* detected particle dots on the ripples */}
-      <circle cx="97" cy="32" r="2.2" fill="#fff" filter="url(#rl-soft)" />
-      <circle cx="106" cy="50" r="2.4" fill="#e8dcff" filter="url(#rl-soft)" />
-      <circle cx="97" cy="68" r="2" fill="#fff" filter="url(#rl-soft)" />
-      <circle cx="86" cy="42" r="1.5" fill="#c4b5fd" />
-      <circle cx="86" cy="58" r="1.5" fill="#c4b5fd" />
-
-      {/* ambient stars */}
-      <g fill="#d7c9ff">
-        <circle cx="14" cy="16" r="1.1" opacity="0.7" />
-        <circle cx="118" cy="14" r="1.2" opacity="0.6" />
-        <circle cx="120" cy="86" r="1" opacity="0.5" />
-        <circle cx="20" cy="86" r="1" opacity="0.5" />
+      {/* discrete particle matrix (right) */}
+      <g fill="#00d1ff">
+        {rows.flatMap((ry, ri) => cols.map((cx, ci) => (
+          <circle key={`${ri}-${ci}`} cx={cx} cy={ry} r={1.9} opacity={0.45 + ((ri + ci) % 3) * 0.22} />
+        )))}
       </g>
-      <path d="M116 70l0.9 2.6 2.6 0.9-2.6 0.9-0.9 2.6-0.9-2.6-2.6-0.9 2.6-0.9Z" fill="#fbe7a6" opacity="0.85" />
+
+      {/* freshly-resolved bright particles */}
+      <circle cx="90" cy="42" r="2.6" fill="#eafaff" filter="url(#wp-soft)" />
+      <circle cx="114" cy="58" r="2.4" fill="#eafaff" filter="url(#wp-soft)" />
     </svg>
   );
 }
 
+/* 03 多路径探索 (Path integral) — several curved paths run from one source to one
+   sink; stroke brightness encodes probability weight; decision nodes sit on each
+   route; the dominant path carries a flowing dashed "energy" pulse. */
 function ThumbMultipath() {
+  const paths = [
+    { d: "M14 50 C40 18 90 18 116 50", o: 0.9, w: 1.8, node: [65, 26] as const },
+    { d: "M14 50 C42 34 88 34 116 50", o: 0.58, w: 1.4, node: [65, 38] as const },
+    { d: "M14 50 C44 62 86 62 116 50", o: 0.44, w: 1.2, node: [65, 58] as const },
+    { d: "M14 50 C40 82 90 82 116 50", o: 0.3, w: 1, node: [65, 72] as const },
+    { d: "M14 50 C56 50 74 50 116 50", o: 0.78, w: 1.5, node: [65, 50] as const },
+  ];
   return (
-    <svg viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg className="thumb-tech thumb-path" viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="rm-glow" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stopColor="#6d28d9" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#0d0a24" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="rm-trace" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.35" />
-          <stop offset="50%" stopColor="#e2d6ff" />
-          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.35" />
-        </linearGradient>
-        <filter id="rm-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.5" />
-        </filter>
+        <filter id="pi-soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.5" /></filter>
       </defs>
-      <rect x="0" y="0" width="130" height="100" fill="url(#rm-glow)" />
 
-      {/* faint background maze traces */}
-      <g stroke="#4a3a86" strokeWidth="0.7" strokeOpacity="0.35" fill="none" strokeLinejoin="round">
-        <path d="M8 12h26v14h-14M56 8v14h22V8M104 14h18v20h-12M10 88h20V74M64 92v-12h26v12M112 84h12V64" />
+      {/* probability-weighted paths */}
+      <g fill="none" strokeLinecap="round">
+        {paths.map((p, i) => (
+          <path key={i} d={p.d} stroke="#7c5cff" strokeWidth={p.w} strokeOpacity={p.o} />
+        ))}
+        {/* dominant path — flowing energy pulse */}
+        <path className="thumb-path__flow" d={paths[4].d} stroke="#afa4ff" strokeWidth="1.3" strokeDasharray="3 7" strokeOpacity="0.9" fill="none" />
       </g>
 
-      {/* winding luminous multi-paths (serpentine, like a real maze route) */}
-      <g stroke="url(#rm-trace)" strokeWidth="1.8" fill="none" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M12 56 24 42h16l8 12 14-20h16l10 14 12-8 16 4" />
-        <path d="M12 56l14 16 18-6 12 12 16-10 14 6 16-14 12 4" opacity="0.85" />
-        <path d="M12 56h20l14-26 20 10 14-14 18 8" opacity="0.6" strokeDasharray="4 5" />
-      </g>
-      {/* glow duplicate of the main path */}
-      <path d="M12 56 24 42h16l8 12 14-20h16l10 14 12-8 16 4" stroke="#c4b5fd" strokeWidth="3.4" strokeOpacity="0.28" fill="none" strokeLinejoin="round" strokeLinecap="round" filter="url(#rm-soft)" />
-
-      {/* glowing waypoint nodes */}
-      <g fill="#fff">
-        <circle cx="40" cy="42" r="2.2" filter="url(#rm-soft)" />
-        <circle cx="62" cy="34" r="2" filter="url(#rm-soft)" />
-        <circle cx="78" cy="34" r="1.8" filter="url(#rm-soft)" />
-        <circle cx="100" cy="40" r="2.2" filter="url(#rm-soft)" />
-        <circle cx="44" cy="66" r="1.8" filter="url(#rm-soft)" />
-        <circle cx="72" cy="72" r="2" filter="url(#rm-soft)" />
-        <circle cx="102" cy="64" r="1.8" filter="url(#rm-soft)" />
-      </g>
-      <g fill="#fbe7a6">
-        <circle cx="88" cy="48" r="1.6" />
-        <circle cx="30" cy="72" r="1.4" />
+      {/* decision nodes on each route */}
+      <g fill="#00d1ff">
+        {paths.map((p, i) => (
+          <circle key={i} cx={p.node[0]} cy={p.node[1]} r={i === 4 ? 2.2 : 1.6} opacity={0.5 + p.o * 0.4} />
+        ))}
       </g>
 
-      {/* source + exit terminals */}
-      <circle cx="12" cy="56" r="4.5" fill="#a78bfa" />
-      <circle cx="12" cy="56" r="7.5" fill="none" stroke="#a78bfa" strokeWidth="1" opacity="0.5" />
-      <circle cx="118" cy="48" r="3.6" fill="#8b5cf6" />
-      <circle cx="118" cy="48" r="6.4" fill="none" stroke="#c4b5fd" strokeWidth="0.9" opacity="0.6" />
+      {/* source + sink terminals */}
+      <circle cx="14" cy="50" r="4" fill="#7c5cff" />
+      <circle cx="14" cy="50" r="7" fill="none" stroke="#7c5cff" strokeWidth="1" opacity="0.5" />
+      <circle cx="116" cy="50" r="5" fill="#00d1ff" opacity="0.4" filter="url(#pi-soft)" />
+      <circle cx="116" cy="50" r="3.4" fill="#eafaff" />
     </svg>
   );
 }
