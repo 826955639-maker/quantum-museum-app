@@ -110,19 +110,27 @@ function CreationVisual() {
         <WireCube cx={CX} cy={98} s={88} d={34} stroke="#dbccff" sw={1.7} glow="url(#cv-neon)" face="rgba(150,120,255,0.06)" />
       </g>
 
-      {/* sitting cat silhouette (facing right) */}
-      <g transform="translate(196 54) scale(1.42)">
+      {/* front-facing cat silhouette (p1 doodle style) inside the cube */}
+      <g transform="translate(214 62) scale(0.95)" strokeLinejoin="round">
         <path
-          d="M20 60 C18 44 18 34 22 28 C20 22 22 14 26 12 L24 4 L30 10 L34 2 L37 12 C44 14 46 24 44 34 C46 44 44 56 38 60 Z"
+          d="M12 3 L28 20 L36 18 L44 20 L60 3
+             C61 13 59 22 61 30
+             C69 44 67 60 62 71
+             C60 80 52 82 44 80
+             C40 79 32 79 28 80
+             C20 82 12 80 10 71
+             C5 60 3 44 11 30
+             C13 22 11 13 12 3 Z"
           fill="#0b0820"
-          stroke="#b9a6ff"
-          strokeWidth="0.8"
-          strokeOpacity="0.75"
-          strokeLinejoin="round"
+          stroke="#c3b0ff"
+          strokeWidth="1"
+          strokeOpacity="0.85"
         />
-        <path d="M40 58 C52 58 56 46 49 40 C55 45 52 54 42 54" fill="#0b0820" stroke="#b9a6ff" strokeWidth="0.7" strokeOpacity="0.6" />
-        <circle cx="31" cy="14" r="1.1" fill="#e0d4ff" />
-        <circle cx="36" cy="14" r="1.1" fill="#e0d4ff" />
+        {/* face — two dot eyes, small nose, short mouth */}
+        <circle cx="27" cy="42" r="2.7" fill="#e6dcff" />
+        <circle cx="45" cy="42" r="2.7" fill="#e6dcff" />
+        <path d="M34 49 L38 49 L36 52 Z" fill="#cbbcff" />
+        <path d="M33 56 C34.5 57.4 37.5 57.4 39 56" stroke="#cbbcff" strokeWidth="1" fill="none" strokeLinecap="round" />
       </g>
 
       {/* front half of the electron cloud */}
