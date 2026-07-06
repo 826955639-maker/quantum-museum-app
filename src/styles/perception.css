@@ -22,6 +22,10 @@
   pointer-events: none;
 }
 
+.perception-core .perception-stage {
+  border-radius: inherit;
+}
+
 .perception-stage canvas {
   display: block;
   width: 100%;
@@ -209,11 +213,20 @@
   z-index: 8;
   grid-row: 2;
   display: grid;
-  grid-template-columns: minmax(0, 29%) minmax(0, 1fr) minmax(0, 31%);
-  gap: 1.55cqw;
+  grid-template-columns: minmax(0, 19%) minmax(0, 1fr) minmax(0, 22%);
+  gap: 1.4cqw;
   min-width: 0;
   min-height: 0;
   padding: 0.35cqw 2.6cqw 0.55cqw;
+}
+
+.perception-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4cqw;
+  align-self: center;
+  min-width: 0;
+  max-height: 100%;
 }
 
 .perception-glass,
@@ -227,11 +240,15 @@
 }
 
 .perception-control-panel {
-  align-self: center;
   display: flex;
   flex-direction: column;
   gap: 0.85cqw;
-  max-height: 100%;
+  padding: 1.2cqw;
+  overflow: hidden;
+  border-radius: 1.45cqw;
+}
+
+.perception-slider-card {
   padding: 1.2cqw;
   overflow: hidden;
   border-radius: 1.45cqw;
@@ -349,10 +366,7 @@
 .perception-sliders {
   display: flex;
   flex-direction: column;
-  gap: 0.78cqw;
-  margin-top: 0.08cqw;
-  padding-top: 0.85cqw;
-  border-top: 1px solid rgba(255, 255, 255, 0.055);
+  gap: 1.1cqw;
 }
 
 .perception-slider {
@@ -419,13 +433,21 @@
 
 .perception-core {
   position: relative;
+  align-self: stretch;
   min-width: 0;
   min-height: 0;
-  pointer-events: none;
+  overflow: hidden;
+  border: 1px solid var(--perception-line);
+  border-radius: 1.45cqw;
+  background: linear-gradient(160deg, rgba(10, 11, 26, 0.55), rgba(4, 5, 12, 0.72));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0.75cqw 2.2cqw rgba(0, 0, 0, 0.22);
 }
 
 .perception-core-label {
   position: absolute;
+  z-index: 2;
   top: 1.4cqw;
   left: 1.6cqw;
   font-size: 1.08cqw;

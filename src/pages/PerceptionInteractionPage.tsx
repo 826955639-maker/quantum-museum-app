@@ -461,8 +461,6 @@ export default function PerceptionInteractionPage({ onBack }: PerceptionInteract
 
   return (
     <section className="perception-page" aria-labelledby="perception-title">
-      <PerceptionVisualStage ref={visualRef} />
-
       <button className="perception-back" type="button" onClick={onBack}>
         <Icon name="arrow-right" />
         <span>返回展区总览</span>
@@ -491,60 +489,65 @@ export default function PerceptionInteractionPage({ onBack }: PerceptionInteract
       </header>
 
       <main className="perception-content">
-        <aside className="perception-glass perception-control-panel" aria-label="光波状态控制">
-          <div className="perception-panel-heading">
-            <WaveIcon />
-            <strong>光波状态</strong>
-          </div>
+        <div className="perception-left-column">
+          <aside className="perception-glass perception-control-panel" aria-label="光波状态控制">
+            <div className="perception-panel-heading">
+              <WaveIcon />
+              <strong>光波状态</strong>
+            </div>
 
-          <div className="perception-mode-list">
-            <span className="perception-field-label">当前模式</span>
-            {([
-              ["wave", "光波模式", "呈现波纹扩散效果"],
-              ["photon", "光点模式", "呈现光点跳动效果"],
-              ["mix", "混合模式", "波纹与光点结合"],
-            ] as const).map(([value, title, subtitle]) => (
-              <button
-                className={`perception-mode ${mode === value ? "is-active" : ""}`}
-                type="button"
-                aria-pressed={mode === value}
-                onClick={() => selectMode(value)}
-                key={value}
-              >
-                <span className="perception-radio"><i /></span>
-                <span>
-                  <strong>{title}</strong>
-                  <small>{subtitle}</small>
-                </span>
-              </button>
-            ))}
-          </div>
+            <div className="perception-mode-list">
+              <span className="perception-field-label">当前模式</span>
+              {([
+                ["wave", "光波模式", "呈现波纹扩散效果"],
+                ["photon", "光点模式", "呈现光点跳动效果"],
+                ["mix", "混合模式", "波纹与光点结合"],
+              ] as const).map(([value, title, subtitle]) => (
+                <button
+                  className={`perception-mode ${mode === value ? "is-active" : ""}`}
+                  type="button"
+                  aria-pressed={mode === value}
+                  onClick={() => selectMode(value)}
+                  key={value}
+                >
+                  <span className="perception-radio"><i /></span>
+                  <span>
+                    <strong>{title}</strong>
+                    <small>{subtitle}</small>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </aside>
 
-          <div className="perception-sliders">
-            {([
-              ["spacing", "波纹间距"],
-              ["intensity", "光点能量"],
-              ["diffusion", "扩散范围"],
-            ] as const).map(([key, label]) => (
-              <label className="perception-slider" key={key}>
-                <span>
-                  <span><i />{label}</span>
-                  <strong>{Math.round((parameters[key] / 2) * 100)}%</strong>
-                </span>
-                <input
-                  type="range"
-                  min="0.1"
-                  max="4"
-                  step="0.02"
-                  value={parameters[key]}
-                  onChange={(event) => updateParameters({ [key]: Number(event.target.value) })}
-                />
-              </label>
-            ))}
-          </div>
-        </aside>
+          <section className="perception-glass perception-slider-card" aria-label="光波参数调节">
+            <div className="perception-sliders">
+              {([
+                ["spacing", "波纹间距"],
+                ["intensity", "光点能量"],
+                ["diffusion", "扩散范围"],
+              ] as const).map(([key, label]) => (
+                <label className="perception-slider" key={key}>
+                  <span>
+                    <span><i />{label}</span>
+                    <strong>{Math.round((parameters[key] / 2) * 100)}%</strong>
+                  </span>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="4"
+                    step="0.02"
+                    value={parameters[key]}
+                    onChange={(event) => updateParameters({ [key]: Number(event.target.value) })}
+                  />
+                </label>
+              ))}
+            </div>
+          </section>
+        </div>
 
         <section className="perception-core" aria-label="光波粒子交互视觉">
+          <PerceptionVisualStage ref={visualRef} />
           <span className="perception-core-label">光波可视化展示区</span>
           <span className="perception-core-reticle" aria-hidden="true"><i /></span>
         </section>
