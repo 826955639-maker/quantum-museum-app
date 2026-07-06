@@ -82,6 +82,32 @@ function HandSymbol({ type }: { type: "open" | "scan" | "fist" | "rotate" }) {
   return <span aria-hidden="true">{labels[type]}</span>;
 }
 
+function ResetIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 4v5h5" />
+      <path d="M5.4 9A8 8 0 1 1 6 16.2" />
+    </svg>
+  );
+}
+
+function ViewIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m12 3 8 4-8 4-8-4Z" />
+      <path d="M4 7v10l8 4 8-4V7M12 11v10" />
+    </svg>
+  );
+}
+
+function LogIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 5h16M4 10h16M4 15h10M4 20h7" />
+    </svg>
+  );
+}
+
 const stateCopy = {
   A: ["未观察", "猫咪处于生死叠加态中"],
   B: ["观察中", "外界干涉中，粒子概率波振荡"],
@@ -107,6 +133,8 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
   const [cameraStatus, setCameraStatus] = useState<CameraStatus>("idle");
   const [handStatus, setHandStatus] = useState("正在初始化摄像头...");
   const [muted, setMutedState] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [logVisible, setLogVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [glitching, setGlitching] = useState(false);
   const [logs, setLogs] = useState<string[]>(["[00:00:00] 等待量子相控仪激活..."]);
@@ -418,6 +446,24 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
     });
   };
 
+  const togglePause = () => {
+    setPaused((current) => {
+      const next = !current;
+      sceneRef.current?.setPaused(next);
+      addLog(next ? "量子演化已暂停。" : "量子演化已恢复。");
+      return next;
+    });
+  };
+
+  const cycleView = () => {
+    sceneRef.current?.cycleView();
+    addLog("已切换观测视角。");
+  };
+
+  const toggleLog = () => {
+    setLogVisible((current) => !current);
+  };
+
   const gaugeOffset = 163.3 - (progress / 100) * 163.3;
   const statusTitle = experimentState === "A" ? "还未开始观察" : experimentState === "B" ? "正在聚焦观察" : "观察已完成";
   const statusDescription = experimentState === "A" ? "请在镜头前握拳蓄力" : experimentState === "B" ? "保持手部动作不要动" : "再次握拳可物理重置";
@@ -515,6 +561,13 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
             </div>
           ) : null}
 
+          {logVisible ? (
+            <div className="creation-log-overlay" aria-label="实验观测日志">
+              <strong>实验观测日志</strong>
+              <div>{logs.map((log, index) => <span key={`${log}-${index}`}>&gt; {log}</span>)}</div>
+            </div>
+          ) : null}
+
           <div className="creation-probability-hud">
             <span><small>ALIVE PROB</small><strong>存活 {probability.alive}%</strong></span>
             <i>Ψ</i>
@@ -538,38 +591,62 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
             <p>已启用高灵敏度抓取识别模型，请确保单只手掌在对焦框中央。</p>
           </section>
 
-          <section className="creation-glass creation-quote-card">
-            <span className="creation-quote-mark">“</span>
-            <p>观察之前，盒子里保留着多种可能；观察之后，我们得到其中一个结果。</p>
-            <div className="creation-system-log">
-              <strong>实验观测日志</strong>
-              <div>{logs.map((log, index) => <span key={`${log}-${index}`}>&gt; {log}</span>)}</div>
-            </div>
+          <section className="creation-glass creation-gesture-panel" aria-label="手势说明区">
+            <strong className="creation-card-label">手势说明区</strong>
+            {([
+              ["open", "张开手掌", "开始观察过程"],
+              ["scan", "左右移动", "扫描盒子状态"],
+              ["fist", "握拳观测", "蓄力观测内部状态"],
+              ["rotate", "松手查看", "揭示实验结果"],
+            ] as const).map(([type, title, subtitle]) => (
+              <div className="creation-gesture-row" key={type}>
+                <span className="creation-gesture-symbol"><HandSymbol type={type} /></span>
+                <span className="creation-gesture-copy">
+                  <strong>{title}</strong>
+                  <small>{subtitle}</small>
+                </span>
+              </div>
+            ))}
           </section>
         </aside>
       </main>
 
       <footer className="creation-footer">
-        <div className="creation-gesture-guide">
-          {([
-            ["open", "触发观察", "张开手掌 · 开始观察过程"],
-            ["scan", "扫描盒子", "左右滑动 · 扫描盒子状态"],
-            ["fist", "打开盒子", "握拳并上抬 · 揭示实验结果"],
-            ["rotate", "切换假设", "旋转手掌 · 切换可能性视角"],
-          ] as const).map(([type, title, subtitle]) => (
-            <div key={type}>
-              <HandSymbol type={type} />
-              <span><strong>{title}</strong><small>{subtitle}</small></span>
-            </div>
-          ))}
-        </div>
-        <div className="creation-footer-meta">
-          <span>提示：请保持在摄像头识别范围内，光线适中，手势清晰可获得更佳体验。</span>
-          <span>量子科普基地 © 2026</span>
-          <button type="button" onClick={() => {
+        <div className="creation-console">
+          <button className="creation-master-pulse" type="button" aria-label={paused ? "开始演化" : "暂停演化"} onClick={togglePause}>
+            <span>{paused ? <Icon name="play" /> : <span className="creation-pause-icon" />}</span>
+          </button>
+
+          <button className="creation-console-card" type="button" onClick={togglePause} aria-pressed={paused}>
+            <span className="creation-console-card__icon">{paused ? <Icon name="play" /> : <span className="creation-pause-icon" />}</span>
+            <span className="creation-console-card__copy"><strong>开始 / 暂停</strong><small>启动或暂停演化</small></span>
+          </button>
+
+          <button className="creation-console-card" type="button" onClick={() => {
             initializeAudio();
             resetExperiment(true);
-          }}>系统物理重置</button>
+          }}>
+            <span className="creation-console-card__icon"><ResetIcon /></span>
+            <span className="creation-console-card__copy"><strong>重置实验</strong><small>恢复初始状态</small></span>
+          </button>
+
+          <button className="creation-console-card" type="button" onClick={cycleView}>
+            <span className="creation-console-card__icon"><ViewIcon /></span>
+            <span className="creation-console-card__copy"><strong>切换视角</strong><small>多视角观察黑箱</small></span>
+          </button>
+
+          <button className="creation-console-card creation-log-toggle" type="button" onClick={toggleLog} aria-pressed={logVisible}>
+            <span className="creation-console-card__icon"><LogIcon /></span>
+            <span className="creation-console-card__copy"><strong>观测日志</strong><small>显示实验日志</small></span>
+            <span className={`creation-switch ${logVisible ? "is-on" : ""}`}><i /></span>
+          </button>
+        </div>
+
+        <div className="creation-complete-bar">
+          <span className="creation-complete-spark" aria-hidden="true">✦</span>
+          <strong>探索完成！</strong>
+          <p>观察之前，盒子里保留着多种可能；观察之后，我们得到其中一个确定的结果。</p>
+          <button type="button" onClick={() => console.log("继续探索")}>继续探索 <Icon name="chevron-right" /></button>
         </div>
       </footer>
 

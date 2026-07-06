@@ -8,6 +8,8 @@ export type CreationSceneHandle = {
   updateProgress: (progress: number) => void;
   collapse: (result: CreationResult) => void;
   reset: () => void;
+  setPaused: (paused: boolean) => void;
+  cycleView: () => void;
 };
 
 type Particle = {
@@ -134,6 +136,8 @@ const CreationScene = forwardRef<CreationSceneHandle>(function CreationScene(_, 
     updateProgress: (progress) => apiRef.current?.updateProgress(progress),
     collapse: (result) => apiRef.current?.collapse(result),
     reset: () => apiRef.current?.reset(),
+    setPaused: (paused) => apiRef.current?.setPaused(paused),
+    cycleView: () => apiRef.current?.cycleView(),
   }), []);
 
   useEffect(() => {
@@ -268,9 +272,21 @@ const CreationScene = forwardRef<CreationSceneHandle>(function CreationScene(_, 
 
     let frame = 0;
     let disposed = false;
+    let paused = false;
+    let viewIndex = 0;
+    const cameraViews: Array<[number, number, number]> = [
+      [0, 0.15, 7.3],
+      [4.6, 2.4, 5.2],
+      [0, 6.2, 3.4],
+      [-4.8, 0.6, 5.4],
+    ];
     const animate = (time: number) => {
       if (disposed) return;
       frame = window.requestAnimationFrame(animate);
+      if (paused) {
+        renderer.render(scene, camera);
+        return;
+      }
       const positionAttribute = particleGeometry.getAttribute("position") as THREE.BufferAttribute;
       const colorAttribute = particleGeometry.getAttribute("color") as THREE.BufferAttribute;
       const currentPositions = positionAttribute.array as Float32Array;
@@ -394,6 +410,15 @@ const CreationScene = forwardRef<CreationSceneHandle>(function CreationScene(_, 
         });
         boxFrame.material.color.setHex(0xa855f7);
         boxFrame.material.opacity = 0.3;
+      },
+      setPaused: (value) => {
+        paused = value;
+      },
+      cycleView: () => {
+        viewIndex = (viewIndex + 1) % cameraViews.length;
+        const [x, y, z] = cameraViews[viewIndex];
+        camera.position.set(x, y, z);
+        camera.lookAt(0, 0, 0);
       },
     };
 
