@@ -138,340 +138,167 @@
 <body class="flex items-center justify-center min-h-screen p-1 md:p-3 bg-[#030107] overflow-hidden select-none">
 
   <!-- Main iPad Pro Mockup / Fluid Container -->
-  <div class="app-container w-full h-full flex flex-col justify-between p-4 bg-[#05030e] rounded-[24px] border-2 border-purple-950/50 relative shadow-2xl overflow-hidden">
+  <div class="app-container w-full h-full flex flex-col gap-3 p-4 bg-[#05030e] rounded-[24px] border-2 border-purple-950/50 relative shadow-2xl overflow-hidden">
     
     <!-- Cyber Background Grid Layer -->
     <div class="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[160px] pointer-events-none"></div>
     <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-yellow-900/5 rounded-full blur-[160px] pointer-events-none"></div>
 
-    <!-- Inner layout: Full-width Workspace (nav removed) -->
-    <div class="flex flex-1 w-full overflow-hidden">
+    <!-- ============ HEADER ============ -->
+    <header class="shrink-0 flex items-center justify-between h-[52px] pl-[188px] pr-1 relative z-20">
+      <div class="flex items-center gap-3">
+        <h1 class="text-[26px] font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-300 leading-none">量子迷宫</h1>
+        <span id="status-indicator-text" class="text-[11px] font-bold text-purple-300 bg-purple-950/50 border border-purple-800/40 px-2.5 py-1 rounded-full tracking-wider text-glow-purple">多路径叠加中</span>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <div class="flex items-center w-[270px] h-10 px-3.5 rounded-full bg-[#08091f]/80 border border-purple-900/25">
+          <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i>
+          <input placeholder="搜索展项 / 展区" class="ml-2.5 bg-transparent outline-none text-xs text-gray-200 placeholder:text-gray-600 w-full" />
+        </div>
+        <button class="w-10 h-10 grid place-items-center rounded-full bg-[#08091f]/80 border border-purple-900/25 text-gray-300 hover:border-purple-500/50 transition-all"><i class="fa-solid fa-expand text-sm"></i></button>
+        <button class="w-10 h-10 grid place-items-center rounded-full bg-[#08091f]/80 border border-purple-900/25 text-gray-300 hover:border-purple-500/50 transition-all"><i class="fa-regular fa-bell text-sm"></i></button>
+        <button class="w-10 h-10 grid place-items-center rounded-full bg-[#08091f]/80 border border-purple-900/25 text-gray-300 hover:border-purple-500/50 transition-all"><i class="fa-regular fa-user text-sm"></i></button>
+      </div>
+    </header>
 
-      <!-- MAIN WORKSPACE -->
-      <main class="flex-1 flex flex-col justify-between overflow-hidden gap-3 pt-2">
+    <!-- ============ MIDDLE: 3 COLUMNS ============ -->
+    <div class="flex-1 min-h-0 flex gap-3 relative z-10">
 
-        <!-- MAIN LAYOUT: Split into Interactive Maze Dashboard & Right-Side Control panel -->
-        <div class="flex-1 flex gap-3 overflow-hidden">
-          
-          <!-- LEFT DASHBOARD: Contains maximized 3D space with floating HUD overlay -->
-          <div class="flex-1 flex flex-col gap-3 overflow-hidden relative">
-            
-            <!-- Quantum Maze Canvas + Side Console (console is its own column, no overlap) -->
-            <div id="main-display-card" class="flex-1 rounded-[24px] flex relative overflow-hidden border border-purple-900/30 transition-all duration-500 bg-[#06040d]">
-
-              <!-- LEFT: HUD Glass Console (normal-flow column) -->
-              <div class="w-60 shrink-0 m-4 mr-0 glass-card rounded-2xl p-3.5 flex flex-col justify-between z-10 border border-purple-500/25 shadow-xl select-none">
-
-                <!-- Title inside HUD -->
-                <div>
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
-                    <span id="status-indicator-text" class="text-xs uppercase font-black tracking-widest text-purple-400 text-glow-purple">叠加演化中</span>
-                  </div>
-                  <h2 class="text-base font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-300">量子全息控制端</h2>
-                </div>
-
-                <!-- Exploration Status checkboxes -->
-                <div class="space-y-2 pt-3 border-t border-purple-500/10">
-                  <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">探索波包形态</span>
-                  <div class="space-y-1">
-                    <!-- Mode 1: 普通探索 -->
-                    <label id="mode-normal-btn" class="flex items-center justify-between px-3 py-2 rounded-xl border border-zinc-800/60 bg-zinc-950/60 cursor-pointer hover:bg-zinc-900/40 transition-all duration-200">
-                      <span class="text-sm text-gray-400 font-semibold">经典探索</span>
-                      <div class="relative flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-600 transition-all">
-                        <div id="mode-normal-dot" class="w-2 h-2 rounded-full bg-transparent transition-all"></div>
-                      </div>
-                    </label>
-
-                    <!-- Mode 2: 多路径探索 (Active by default) -->
-                    <label id="mode-multi-btn" class="flex items-center justify-between px-3 py-2 rounded-xl border border-purple-500/40 bg-purple-950/40 cursor-pointer hover:bg-purple-950/60 transition-all duration-200">
-                      <span class="text-sm text-purple-200 font-extrabold flex items-center gap-1.5">
-                        多路径叠加
-                        <i class="fa-solid fa-wave-square text-[11px] text-purple-400 animate-pulse"></i>
-                      </span>
-                      <div class="relative flex items-center justify-center w-3.5 h-3.5 rounded-full border border-purple-400 transition-all">
-                        <div id="mode-multi-dot" class="w-2 h-2 rounded-full bg-purple-500 transition-all"></div>
-                      </div>
-                    </label>
-
-                    <!-- Mode 3: 收敛模式 -->
-                    <label id="mode-collapse-btn" class="flex items-center justify-between px-3 py-2 rounded-xl border border-zinc-800/60 bg-zinc-950/60 cursor-pointer hover:bg-zinc-900/40 transition-all duration-200">
-                      <span class="text-sm text-gray-400 font-semibold">干涉收敛</span>
-                      <div class="relative flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-600 transition-all">
-                        <div id="mode-collapse-dot" class="w-2 h-2 rounded-full bg-transparent transition-all"></div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-
-                <!-- Quantum Stats Inside HUD -->
-                <div class="space-y-3 border-t border-purple-500/10 pt-3">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <span class="text-[11px] text-gray-500 block font-bold uppercase">相干路径数</span>
-                      <div class="flex items-baseline gap-0.5">
-                        <span id="stat-paths" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 font-mono text-glow-purple">12</span>
-                        <span class="text-[11px] text-gray-400">条</span>
-                      </div>
-                    </div>
-                    <div class="text-right">
-                      <span class="text-[11px] text-gray-500 block font-bold uppercase">正确概率</span>
-                      <div class="flex items-baseline gap-0.5 justify-end">
-                        <span id="stat-probability" class="text-2xl font-black text-purple-200 font-mono text-glow-purple">72.4</span>
-                        <span class="text-[11px] text-purple-400">%</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Glowing holographic progress bar -->
-                  <div class="w-full h-1 bg-zinc-950 rounded-full overflow-hidden border border-zinc-800">
-                    <div id="stat-progress-bar" class="h-full bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-400 rounded-full transition-all duration-500 glow-purple" style="width: 72.4%;"></div>
-                  </div>
-
-                  <div class="bg-zinc-950/80 border border-zinc-900 p-2 rounded-lg flex items-center justify-between">
-                    <span class="text-[11px] text-gray-500 font-bold block">出口锁定状态</span>
-                    <div id="lock-badge-container" class="flex items-center gap-1.5">
-                      <i id="lock-icon" class="fa-solid fa-lock text-yellow-500 text-xs"></i>
-                      <span id="lock-status" class="text-xs font-bold text-yellow-500/90 tracking-wider">未锁定</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- RIGHT: Interaction canvas area (fully visible, no overlap) -->
-              <div class="flex-1 relative overflow-hidden">
-                <!-- 3D WebGL Canvas Layer -->
-                <div id="canvas-container" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-0"></div>
-
-                <!-- White Flash Overlay for fist collapse -->
-                <div id="flash-overlay" class="absolute inset-0 bg-white z-50 pointer-events-none" style="opacity:0;transition:opacity 0.08s ease-out;"></div>
-
-                <!-- Locked Badge Overlay -->
-                <div id="canvas-locked-badge" class="absolute top-1/2 left-1/2 z-40 pointer-events-none" style="opacity:0;transform:translate(-50%,-50%) scale(0.85);transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
-                  <div class="px-6 py-3 bg-yellow-950/90 border-2 border-yellow-400/80 rounded-2xl glow-gold flex items-center gap-3 shadow-2xl">
-                    <i class="fa-solid fa-circle-check text-yellow-400 text-2xl"></i>
-                    <div>
-                      <div class="text-yellow-300 font-black text-lg tracking-widest text-glow-gold">已锁定</div>
-                      <div class="text-yellow-500/80 text-xs font-bold tracking-wider">最优量子路径 · 波函数坍缩完成</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Top-Left Glowing Exit Beacon Banner (kept clear of the top-right back button) -->
-                <div class="absolute left-5 top-5 z-10 flex flex-col items-start pointer-events-none">
-                  <div class="px-3 py-1.5 bg-yellow-950/60 border border-yellow-500/30 rounded-lg text-xs font-bold text-yellow-300 flex items-center gap-1.5 glow-gold animate-pulse">
-                    <i class="fa-solid fa-radar mr-1 animate-spin text-sm"></i>
-                    <span>高维信标 | 出口锁定锚点</span>
-                  </div>
-                </div>
-              </div>
-
+      <!-- LEFT COLUMN -->
+      <div class="w-[300px] shrink-0 flex flex-col gap-3 min-h-0">
+        <div class="glass-card rounded-[22px] p-4 flex-1 flex flex-col border border-purple-900/20 min-h-0">
+          <span class="text-sm font-bold text-gray-200 tracking-wider mb-3">交互相关知识</span>
+          <div class="flex flex-col gap-2.5 flex-1">
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
+              <span class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-wave-square text-sm"></i></span>
+              <div><strong class="text-[13px] font-bold text-gray-100 block">多路径叠加</strong><p class="text-[11px] text-gray-400 leading-snug mt-1">量子粒子同时处于所有可能路径的叠加态，直到被观测。</p></div>
             </div>
-
-            <!-- TASK TIMELINE PROGRESS BAR (Bottom of Dashboard) -->
-            <div class="h-[76px] glass-card rounded-[20px] px-5 py-3 flex items-center justify-between border border-purple-900/15">
-              <span class="text-sm font-bold text-gray-400 tracking-wider shrink-0 flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-nodes text-purple-400"></i> 任务进度
-              </span>
-              
-              <!-- Timeline nodes -->
-              <div class="flex items-center justify-around flex-1 px-8 relative">
-                <!-- Progress Line background -->
-                <div class="absolute top-1/2 left-12 right-12 h-0.5 bg-zinc-800 -translate-y-1/2 z-0"></div>
-                <!-- Glowing Progress Line Active -->
-                <div id="timeline-bar" class="absolute top-1/2 left-12 h-0.5 bg-gradient-to-r from-purple-500 to-indigo-500 -translate-y-1/2 z-0 transition-all duration-500" style="width: 33%;"></div>
-
-                <!-- Node 1 -->
-                <div class="flex flex-col items-center z-10">
-                  <div id="node-1" class="w-6 h-6 rounded-full bg-purple-900/60 border-2 border-purple-500 flex items-center justify-center text-white text-xs font-bold shadow-md shadow-purple-500/20 transition-all duration-300">
-                    <i class="fa-solid fa-check"></i>
-                  </div>
-                  <span class="text-xs font-extrabold text-purple-300 mt-1">进入迷宫</span>
-                </div>
-
-                <!-- Node 2 -->
-                <div class="flex flex-col items-center z-10">
-                  <div id="node-2" class="w-6 h-6 rounded-full bg-purple-600 border-2 border-purple-400 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-purple-500/40 animate-pulse transition-all duration-300">
-                    2
-                  </div>
-                  <span id="node-2-text" class="text-xs font-extrabold text-purple-300 mt-1">多路径探索进行中</span>
-                </div>
-
-                <!-- Node 3 -->
-                <div class="flex flex-col items-center z-10">
-                  <div id="node-3" class="w-6 h-6 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center text-gray-400 text-xs font-bold transition-all duration-300">
-                    3
-                  </div>
-                  <span id="node-3-text" class="text-xs font-bold text-gray-500 mt-1">锁定最优路径</span>
-                </div>
-
-                <!-- Node 4 -->
-                <div class="flex flex-col items-center z-10">
-                  <div id="node-4" class="w-6 h-6 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center text-gray-400 text-xs font-bold transition-all duration-300">
-                    4
-                  </div>
-                  <span id="node-4-text" class="text-xs font-bold text-gray-500 mt-1">到达出口</span>
-                </div>
-              </div>
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
+              <span class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-eye text-sm"></i></span>
+              <div><strong class="text-[13px] font-bold text-gray-100 block">干涉效应</strong><p class="text-[11px] text-gray-400 leading-snug mt-1">不同路径的波函数相互干涉，形成明暗相间的干涉条纹。</p></div>
             </div>
-
-          </div>
-
-          <!-- RIGHT SIDEBAR: Webcam Recognition & Gesture Instruction Guides -->
-          <div class="w-[272px] flex flex-col gap-3 shrink-0">
-            
-            <!-- Real-Time Gesture Recognition (Webcam Frame in Right-Top) -->
-            <div class="glass-card rounded-[24px] p-4 flex flex-col border border-purple-900/20 relative overflow-hidden">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-bold text-gray-200 tracking-wider">实时手势骨骼检测</span>
-                <span class="text-xs text-purple-400 bg-purple-950/60 px-2.5 py-0.5 rounded-full font-bold border border-purple-900/30 flex items-center gap-1.5 animate-pulse">
-                  <span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-ping"></span> 识别中
-                </span>
-              </div>
-
-              <!-- Camera Preview Window with Tactical HUD -->
-              <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-purple-950/50 flex items-center justify-center group shadow-inner">
-                <!-- Tactical HUD border elements -->
-                <div class="hud-corner hud-lt"></div>
-                <div class="hud-corner hud-rt"></div>
-                <div class="hud-corner hud-lb"></div>
-                <div class="hud-corner hud-rb"></div>
-
-                <!-- MediaPipe Canvas Overlay -->
-                <canvas id="gesture-overlay" class="absolute inset-0 w-full h-full z-10 pointer-events-none scale-x-[-1]"></canvas>
-                <!-- Video Element -->
-                <video id="webcam" autoplay playsinline muted class="absolute inset-0 w-full h-full object-cover scale-x-[-1] opacity-80"></video>
-
-                <div id="webcam-fallback" class="absolute inset-0 bg-[#05030e] flex flex-col items-center justify-center text-center p-4 z-20 transition-opacity duration-300">
-                  <div class="w-10 h-10 rounded-full bg-purple-950/40 border border-purple-900/30 flex items-center justify-center mb-2">
-                    <i class="fa-solid fa-video-slash text-purple-400 text-base"></i>
-                  </div>
-                  <p class="text-sm text-gray-300 font-bold mb-1">未授权或无可用摄像头</p>
-                  <p class="text-[11px] text-gray-500 max-w-xs leading-relaxed">已自动开启下方的仿真控制器体验</p>
-                </div>
-
-                <!-- Scanning Line -->
-                <div class="absolute inset-x-0 h-0.5 bg-purple-500/40 shadow-[0_0_8px_rgba(168,85,247,0.8)] z-10 scanline"></div>
-              </div>
-
-              <!-- Recognized Gesture Info panel -->
-              <div class="mt-3 bg-[#0a0814]/90 border border-zinc-900 p-2.5 rounded-xl flex items-center gap-3 relative overflow-hidden">
-                <div id="current-gesture-icon-container" class="w-10 h-10 rounded-lg bg-purple-900/20 border border-purple-500/30 flex items-center justify-center text-purple-300 text-lg shrink-0 transition-all duration-300 glow-purple">
-                  <i id="current-gesture-icon" class="fa-solid fa-hand"></i>
-                </div>
-                <div>
-                  <span class="text-[11px] text-zinc-500 font-bold block uppercase tracking-wider">手势指令反馈</span>
-                  <span id="current-gesture-name" class="text-sm font-black text-purple-300 tracking-wider">手掌展开 (五指伸直)</span>
-                  <p id="current-gesture-desc" class="text-xs text-gray-400 mt-0.5">多路径探索状态：全息发射概率演化流</p>
-                </div>
-              </div>
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
+              <span class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-bullseye text-sm"></i></span>
+              <div><strong class="text-[13px] font-bold text-gray-100 block">量子观测</strong><p class="text-[11px] text-gray-400 leading-snug mt-1">当粒子被观测时，叠加态坍缩，粒子出现在某一条确定路径上。</p></div>
             </div>
-
-            <!-- Tips & Micro Info Card -->
-            <div class="glass-card rounded-[24px] p-4 flex-1 flex flex-col justify-between border border-purple-900/20">
-              <div>
-                <h3 class="text-sm font-bold text-gray-200 tracking-wider flex items-center gap-1.5 mb-2">
-                  <i class="fa-solid fa-circle-info text-purple-400"></i> 量子叠加态解释
-                </h3>
-                <div class="bg-purple-950/15 border border-purple-900/20 rounded-xl p-3">
-                  <p class="text-[13px] text-purple-200 leading-relaxed font-medium">
-                    经典迷宫只能一条条去试。
-                  </p>
-                  <p class="text-[13px] text-gray-400 leading-relaxed mt-2">
-                    量子迷宫里，展开手掌释放相干粒子，粒子会<b>同时处于所有路径的叠加态</b>！
-                  </p>
-                </div>
-              </div>
-
-              <!-- Simulated Trigger Dashboard -->
-              <div class="mt-3 pt-3 border-t border-purple-950/30">
-                <span class="text-xs text-gray-500 font-bold block mb-1.5 uppercase tracking-widest"><i class="fa-solid fa-sliders text-purple-400 mr-1"></i>仿真互动按钮 (直接点击调试)</span>
-                <div class="grid grid-cols-2 gap-1.5">
-                  <button id="sim-btn-palm" onclick="triggerState('palm')" class="sim-btn px-2.5 py-2 bg-purple-950/40 border border-purple-500/50 rounded-lg text-left transition-all glow-purple">
-                    <span class="text-xs font-bold text-purple-300 block">✋ 展开手掌</span>
-                    <span class="text-[10px] text-purple-400">并发多径流</span>
-                  </button>
-                  <button id="sim-btn-pinch" onclick="triggerState('pinch')" class="sim-btn px-2.5 py-2 bg-zinc-900/80 border border-zinc-800 rounded-lg text-left transition-all">
-                    <span class="text-xs font-bold text-zinc-300 block">👌 捏合手指</span>
-                    <span class="text-[10px] text-gray-400">相干过滤消噪</span>
-                  </button>
-                  <button id="sim-btn-fist" onclick="triggerState('fist')" class="sim-btn px-2.5 py-2 bg-zinc-900/80 border border-zinc-800 rounded-lg text-left transition-all">
-                    <span class="text-xs font-bold text-zinc-300 block">✊ 强力握拳</span>
-                    <span class="text-[10px] text-gray-400">波函数完美坍缩</span>
-                  </button>
-                  <button id="sim-btn-normal" onclick="triggerState('normal')" class="sim-btn px-2.5 py-2 bg-zinc-900/80 border border-zinc-800 rounded-lg text-left transition-all">
-                    <span class="text-xs font-bold text-zinc-300 block">🔄 经典路径</span>
-                    <span class="text-[10px] text-gray-400">单粒子串行</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
+        <div class="glass-card rounded-[22px] p-4 border border-purple-900/20">
+          <span class="text-sm font-bold text-gray-200 tracking-wider block mb-3">探索进度</span>
+          <div class="flex items-center justify-between mb-2.5">
+            <div><span class="text-[11px] text-gray-500 block font-bold uppercase">相干路径数</span><div class="flex items-baseline gap-0.5"><span id="stat-paths" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 font-mono text-glow-purple">12</span><span class="text-[11px] text-gray-400">条</span></div></div>
+            <div class="text-right"><span class="text-[11px] text-gray-500 block font-bold uppercase">正确概率</span><div class="flex items-baseline gap-0.5 justify-end"><span id="stat-probability" class="text-2xl font-black text-purple-200 font-mono text-glow-purple">72.4</span><span class="text-[11px] text-purple-400">%</span></div></div>
+          </div>
+          <div class="w-full h-1 bg-zinc-950 rounded-full overflow-hidden border border-zinc-800 mb-3"><div id="stat-progress-bar" class="h-full bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-400 rounded-full transition-all duration-500 glow-purple" style="width:72.4%;"></div></div>
+          <div class="bg-zinc-950/80 border border-zinc-900 p-2 rounded-lg flex items-center justify-between">
+            <span class="text-[11px] text-gray-500 font-bold block">出口锁定状态</span>
+            <div id="lock-badge-container" class="flex items-center gap-1.5"><i id="lock-icon" class="fa-solid fa-lock text-yellow-500 text-xs"></i><span id="lock-status" class="text-xs font-bold text-yellow-500/90 tracking-wider">未锁定</span></div>
+          </div>
+        </div>
+      </div>
 
-        <!-- CHEATSHEET & FOOTER -->
-        <footer class="h-22 glass-card rounded-[20px] px-4 py-2.5 flex items-center justify-between border border-purple-900/20 shrink-0 gap-3">
-          <div class="flex items-center gap-2">
-            <span class="text-[13px] font-bold text-gray-400 tracking-wider shrink-0 uppercase">手势操控捷径:</span>
-            
-            <div class="flex items-center gap-1">
-              <!-- Item 1 -->
-              <div class="flex items-center bg-zinc-950/60 px-2.5 py-1 rounded-xl border border-zinc-900 gap-1.5">
-                <i class="fa-solid fa-hand text-purple-400 text-xs"></i>
-                <div class="text-left">
-                  <span class="text-[11px] font-extrabold text-gray-300 block leading-tight">展开手掌</span>
-                  <span class="text-[10px] text-gray-500 block leading-none">相干叠加</span>
-                </div>
-              </div>
+      <!-- CENTER -->
+      <div id="main-display-card" class="flex-1 min-w-0 glass-card rounded-[24px] relative overflow-hidden border border-purple-900/30 bg-[#06040d]">
+        <span class="absolute left-5 top-4 z-10 text-sm font-bold text-gray-200 tracking-wider pointer-events-none">交互中心</span>
+        <div id="canvas-container" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-0"></div>
+        <div id="flash-overlay" class="absolute inset-0 bg-white z-50 pointer-events-none" style="opacity:0;transition:opacity 0.08s ease-out;"></div>
+        <div id="canvas-locked-badge" class="absolute top-1/2 left-1/2 z-40 pointer-events-none" style="opacity:0;transform:translate(-50%,-50%) scale(0.85);transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
+          <div class="px-6 py-3 bg-yellow-950/90 border-2 border-yellow-400/80 rounded-2xl glow-gold flex items-center gap-3 shadow-2xl"><i class="fa-solid fa-circle-check text-yellow-400 text-2xl"></i><div><div class="text-yellow-300 font-black text-lg tracking-widest text-glow-gold">已锁定</div><div class="text-yellow-500/80 text-xs font-bold tracking-wider">最优量子路径 · 波函数坍缩完成</div></div></div>
+        </div>
+      </div>
 
-              <i class="fa-solid fa-chevron-right text-zinc-800 text-[11px]"></i>
-
-              <!-- Item 2 -->
-              <div class="flex items-center bg-zinc-950/60 px-2.5 py-1 rounded-xl border border-zinc-900 gap-1.5">
-                <i class="fa-solid fa-hand-spock text-indigo-400 text-xs"></i>
-                <div class="text-left">
-                  <span class="text-[11px] font-extrabold text-gray-300 block leading-tight">捏拢手指</span>
-                  <span class="text-[10px] text-gray-500 block leading-none">相干收敛</span>
-                </div>
-              </div>
-
-              <i class="fa-solid fa-chevron-right text-zinc-800 text-[11px]"></i>
-
-              <!-- Item 3 -->
-              <div class="flex items-center bg-zinc-950/60 px-2.5 py-1 rounded-xl border border-zinc-900 gap-1.5">
-                <i class="fa-solid fa-arrow-right text-blue-400 text-xs"></i>
-                <div class="text-left">
-                  <span class="text-[11px] font-extrabold text-gray-300 block leading-tight">向右侧划</span>
-                  <span class="text-[10px] text-gray-500 block leading-none">波包加速</span>
-                </div>
-              </div>
-
-              <i class="fa-solid fa-chevron-right text-zinc-800 text-[11px]"></i>
-
-              <!-- Item 4 -->
-              <div class="flex items-center bg-zinc-950/60 px-2.5 py-1 rounded-xl border border-zinc-900 gap-1.5">
-                <i class="fa-solid fa-hand-fist text-yellow-500 text-xs"></i>
-                <div class="text-left">
-                  <span class="text-[11px] font-extrabold text-gray-300 block leading-tight">全手攥拳</span>
-                  <span class="text-[10px] text-gray-500 block leading-none">瞬时坍缩</span>
-                </div>
-              </div>
+      <!-- RIGHT COLUMN -->
+      <div class="w-[300px] shrink-0 flex flex-col gap-3 min-h-0">
+        <div class="glass-card rounded-[22px] p-4 flex flex-col border border-purple-900/20">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-sm font-bold text-gray-200 tracking-wider">实时手势骨骼检测</span>
+            <span class="text-xs text-purple-400 bg-purple-950/60 px-2.5 py-0.5 rounded-full font-bold border border-purple-900/30 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-ping"></span> 识别中</span>
+          </div>
+          <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-purple-950/50 flex items-center justify-center shadow-inner">
+            <div class="hud-corner hud-lt"></div><div class="hud-corner hud-rt"></div><div class="hud-corner hud-lb"></div><div class="hud-corner hud-rb"></div>
+            <canvas id="gesture-overlay" class="absolute inset-0 w-full h-full z-10 pointer-events-none scale-x-[-1]"></canvas>
+            <video id="webcam" autoplay playsinline muted class="absolute inset-0 w-full h-full object-cover scale-x-[-1] opacity-80"></video>
+            <div id="webcam-fallback" class="absolute inset-0 bg-[#05030e] flex flex-col items-center justify-center text-center p-4 z-20 transition-opacity duration-300">
+              <div class="w-10 h-10 rounded-full bg-purple-950/40 border border-purple-900/30 flex items-center justify-center mb-2"><i class="fa-solid fa-video-slash text-purple-400 text-base"></i></div>
+              <p class="text-sm text-gray-300 font-bold mb-1">未授权或无可用摄像头</p><p class="text-[11px] text-gray-500 max-w-xs leading-relaxed">已自动开启下方的仿真控制器体验</p>
+            </div>
+            <div class="absolute inset-x-0 h-0.5 bg-purple-500/40 shadow-[0_0_8px_rgba(168,85,247,0.8)] z-10 scanline"></div>
+            <div class="absolute left-3 bottom-3 z-20 flex items-center gap-2 bg-black/50 px-2.5 py-1 rounded-lg backdrop-blur pointer-events-none">
+              <div id="current-gesture-icon-container" class="w-6 h-6 rounded bg-purple-900/30 border border-purple-500/30 flex items-center justify-center text-purple-300 text-xs"><i id="current-gesture-icon" class="fa-solid fa-hand"></i></div>
+              <div><span id="current-gesture-name" class="text-[11px] font-bold text-purple-200 block leading-tight">手掌展开</span><p id="current-gesture-desc" class="text-[9px] text-gray-400 leading-tight">多路径探索</p></div>
             </div>
           </div>
-
-          <!-- Bottom warning/tip marquee -->
-          <div class="flex items-center gap-2 bg-yellow-950/15 border border-yellow-900/20 rounded-xl px-3 py-1.5 flex-1">
-            <i class="fa-solid fa-lightbulb text-yellow-500 text-sm animate-bounce"></i>
-            <span class="text-xs text-yellow-500/90 font-semibold tracking-wide">请观察不同手势引发的迷宫粒子暴涨或坍缩，体验波函数的量子奇迹！</span>
+        </div>
+        <div class="glass-card rounded-[22px] p-4 flex-1 flex flex-col border border-purple-900/20 min-h-0">
+          <span class="text-sm font-bold text-gray-200 tracking-wider block mb-3">手势交互说明</span>
+          <div class="flex flex-col gap-2 flex-1">
+            <button id="sim-btn-palm" onclick="triggerState('palm')" class="sim-btn flex items-center gap-3 px-3 py-2 rounded-xl bg-purple-950/40 border border-purple-500/50 text-left glow-purple">
+              <span class="w-8 h-8 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 text-purple-300 text-base">✋</span>
+              <div class="min-w-0"><strong class="text-[12px] font-bold text-gray-100 block">展开手掌（量子叠加）</strong><p class="text-[10px] text-gray-400 leading-snug truncate">量子相干全空间展开，12条可能路径处于叠加探索状态</p></div>
+            </button>
+            <button id="sim-btn-pinch" onclick="triggerState('pinch')" class="sim-btn flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-left">
+              <span class="w-8 h-8 shrink-0 grid place-items-center rounded-lg bg-zinc-800/60 text-base">👌</span>
+              <div class="min-w-0"><strong class="text-[12px] font-bold text-gray-200 block">捏合手指（相干过滤）</strong><p class="text-[10px] text-gray-400 leading-snug truncate">相干过滤消噪，筛选主要路径</p></div>
+            </button>
+            <button id="sim-btn-fist" onclick="triggerState('fist')" class="sim-btn flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-left">
+              <span class="w-8 h-8 shrink-0 grid place-items-center rounded-lg bg-zinc-800/60 text-base">✊</span>
+              <div class="min-w-0"><strong class="text-[12px] font-bold text-gray-200 block">强力握拳（波函数坍缩）</strong><p class="text-[10px] text-gray-400 leading-snug truncate">波函数散射完美坍缩，锁定展现最优路径</p></div>
+            </button>
+            <button id="sim-btn-normal" onclick="triggerState('normal')" class="sim-btn flex items-center gap-3 px-3 py-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-left">
+              <span class="w-8 h-8 shrink-0 grid place-items-center rounded-lg bg-zinc-800/60 text-base">🔄</span>
+              <div class="min-w-0"><strong class="text-[12px] font-bold text-gray-200 block">经典路径（单粒子串行）</strong><p class="text-[10px] text-gray-400 leading-snug truncate">单粒子串行探索，逐条尝试路径</p></div>
+            </button>
           </div>
-        </footer>
-
-      </main>
-
+        </div>
+      </div>
     </div>
+
+    <!-- ============ FOOTER CONSOLE ============ -->
+    <div class="shrink-0 grid grid-cols-4 gap-3 relative z-10">
+      <button onclick="toggleMazePause()" class="flex items-center gap-3 px-4 py-3 rounded-[18px] glass-card border border-purple-900/25 text-left transition-all hover:border-purple-500/40">
+        <span class="w-11 h-11 shrink-0 grid place-items-center rounded-full bg-gradient-to-br from-purple-600 to-indigo-500 text-white glow-purple"><i id="ctrl-play-icon" class="fa-solid fa-play text-sm"></i></span>
+        <div><strong class="text-sm font-bold text-gray-100 block">开始 / 暂停</strong><span class="text-[11px] text-gray-500">启动或暂停探索</span></div>
+      </button>
+      <button onclick="resetMaze()" class="flex items-center gap-3 px-4 py-3 rounded-[18px] glass-card border border-purple-900/25 text-left transition-all hover:border-purple-500/40">
+        <span class="w-11 h-11 shrink-0 grid place-items-center rounded-full bg-purple-900/25 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-rotate-left text-sm"></i></span>
+        <div><strong class="text-sm font-bold text-gray-100 block">重置实验</strong><span class="text-[11px] text-gray-500">恢复初始状态</span></div>
+      </button>
+      <button onclick="cycleMazeView()" class="flex items-center gap-3 px-4 py-3 rounded-[18px] glass-card border border-purple-900/25 text-left transition-all hover:border-purple-500/40">
+        <span class="w-11 h-11 shrink-0 grid place-items-center rounded-full bg-purple-900/25 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-cube text-sm"></i></span>
+        <div><strong class="text-sm font-bold text-gray-100 block">切换视角</strong><span class="text-[11px] text-gray-500">多视角观察迷宫</span></div>
+      </button>
+      <button onclick="toggleMazeTrails()" class="flex items-center justify-between gap-3 px-4 py-3 rounded-[18px] glass-card border border-purple-900/25 text-left transition-all hover:border-purple-500/40">
+        <div class="flex items-center gap-3"><span class="w-11 h-11 shrink-0 grid place-items-center rounded-full bg-purple-900/25 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-chart-line text-sm"></i></span><div><strong class="text-sm font-bold text-gray-100 block">粒子轨迹</strong><span class="text-[11px] text-gray-500">显示能量轨迹</span></div></div>
+        <span id="ctrl-trail-switch" class="maze-switch is-on"><i></i></span>
+      </button>
+    </div>
+
+    <!-- ============ BOTTOM TOAST ============ -->
+    <div class="shrink-0 flex items-center gap-3 px-5 py-2.5 rounded-full glass-card border border-purple-900/20 relative z-10">
+      <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+      <strong class="text-sm font-bold text-yellow-300 shrink-0">探索完成！</strong>
+      <p class="text-xs text-gray-400 truncate flex-1">同一道光，在不同观察方式下会呈现不同样子：有时像波一样扩散，有时像一个个小光点传递能量。</p>
+      <button class="text-sm font-bold text-purple-300 hover:text-purple-200 shrink-0 flex items-center gap-1.5">继续探索 <i class="fa-solid fa-chevron-right text-xs"></i></button>
+    </div>
+
+    <!-- Preserved (hidden) elements required by the interaction script -->
+    <div class="hidden">
+      <label id="mode-normal-btn"><span></span><div><div id="mode-normal-dot"></div></div></label>
+      <label id="mode-multi-btn"><span></span><div><div id="mode-multi-dot"></div></div></label>
+      <label id="mode-collapse-btn"><span></span><div><div id="mode-collapse-dot"></div></div></label>
+      <div id="timeline-bar"></div>
+      <div id="node-1"></div><div id="node-2"></div><span id="node-2-text"></span>
+      <div id="node-3"></div><span id="node-3-text"></span>
+      <div id="node-4"></div><span id="node-4-text"></span>
+    </div>
+
+    <style>
+      .maze-switch{position:relative;display:inline-block;width:44px;height:22px;border-radius:999px;background:#2a2831;transition:background .18s;flex-shrink:0;}
+      .maze-switch i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .18s;}
+      .maze-switch.is-on{background:#9b5cff;}
+      .maze-switch.is-on i{transform:translateX(22px);}
+    </style>
 
   </div>
 
@@ -702,6 +529,45 @@
           safeSetClassName(node2Text, "text-xs font-semibold text-zinc-600 mt-1");
           break;
       }
+    }
+
+    // ===== Footer console controls (additive; do not alter existing interaction logic) =====
+    let mazePaused = false;
+    let mazeViewIndex = 0;
+    const mazeViews = [
+      { x: 0, y: 13.5, z: 6.2 },
+      { x: 9.5, y: 8.5, z: 8.5 },
+      { x: 0, y: 4.5, z: 14 },
+      { x: -10, y: 10, z: 4.5 },
+    ];
+    let mazeTrailsOn = true;
+
+    function toggleMazePause() {
+      mazePaused = !mazePaused;
+      const icon = document.getElementById('ctrl-play-icon');
+      if (icon) icon.className = mazePaused ? 'fa-solid fa-play text-sm' : 'fa-solid fa-pause text-sm';
+    }
+
+    function resetMaze() {
+      mazeViewIndex = 0;
+      if (camera) { camera.position.set(0, 13.5, 6.2); camera.lookAt(0, 0, 0); }
+      mazePaused = false;
+      const icon = document.getElementById('ctrl-play-icon');
+      if (icon) icon.className = 'fa-solid fa-play text-sm';
+      triggerState('palm');
+    }
+
+    function cycleMazeView() {
+      mazeViewIndex = (mazeViewIndex + 1) % mazeViews.length;
+      const v = mazeViews[mazeViewIndex];
+      if (camera) { camera.position.set(v.x, v.y, v.z); camera.lookAt(0, 0, 0); }
+    }
+
+    function toggleMazeTrails() {
+      mazeTrailsOn = !mazeTrailsOn;
+      glowTubes.forEach((t) => { if (t.mesh) t.mesh.visible = mazeTrailsOn; });
+      const sw = document.getElementById('ctrl-trail-switch');
+      if (sw) sw.classList.toggle('is-on', mazeTrailsOn);
     }
 
     function triggerState(stateName) {
@@ -1192,6 +1058,7 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      if (mazePaused) { if (renderer && scene && camera) renderer.render(scene, camera); return; }
       const t = Date.now();
 
       // Smooth damped rotation + slow auto-spin

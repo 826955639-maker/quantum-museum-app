@@ -3710,8 +3710,8 @@ input:focus-visible {
 
 .maze-back-btn {
   position: absolute;
-  top: 1.6cqw;
-  right: 1.6cqw;
+  top: 1.35cqw;
+  left: 1.6cqw;
   z-index: 10;
   display: flex;
   align-items: center;
