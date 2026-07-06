@@ -8,7 +8,7 @@ export default function MazeInteractionPage({ onBack }: MazeInteractionPageProps
   return (
     <div className="maze-interaction-layout">
       <button className="maze-back-btn" type="button" onClick={onBack} aria-label="返回展区总览">
-        <Icon name="return" />
+        <Icon name="arrow-right" />
         <span>返回展区总览</span>
       </button>
       <iframe

@@ -146,10 +146,16 @@
     <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-yellow-900/5 rounded-full blur-[160px] pointer-events-none"></div>
 
     <!-- ============ HEADER ============ -->
-    <header class="shrink-0 flex items-center justify-between h-[3.25rem] pl-[11.75rem] pr-1 relative z-20">
-      <div class="flex items-center gap-3">
-        <h1 class="text-[1.625rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-300 leading-none">量子迷宫</h1>
-        <span id="status-indicator-text" class="text-[0.6875rem] font-bold text-purple-300 bg-purple-950/50 border border-purple-800/40 px-2.5 py-1 rounded-full tracking-wider text-glow-purple">多路径叠加中</span>
+    <header class="shrink-0 flex items-center justify-between h-[4.4rem] pl-[13.2rem] pr-1 relative z-20">
+      <div class="flex flex-col justify-center min-w-0">
+        <span class="text-[0.78rem] font-bold text-purple-400 leading-tight tracking-wide">06 手势互动页 C：引领区 | 量子迷宫</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <h1 class="text-[1.65rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-300 leading-none">量子迷宫</h1>
+          <i class="text-[1.2rem] text-gray-500 not-italic leading-none">|</i>
+          <strong class="text-[1.2rem] font-bold text-purple-100 leading-none">让粒子并行穿越</strong>
+          <span id="status-indicator-text" class="ml-1 text-[0.68rem] font-bold text-purple-300 bg-purple-950/50 border border-purple-800/40 px-2.5 py-1 rounded-full tracking-wider text-glow-purple">叠加演化中</span>
+        </div>
+        <p class="text-[0.72rem] text-purple-300/90 mt-1 leading-none">一条路，还是所有路同时走？</p>
       </div>
       <div class="flex items-center gap-2.5">
         <div class="flex items-center w-[16.875rem] h-10 px-3.5 rounded-full bg-[#08091f]/80 border border-purple-900/25">
@@ -169,16 +175,16 @@
       <div class="w-[18.75rem] shrink-0 flex flex-col gap-3 min-h-0">
         <div class="glass-card rounded-[1.375rem] p-4 flex-1 flex flex-col border border-purple-900/20 min-h-0">
           <span class="text-sm font-bold text-gray-200 tracking-wider mb-3">交互相关知识</span>
-          <div class="flex flex-col gap-2.5 flex-1">
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
+          <div class="flex flex-col gap-3 flex-1">
+            <div class="flex-1 flex items-center gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
               <span class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-wave-square text-sm"></i></span>
               <div><strong class="text-[0.8125rem] font-bold text-gray-100 block">多路径叠加</strong><p class="text-[0.6875rem] text-gray-400 leading-snug mt-1">量子粒子同时处于所有可能路径的叠加态，直到被观测。</p></div>
             </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
+            <div class="flex-1 flex items-center gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
               <span class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-eye text-sm"></i></span>
               <div><strong class="text-[0.8125rem] font-bold text-gray-100 block">干涉效应</strong><p class="text-[0.6875rem] text-gray-400 leading-snug mt-1">不同路径的波函数相互干涉，形成明暗相间的干涉条纹。</p></div>
             </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
+            <div class="flex-1 flex items-center gap-3 p-3 rounded-xl bg-purple-950/15 border border-purple-900/20">
               <span class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-purple-900/30 border border-purple-500/30 text-purple-300"><i class="fa-solid fa-bullseye text-sm"></i></span>
               <div><strong class="text-[0.8125rem] font-bold text-gray-100 block">量子观测</strong><p class="text-[0.6875rem] text-gray-400 leading-snug mt-1">当粒子被观测时，叠加态坍缩，粒子出现在某一条确定路径上。</p></div>
             </div>
