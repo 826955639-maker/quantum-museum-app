@@ -486,6 +486,7 @@ export default function PerceptionInteractionPage({ onBack }: PerceptionInteract
           </label>
           <button type="button" aria-label="扫码"><Icon name="scan" /></button>
           <button type="button" aria-label="通知"><Icon name="bell" /></button>
+          <button type="button" aria-label="个人主页"><Icon name="user" /></button>
         </div>
       </header>
 
@@ -544,6 +545,7 @@ export default function PerceptionInteractionPage({ onBack }: PerceptionInteract
         </aside>
 
         <section className="perception-core" aria-label="光波粒子交互视觉">
+          <span className="perception-core-label">光波可视化展示区</span>
           <span className="perception-core-reticle" aria-hidden="true"><i /></span>
         </section>
 
@@ -592,7 +594,7 @@ export default function PerceptionInteractionPage({ onBack }: PerceptionInteract
           </section>
 
           <section className="perception-glass perception-gesture-guide">
-            <strong className="perception-gesture-title">手势说明</strong>
+            <strong className="perception-gesture-title">手势说明区</strong>
             {([
               [1, "手", "伸展手掌", "增大扩散范围", "波动爆发"],
               [2, "↔", "左右移动", "调整波纹间距", "间距缩放"],
