@@ -265,8 +265,8 @@
   z-index: 4;
   grid-row: 2;
   display: grid;
-  grid-template-columns: 23.2cqw minmax(0, 1fr) 25.2cqw;
-  gap: 1.05cqw;
+  grid-template-columns: minmax(0, 19%) minmax(0, 1fr) minmax(0, 22%);
+  gap: 1.4cqw;
   min-height: 0;
   padding: 0.75cqw 2cqw 0.68cqw;
 }
