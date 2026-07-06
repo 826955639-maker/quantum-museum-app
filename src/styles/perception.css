@@ -223,10 +223,11 @@
 .perception-left-column {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 1.4cqw;
-  align-self: center;
+  align-self: stretch;
   min-width: 0;
-  max-height: 100%;
+  height: 100%;
 }
 
 .perception-glass,
