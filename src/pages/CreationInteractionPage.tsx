@@ -68,16 +68,6 @@ async function loadCreationMediaPipe() {
   ]);
 }
 
-function AtomIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <ellipse cx="12" cy="12" rx="10" ry="3.7" transform="rotate(45 12 12)" />
-      <ellipse cx="12" cy="12" rx="10" ry="3.7" transform="rotate(-45 12 12)" />
-      <circle cx="12" cy="12" r="2" />
-    </svg>
-  );
-}
-
 function VolumeIcon({ muted }: { muted: boolean }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -109,7 +99,7 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
   const gestureRef = useRef({ fist: false, fistFrames: 0, openFrames: 0, missingFrames: 0 });
   const timersRef = useRef<number[]>([]);
 
-  const [launched, setLaunched] = useState(false);
+  const [launched] = useState(true);
   const [experimentState, setExperimentState] = useState<ExperimentState>("A");
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<CreationResult | null>(null);
@@ -415,11 +405,10 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
     timersRef.current = [];
   }, []);
 
-  const launch = () => {
+  useEffect(() => {
     initializeAudio();
-    setLaunched(true);
     addLog("量子实验舱启动，等待相控设备授权。");
-  };
+  }, [initializeAudio, addLog]);
 
   const toggleMuted = () => {
     setMutedState((current) => {
@@ -439,25 +428,6 @@ export default function CreationInteractionPage({ onBack }: CreationInteractionP
         <Icon name="arrow-right" />
         <span>返回展区总览</span>
       </button>
-
-      {!launched ? (
-        <div className="creation-launch-overlay">
-          <div className="creation-launch-panel">
-            <span className="creation-launch-atom"><AtomIcon /></span>
-            <h2>薛定谔的猫 · 量子探微实验室</h2>
-            <p>
-              欢迎来到前沿物理手势互动展项。本系统完全由
-              <strong> AI 动作捕捉摄像头手势 </strong>
-              进行无触碰操控。请准备好摄像头设备，并允许授权申请。
-            </p>
-            <button type="button" onClick={launch}>
-              <Icon name="scan" />
-              <span>开启量子相机 &amp; 声音共振</span>
-            </button>
-            <small>物理引擎基于 WebGL 3D 与 MediaPipe 手势追踪驱动</small>
-          </div>
-        </div>
-      ) : null}
 
       <header className="creation-header">
         <div className="creation-title-line">
