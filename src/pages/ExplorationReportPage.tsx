@@ -13,248 +13,10 @@ import BadgeMedal from "../components/BadgeMedal";
    Implementation: pure SVG — cubic-Bézier page surfaces for the curl,
    feGaussianBlur for the bloom/rim glow, layered translucent fills for the
    page depth, gradient-stroked ellipse arcs for the orbits. */
-function BookSVG() {
-  return (
-    <svg viewBox="0 0 180 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <radialGradient id="bkAura" cx="52%" cy="50%" r="55%">
-          <stop offset="0%" stopColor="#7c6bff" stopOpacity="0.55" />
-          <stop offset="52%" stopColor="#4c2fbf" stopOpacity="0.16" />
-          <stop offset="100%" stopColor="#12103a" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="bkPageL" x1="0.15" y1="0.1" x2="0.6" y2="1">
-          <stop offset="0%" stopColor="#b7a4ff" stopOpacity="0.92" />
-          <stop offset="55%" stopColor="#7a5cf0" stopOpacity="0.86" />
-          <stop offset="100%" stopColor="#3e28ac" stopOpacity="0.92" />
-        </linearGradient>
-        <linearGradient id="bkPageR" x1="0.4" y1="0.1" x2="0.9" y2="1">
-          <stop offset="0%" stopColor="#c9b6ff" stopOpacity="0.95" />
-          <stop offset="55%" stopColor="#8a6cf6" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#4a30c4" stopOpacity="0.95" />
-        </linearGradient>
-        <linearGradient id="bkStackL" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7a5cf0" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#241760" stopOpacity="0.95" />
-        </linearGradient>
-        <linearGradient id="bkStackR" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#8a6cf6" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#2a1a70" stopOpacity="0.95" />
-        </linearGradient>
-        <linearGradient id="bkOrbitGold" x1="0" x2="1">
-          <stop offset="0%" stopColor="#e6a94e" stopOpacity="0.05" />
-          <stop offset="45%" stopColor="#ffd98a" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#e6a94e" stopOpacity="0.12" />
-        </linearGradient>
-        <linearGradient id="bkOrbitViolet" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8f7bff" stopOpacity="0.06" />
-          <stop offset="50%" stopColor="#d8ccff" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#8f7bff" stopOpacity="0.14" />
-        </linearGradient>
-        <filter id="bkSoft" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1.5" />
-        </filter>
-        <filter id="bkGlow" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="3.2" />
-        </filter>
-      </defs>
-
-      {/* ambient aura */}
-      <ellipse cx="90" cy="80" rx="84" ry="60" fill="url(#bkAura)" />
-
-      {/* ── back orbit arcs (behind the book) ── */}
-      <ellipse cx="90" cy="88" rx="82" ry="27" stroke="url(#bkOrbitGold)" strokeWidth="1.5" fill="none" opacity="0.55" transform="rotate(-16 90 88)" />
-      <ellipse cx="90" cy="82" rx="74" ry="35" stroke="url(#bkOrbitViolet)" strokeWidth="1.1" fill="none" opacity="0.5" transform="rotate(12 90 82)" />
-
-      {/* ── fanned page sheets on the outer edges (the open-book "many pages") ── */}
-      <g stroke="#b7a4ff" strokeWidth="0.7" strokeOpacity="0.5" fill="none">
-        <path d="M33 90 C29 77 29 62 33 50" />
-        <path d="M30 89 C26 77 26 63 30 51" />
-        <path d="M27 88 C23 77 23 64 27 53" />
-      </g>
-      <g stroke="#d0c0ff" strokeWidth="0.7" strokeOpacity="0.5" fill="none">
-        <path d="M147 90 C151 77 151 62 147 50" />
-        <path d="M150 89 C154 77 154 63 150 51" />
-        <path d="M153 88 C157 77 157 64 153 53" />
-      </g>
-
-      {/* ── front page-block thickness (nearest the viewer, at the spine) ── */}
-      <path d="M34 90 C52 98 72 101 90 104 L90 111 C72 108 52 105 35 97 Z" fill="url(#bkStackL)" />
-      <g stroke="#c9b6ff" strokeWidth="0.55" strokeOpacity="0.45" fill="none">
-        <path d="M35 93 C52 100 72 103 90 106" />
-        <path d="M35 96 C52 103 72 106 90 108.5" />
-      </g>
-      <path d="M90 104 C108 101 128 98 146 90 L146 97 C128 105 108 108 90 111 Z" fill="url(#bkStackR)" />
-      <g stroke="#d8ccff" strokeWidth="0.55" strokeOpacity="0.45" fill="none">
-        <path d="M90 106 C108 103 128 100 145 93" />
-        <path d="M90 108.5 C108 106 128 103 145 96" />
-      </g>
-
-      {/* ── left page surface (opens up-and-out; spine is the low valley) ── */}
-      <path
-        d="M90 104
-           C72 101 52 98 34 90
-           C30 77 30 63 34 50
-           C52 54 72 59 89 64
-           C90 77 90 90 90 104 Z"
-        fill="url(#bkPageL)"
-        stroke="#d6c9ff"
-        strokeWidth="1.3"
-        strokeOpacity="0.92"
-        strokeLinejoin="round"
-      />
-      {/* left page text lines (follow the page tilt) */}
-      <g stroke="#e6ddff" strokeWidth="0.9" strokeOpacity="0.6" fill="none">
-        <path d="M42 63 C56 65 70 68 84 71" />
-        <path d="M40 70 C54 72 68 75 83 78" />
-        <path d="M39 77 C52 79 66 82 82 85" />
-        <path d="M38 84 C50 86 62 88 74 90" />
-      </g>
-
-      {/* ── right page surface (mirror; rises to the outer-back corner) ── */}
-      <path
-        d="M89 64
-           C106 59 126 54 146 50
-           C150 63 150 77 146 90
-           C128 98 110 101 90 104
-           C90 90 89 77 89 64 Z"
-        fill="url(#bkPageR)"
-        stroke="#e2d6ff"
-        strokeWidth="1.3"
-        strokeLinejoin="round"
-      />
-
-      {/* central spine valley — bright rim-light fold */}
-      <path d="M90 104 C90 90 89 77 89 64" stroke="#f4efff" strokeWidth="1.7" strokeOpacity="0.95" fill="none" filter="url(#bkSoft)" />
-      <path d="M90 104 C90 90 89 77 89 64" stroke="#fff" strokeWidth="0.8" strokeOpacity="0.95" fill="none" />
-
-      {/* top-edge rim highlights (lifted far page edges catching light) */}
-      <path d="M34 50 C52 54 72 59 89 64" stroke="#efe7ff" strokeWidth="1" strokeOpacity="0.78" fill="none" filter="url(#bkSoft)" />
-      <path d="M89 64 C106 59 126 54 146 50" stroke="#efe7ff" strokeWidth="1" strokeOpacity="0.78" fill="none" filter="url(#bkSoft)" />
-
-      {/* ── atom symbol on the right page ── */}
-      <g transform="rotate(-8 118 76)">
-        <circle cx="118" cy="76" r="15" fill="#a78bfa" fillOpacity="0.12" />
-        <ellipse cx="118" cy="76" rx="14" ry="5.2" stroke="#f0e9ff" strokeWidth="1.2" fill="none" strokeOpacity="0.92" />
-        <ellipse cx="118" cy="76" rx="14" ry="5.2" stroke="#dccdff" strokeWidth="1.05" fill="none" transform="rotate(60 118 76)" strokeOpacity="0.75" />
-        <ellipse cx="118" cy="76" rx="14" ry="5.2" stroke="#dccdff" strokeWidth="1.05" fill="none" transform="rotate(-60 118 76)" strokeOpacity="0.75" />
-        <circle cx="118" cy="76" r="3.2" fill="#fff" filter="url(#bkSoft)" />
-        <circle cx="118" cy="76" r="1.9" fill="#fff" />
-      </g>
-
-      {/* soft under-glow beneath the book */}
-      <ellipse cx="90" cy="114" rx="54" ry="10" fill="#7c5cff" opacity="0.3" filter="url(#bkGlow)" />
-
-      {/* ── front orbit arcs (interwoven, gold + violet) ── */}
-      <ellipse cx="90" cy="98" rx="80" ry="22" stroke="url(#bkOrbitGold)" strokeWidth="2" fill="none" transform="rotate(-14 90 98)" />
-      <ellipse cx="90" cy="90" rx="72" ry="30" stroke="url(#bkOrbitViolet)" strokeWidth="1.5" fill="none" opacity="0.85" transform="rotate(13 90 90)" />
-      <ellipse cx="90" cy="94" rx="84" ry="15" stroke="#e8dcff" strokeWidth="0.9" strokeOpacity="0.5" fill="none" transform="rotate(-8 90 94)" />
-
-      {/* ── energy particles riding the orbits ── */}
-      <circle cx="14" cy="104" r="2.6" fill="#fff" filter="url(#bkSoft)" />
-      <circle cx="170" cy="82" r="2.2" fill="#ffe6b0" filter="url(#bkSoft)" />
-      <circle cx="150" cy="120" r="1.8" fill="#fff" filter="url(#bkSoft)" />
-      <circle cx="40" cy="126" r="1.6" fill="#ffd98a" filter="url(#bkSoft)" />
-      <g fill="#e6a94e">
-        <circle cx="26" cy="86" r="1.2" opacity="0.9" />
-        <circle cx="158" cy="104" r="1.1" opacity="0.85" />
-        <circle cx="120" cy="128" r="1" opacity="0.8" />
-      </g>
-      <g fill="#d7c9ff">
-        <circle cx="60" cy="118" r="1.1" />
-        <circle cx="132" cy="66" r="1" />
-      </g>
-
-      {/* ── scattered field stars + sparkles ── */}
-      <g fill="#d7c9ff">
-        <circle cx="36" cy="30" r="1.3" opacity="0.8" />
-        <circle cx="150" cy="30" r="1.2" opacity="0.7" />
-        <circle cx="24" cy="52" r="1" opacity="0.55" />
-        <circle cx="164" cy="56" r="1" opacity="0.55" />
-        <circle cx="74" cy="24" r="0.9" opacity="0.5" />
-      </g>
-      <path d="M146 22 l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5Z" fill="#fff" opacity="0.95">
-        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-      </path>
-      <path d="M30 40 l1.1 3 3 1.1-3 1.1-1.1 3-1.1-3-3-1.1 3-1.1Z" fill="#c4b5fd" opacity="0.85">
-        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.6s" repeatCount="indefinite" />
-      </path>
-      <path d="M132 132 l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#ffd98a" opacity="0.9">
-        <animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite" />
-      </path>
-    </svg>
-  );
-}
 
 /* 分享卡 spiral galaxy (recreated to match reference p4): a tilted spiral
    disc — bright white-violet core, two logarithmic star-dot arms, a rim
    orbit ring and scattered field stars. */
-function PlanetSVG() {
-  const cx = 46;
-  const cy = 40;
-  const tilt = -22;
-  // two logarithmic spiral arms rendered as tapering star dots
-  const arm = (offset: number, key: string) =>
-    Array.from({ length: 22 }, (_, i) => {
-      const t = i / 21;
-      const ang = offset + t * Math.PI * 2.35;
-      const r = 2.5 + t * 33;
-      const x = cx + Math.cos(ang) * r;
-      const y = cy + Math.sin(ang) * r * 0.5; // flatten the disc
-      const s = 1.7 * (1 - t) + 0.35;
-      return (
-        <circle key={`${key}-${i}`} cx={x} cy={y} r={s} fill={t < 0.4 ? "#eae4ff" : "#b9a6ff"} opacity={0.95 - t * 0.55} />
-      );
-    });
-
-  return (
-    <svg viewBox="0 0 92 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <radialGradient id="glxCore" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="24%" stopColor="#e6dcff" />
-          <stop offset="54%" stopColor="#9d7bff" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#5a2fc0" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="glxHalo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#7c4fe6" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#3a1a86" stopOpacity="0" />
-        </radialGradient>
-        <filter id="glxSoft" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="1.1" />
-        </filter>
-      </defs>
-
-      {/* ambient disc halo */}
-      <ellipse cx={cx} cy={cy} rx="42" ry="24" fill="url(#glxHalo)" transform={`rotate(${tilt} ${cx} ${cy})`} />
-
-      {/* spiral arms + rim orbit ring (all sharing the disc tilt) */}
-      <g transform={`rotate(${tilt} ${cx} ${cy})`}>
-        <ellipse cx={cx} cy={cy} rx="37" ry="13" stroke="#b7a4ff" strokeWidth="1.2" strokeOpacity="0.65" fill="none" />
-        {arm(0, "a")}
-        {arm(Math.PI, "b")}
-      </g>
-
-      {/* luminous core */}
-      <circle cx={cx} cy={cy} r="14" fill="url(#glxCore)" />
-      <circle cx={cx} cy={cy} r="2.6" fill="#fff" filter="url(#glxSoft)" />
-
-      {/* field stars + sparkles */}
-      <g fill="#e2d7ff">
-        <circle cx="14" cy="14" r="1" opacity="0.7" />
-        <circle cx="82" cy="16" r="1.2" opacity="0.7" />
-        <circle cx="86" cy="62" r="0.9" opacity="0.55" />
-        <circle cx="10" cy="64" r="1" opacity="0.55" />
-        <circle cx="70" cy="70" r="0.8" opacity="0.5" />
-      </g>
-      <path d="M80 26l1 2.8 2.8 1-2.8 1-1 2.8-1-2.8-2.8-1 2.8-1Z" fill="#fff" opacity="0.9">
-        <animate attributeName="opacity" values="0.5;1;0.5" dur="2.3s" repeatCount="indefinite" />
-      </path>
-      <path d="M12 46l0.8 2.4 2.4 0.8-2.4 0.8-0.8 2.4-0.8-2.4-2.4-0.8 2.4-0.8Z" fill="#c4b5fd" opacity="0.8">
-        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.9s" repeatCount="indefinite" />
-      </path>
-    </svg>
-  );
-}
 
 // Real, scannable QR for https://github.com/826955639-maker/quantum-museum-app
 // (33×33 modules, ECC level M). Encoded as horizontal runs "x,y,width".
@@ -715,7 +477,7 @@ export default function ExplorationReportPage({ onReturnToMap }: ExplorationRepo
           <li>我知道量子计算可以处理更多可能</li>
         </ul>
         <div className="report-book" aria-hidden="true">
-          <BookSVG />
+          <img className="report-book__img" src="/knowledge-book.png" alt="" />
         </div>
       </section>
 
@@ -762,7 +524,7 @@ export default function ExplorationReportPage({ onReturnToMap }: ExplorationRepo
           </div>
           <div className="report-share__body">
             <p>我在安徽省科技馆<br />发现了量子世界</p>
-            <div className="report-share__planet" aria-hidden="true"><PlanetSVG /></div>
+            <div className="report-share__planet" aria-hidden="true"><img className="report-share__planet-img" src="/share-galaxy.png" alt="" /></div>
           </div>
         </div>
 
