@@ -295,21 +295,21 @@ const levels = [
     title: "多种可能",
     desc: "在被观测前，粒子可以同时处于多种状态，这就是叠加态。",
     tags: ["叠加态", "量子态"],
-    thumb: <ThumbPossibility />,
+    thumb: <img className="rec-level__thumb-img" src="/lv-possibility.png" alt="" />,
   },
   {
     num: "02",
     title: "光的两种样子",
     desc: "光既能像波一样产生干涉，又能像粒子一样被探测，展现出波粒二象性。",
     tags: ["波动性", "粒子性"],
-    thumb: <ThumbLightForms />,
+    thumb: <img className="rec-level__thumb-img" src="/lv-lightforms.png" alt="" />,
   },
   {
     num: "03",
     title: "多路径探索",
     desc: "粒子可以同时经过多条路径，不同路径的干涉决定了最终出现的概率分布。",
     tags: ["干涉", "概率"],
-    thumb: <ThumbMultipath />,
+    thumb: <img className="rec-level__thumb-img" src="/lv-multipath.png" alt="" />,
   },
 ];
 

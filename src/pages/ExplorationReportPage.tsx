@@ -493,21 +493,21 @@ export default function ExplorationReportPage({ onReturnToMap }: ExplorationRepo
           <div className="rpt-thumbs">
             <div className="rpt-thumb">
               <div className="rpt-thumb__visual">
-                <ThumbSuperposition />
+                <img className="rpt-ico-img" src="/kc-superposition.png" alt="" />
               </div>
               <span>量子叠加</span>
               <small>多个状态同时存在</small>
             </div>
             <div className="rpt-thumb">
               <div className="rpt-thumb__visual">
-                <ThumbWaveParticle />
+                <img className="rpt-ico-img" src="/kc-waveparticle.png" alt="" />
               </div>
               <span>波粒二象性</span>
               <small>光既是波也是粒子</small>
             </div>
             <div className="rpt-thumb">
               <div className="rpt-thumb__visual">
-                <ThumbQuantumCompute />
+                <img className="rpt-ico-img" src="/kc-compute.png" alt="" />
               </div>
               <span>量子计算</span>
               <small>处理更多可能性</small>
