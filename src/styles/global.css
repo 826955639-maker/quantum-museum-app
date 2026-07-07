@@ -3490,6 +3490,24 @@ input:focus-visible {
   transform-origin: center;
 }
 
+/* quantum knowledge-card icons — neon glow + subtle motion */
+.rpt-ico__orbits { transform-box: fill-box; transform-origin: center; animation: rptOrbitSpin 16s linear infinite; }
+.rpt-ico__electrons circle { transform-box: fill-box; transform-origin: center; animation: rptFloat 4.6s ease-in-out infinite alternate; }
+.rpt-ico__electrons circle:nth-child(2) { animation-delay: -1.6s; }
+.rpt-ico__electrons circle:nth-child(3) { animation-delay: -3s; }
+.rpt-ico__wave { stroke-dasharray: 3 4; animation: rptWaveFlow 3.2s linear infinite; }
+.rpt-ico__field circle { animation: rptTwinkle 3.4s ease-in-out infinite alternate; }
+.rpt-ico__core, .rpt-ico__atom { transform-box: fill-box; transform-origin: center; animation: rptBreathe 3.4s ease-in-out infinite; }
+.rpt-ico__rain text { animation: rptTwinkle 2.6s ease-in-out infinite alternate; }
+@keyframes rptOrbitSpin { to { transform: rotate(360deg); } }
+@keyframes rptFloat { from { transform: translateY(-1px); } to { transform: translateY(1.5px); } }
+@keyframes rptWaveFlow { to { stroke-dashoffset: -14; } }
+@keyframes rptTwinkle { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+@keyframes rptBreathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.9); } }
+@media (prefers-reduced-motion: reduce) {
+  .rpt-ico__orbits, .rpt-ico__electrons circle, .rpt-ico__wave, .rpt-ico__field circle, .rpt-ico__core, .rpt-ico__atom, .rpt-ico__rain text { animation: none; }
+}
+
 .rpt-thumb span {
   margin-top: 0.35cqw;
   color: #f0ecff;

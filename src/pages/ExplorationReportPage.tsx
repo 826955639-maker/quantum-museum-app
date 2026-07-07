@@ -406,160 +406,190 @@ function ReturnArrowSVG() {
 
 /* ── Thumbnail card SVG illustrations ── */
 
+/* 量子叠加 — glowing atom: bright core + crossed neon orbit ellipses + a dashed
+   probability shell, with small electron particles riding the orbits. */
 function ThumbSuperposition() {
   return (
-    <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg className="rpt-ico rpt-ico--atom" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <radialGradient id="ts1-core" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="30%" stopColor="#c9c2ff" />
-          <stop offset="65%" stopColor="#6c55e8" stopOpacity="0.65" />
-          <stop offset="100%" stopColor="#3a24aa" stopOpacity="0" />
+          <stop offset="32%" stopColor="#e2c8ff" />
+          <stop offset="62%" stopColor="#a855f7" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#6d28d9" stopOpacity="0" />
         </radialGradient>
-        <radialGradient id="ts1-neb" cx="45%" cy="50%" r="60%">
-          <stop offset="0%" stopColor="#5b45d6" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#150d40" stopOpacity="0" />
+        <radialGradient id="ts1-neb" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#120a2e" stopOpacity="0" />
         </radialGradient>
-        <filter id="ts1-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="0.8" />
+        <radialGradient id="ts1-ball" cx="38%" cy="35%" r="70%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="45%" stopColor="#c084fc" />
+          <stop offset="100%" stopColor="#7c3aed" />
+        </radialGradient>
+        <filter id="ts1-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="1.1" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-      {/* nebula wash */}
-      <ellipse cx="37" cy="30" rx="36" ry="24" fill="url(#ts1-neb)" />
-      {/* concentric tilted orbit swirls */}
-      <g fill="none" stroke="#a793ff" transform="rotate(-14 37 30)">
-        <ellipse cx="37" cy="30" rx="13" ry="5.5" strokeWidth="0.9" opacity="0.9" />
-        <ellipse cx="37" cy="30" rx="21" ry="9.5" strokeWidth="0.8" opacity="0.65" />
-        <ellipse cx="37" cy="30" rx="29" ry="13.5" strokeWidth="0.7" opacity="0.45" />
-        <ellipse cx="37" cy="30" rx="36" ry="17.5" strokeWidth="0.6" opacity="0.28" />
+      <ellipse cx="40" cy="30" rx="34" ry="26" fill="url(#ts1-neb)" />
+
+      {/* dashed probability shell */}
+      <circle cx="40" cy="30" r="26" stroke="#a855f7" strokeWidth="0.7" strokeOpacity="0.35" strokeDasharray="2 3" fill="none" />
+
+      {/* crossed neon orbits (rotating) */}
+      <g className="rpt-ico__orbits" fill="none" filter="url(#ts1-glow)">
+        <ellipse cx="40" cy="30" rx="27" ry="10.5" stroke="#c084fc" strokeWidth="1.1" strokeOpacity="0.8" transform="rotate(58 40 30)" />
+        <ellipse cx="40" cy="30" rx="27" ry="10.5" stroke="#a855f7" strokeWidth="1.1" strokeOpacity="0.75" transform="rotate(-58 40 30)" />
+        <ellipse cx="40" cy="30" rx="28" ry="12" stroke="#b06cf6" strokeWidth="0.9" strokeOpacity="0.5" />
       </g>
-      {/* bright core with cross flare */}
-      <circle cx="37" cy="30" r="9" fill="url(#ts1-core)" />
-      <path d="M37 22v16M29 30h16" stroke="#ffffff" strokeWidth="0.9" opacity="0.8" filter="url(#ts1-soft)" />
-      {/* orbit rider stars */}
-      <g fill="#ffffff">
-        <circle cx="52" cy="24" r="1.6" filter="url(#ts1-soft)" />
-        <circle cx="20" cy="37" r="1.3" filter="url(#ts1-soft)" />
-        <circle cx="61" cy="35" r="1.1" />
-        <circle cx="14" cy="24" r="1" />
+
+      {/* electrons riding the orbits */}
+      <g className="rpt-ico__electrons">
+        <circle cx="63" cy="21" r="2.4" fill="url(#ts1-ball)" filter="url(#ts1-glow)" />
+        <circle cx="17" cy="39" r="2.1" fill="url(#ts1-ball)" filter="url(#ts1-glow)" />
+        <circle cx="30" cy="52" r="1.8" fill="url(#ts1-ball)" />
       </g>
-      {/* 4-point sparkles */}
-      <path d="M58 14l0.9 2.5 2.5 0.9-2.5 0.9-0.9 2.5-0.9-2.5-2.5-0.9 2.5-0.9Z" fill="#e8ddff" opacity="0.9" />
-      <path d="M16 48l0.7 2 2 0.7-2 0.7-0.7 2-0.7-2-2-0.7 2-0.7Z" fill="#c4b5fd" opacity="0.8" />
-      <g fill="#cabaff" opacity="0.7">
-        <circle cx="70" cy="46" r="0.9" />
-        <circle cx="8" cy="12" r="0.8" />
-        <circle cx="46" cy="50" r="0.8" />
-      </g>
+
+      {/* bright core + cross flare */}
+      <circle cx="40" cy="30" r="9" fill="url(#ts1-core)" />
+      <path d="M40 21v18M31 30h18" stroke="#ffffff" strokeWidth="0.8" opacity="0.85" filter="url(#ts1-glow)" />
+      <circle cx="40" cy="30" r="2.4" fill="#fff" />
     </svg>
   );
 }
 
+/* 波粒二象性 — a circle split into a continuous wave (left) and a discrete
+   glowing particle field (right), joined by a bright vertical interface line. */
 function ThumbWaveParticle() {
-  // bright star flare: cross spikes + core
-  const flare = (x: number, y: number, s: number, o = 1) => (
-    <g opacity={o}>
-      <path d={`M${x} ${y - s}L${x} ${y + s}M${x - s} ${y}L${x + s} ${y}`} stroke="#ffffff" strokeWidth={s * 0.16} strokeLinecap="round" filter="url(#twp-soft)" />
-      <circle cx={x} cy={y} r={s * 0.28} fill="#ffffff" filter="url(#twp-soft)" />
-      <circle cx={x} cy={y} r={s * 0.75} fill="url(#twp-halo)" />
-    </g>
-  );
+  const wave = () => {
+    let d = "M15 30";
+    for (let x = 15; x <= 40; x += 1) {
+      const y = 30 - Math.sin((x - 15) * 0.5) * 7;
+      d += ` L${x} ${y.toFixed(1)}`;
+    }
+    return d;
+  };
+  const dots: Array<[number, number, number, number]> = [
+    [48, 18, 1.6, 0.95], [55, 26, 1.2, 0.8], [60, 16, 1, 0.7], [52, 38, 1.5, 0.9],
+    [58, 44, 1.1, 0.75], [63, 34, 1.3, 0.85], [46, 30, 1, 0.65], [50, 48, 0.9, 0.6],
+    [61, 50, 1, 0.7], [56, 12, 0.9, 0.6], [64, 24, 1.4, 0.85], [49, 40, 0.8, 0.55],
+  ];
   return (
-    <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg className="rpt-ico rpt-ico--wp" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <linearGradient id="twp-trail" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8f7bff" stopOpacity="0.05" />
-          <stop offset="50%" stopColor="#cfc4ff" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#8f7bff" stopOpacity="0.1" />
-        </linearGradient>
-        <radialGradient id="twp-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#b7a2ff" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#5b3fd0" stopOpacity="0" />
+        <radialGradient id="twp-disc" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#120a2e" stopOpacity="0" />
         </radialGradient>
-        <filter id="twp-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="0.7" />
+        <radialGradient id="twp-dot" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="55%" stopColor="#c084fc" />
+          <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="twp-div" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#c084fc" stopOpacity="0" />
+          <stop offset="50%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#c084fc" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id="twp-clip"><circle cx="40" cy="30" r="26" /></clipPath>
+        <filter id="twp-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="0.9" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-      {/* crossing light trails (wave paths) */}
-      <g fill="none">
-        <path d="M2 40C20 12 52 14 78 34" stroke="url(#twp-trail)" strokeWidth="1.4" />
-        <path d="M4 18C28 44 58 48 78 24" stroke="url(#twp-trail)" strokeWidth="1.2" />
-        <path d="M2 30C26 30 44 50 78 44" stroke="#8f7bff" strokeWidth="0.9" opacity="0.5" />
-        <path d="M8 52C30 36 62 12 76 10" stroke="#a793ff" strokeWidth="0.8" opacity="0.4" />
+
+      <circle cx="40" cy="30" r="26" fill="url(#twp-disc)" />
+      <g clipPath="url(#twp-clip)">
+        {/* left: faint hemisphere wireframe + continuous wave */}
+        <g stroke="#a855f7" strokeWidth="0.5" strokeOpacity="0.28" fill="none">
+          <path d="M14 30h26M18 18c8 6 16 6 22 0M18 42c8-6 16-6 22 0" />
+          <ellipse cx="40" cy="30" rx="12" ry="26" />
+          <ellipse cx="40" cy="30" rx="24" ry="26" />
+        </g>
+        <path className="rpt-ico__wave" d={wave()} stroke="#e6d2ff" strokeWidth="1.5" fill="none" strokeLinecap="round" filter="url(#twp-glow)" />
+        {/* right: discrete glowing particles */}
+        <g className="rpt-ico__field">
+          {dots.map(([x, y, r, o], i) => (
+            <circle key={i} cx={x} cy={y} r={r * 1.8} fill="url(#twp-dot)" opacity={o} />
+          ))}
+        </g>
       </g>
-      {/* star flares at the intersections (particle detections) */}
-      {flare(30, 25, 9)}
-      {flare(54, 33, 7, 0.95)}
-      {flare(42, 44, 5.4, 0.85)}
-      {flare(66, 17, 4.4, 0.8)}
-      {/* faint dust */}
-      <g fill="#cabaff" opacity="0.75">
-        <circle cx="12" cy="12" r="0.9" />
-        <circle cx="70" cy="50" r="0.9" />
-        <circle cx="18" cy="46" r="0.8" />
-        <circle cx="60" cy="8" r="0.7" />
-      </g>
+
+      {/* circle outline + bright interface divider */}
+      <circle cx="40" cy="30" r="26" stroke="#a855f7" strokeWidth="1" strokeOpacity="0.7" fill="none" filter="url(#twp-glow)" />
+      <line x1="40" y1="5" x2="40" y2="55" stroke="url(#twp-div)" strokeWidth="1.6" filter="url(#twp-glow)" />
+      <circle cx="40" cy="30" r="2" fill="#fff" filter="url(#twp-glow)" />
     </svg>
   );
 }
 
+/* 量子计算 — isometric chip with a glowing atom symbol on top, circuit traces
+   radiating on the ground, and vertical binary data rain above. */
 function ThumbQuantumCompute() {
+  const CX = 40;
+  const TOP = 30; // chip top-face centre y
+  const rain = [
+    { x: 16, chars: "1011", o: 0.35 },
+    { x: 26, chars: "0110", o: 0.6 },
+    { x: 54, chars: "1001", o: 0.6 },
+    { x: 64, chars: "0101", o: 0.35 },
+  ];
   return (
-    <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg className="rpt-ico rpt-ico--chip" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="tqc-glow" cx="50%" cy="62%" r="55%">
-          <stop offset="0%" stopColor="#4f6df0" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#1d1a66" stopOpacity="0" />
+        <radialGradient id="tqc-glow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#12082e" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="tqc-top" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#eef4ff" />
-          <stop offset="100%" stopColor="#9fbaff" />
+          <stop offset="0%" stopColor="#3a1d78" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#1b0e42" stopOpacity="0.9" />
         </linearGradient>
-        <linearGradient id="tqc-left" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7f9bff" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#3346c8" stopOpacity="0.3" />
-        </linearGradient>
-        <linearGradient id="tqc-right" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#5a72ee" stopOpacity="0.45" />
-          <stop offset="100%" stopColor="#242a8e" stopOpacity="0.28" />
-        </linearGradient>
-        <filter id="tqc-soft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="0.7" />
+        <radialGradient id="tqc-core" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="50%" stopColor="#c084fc" />
+          <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
+        </radialGradient>
+        <filter id="tqc-glow-f" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="1" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-      <ellipse cx="40" cy="44" rx="34" ry="14" fill="url(#tqc-glow)" />
-      {/* iso platform */}
-      <path d="M40 56 12 46l28-10 28 10Z" fill="#3346c8" fillOpacity="0.18" stroke="#7f9bff" strokeOpacity="0.5" strokeWidth="0.6" />
-      <path d="M40 53 19 45.5 40 38l21 7.5Z" fill="none" stroke="#9fbaff" strokeOpacity="0.4" strokeWidth="0.5" />
-      {/* glass blocks (translucent, bright edges) */}
-      {[
-        { x: 25, top: 33, base: 45 },
-        { x: 40, top: 18, base: 42 },
-        { x: 55, top: 26, base: 45 },
-      ].map((b, i) => {
-        const w = 8.5;
-        const d = 3.8;
-        return (
-          <g key={i}>
-            <path d={`M${b.x - w} ${b.top + d} L${b.x} ${b.top} L${b.x} ${b.base} L${b.x - w} ${b.base + d} Z`} fill="url(#tqc-left)" />
-            <path d={`M${b.x} ${b.top} L${b.x + w} ${b.top + d} L${b.x + w} ${b.base + d} L${b.x} ${b.base} Z`} fill="url(#tqc-right)" />
-            <path d={`M${b.x - w} ${b.top + d} L${b.x} ${b.top} L${b.x + w} ${b.top + d} L${b.x} ${b.top + 2 * d} Z`} fill="url(#tqc-top)" fillOpacity="0.9" />
-            {/* luminous edges */}
-            <path
-              d={`M${b.x - w} ${b.top + d} L${b.x} ${b.top} L${b.x + w} ${b.top + d} M${b.x - w} ${b.top + d} V${b.base + d} M${b.x + w} ${b.top + d} V${b.base + d} M${b.x} ${b.top + 2 * d} V${b.base}`}
-              stroke="#cfe0ff"
-              strokeWidth="0.55"
-              strokeOpacity="0.85"
-              fill="none"
-            />
-          </g>
-        );
-      })}
-      {/* data sparks rising */}
-      <circle cx="33" cy="14" r="1" fill="#cfe0ff" filter="url(#tqc-soft)" />
-      <circle cx="48" cy="10" r="1.2" fill="#ffffff" filter="url(#tqc-soft)" />
-      <circle cx="62" cy="18" r="0.9" fill="#9fbaff" />
-      <path d="M18 20l0.8 2.2 2.2 0.8-2.2 0.8-0.8 2.2-0.8-2.2-2.2-0.8 2.2-0.8Z" fill="#e8f0ff" opacity="0.85" />
+      <ellipse cx={CX} cy={TOP + 8} rx="32" ry="18" fill="url(#tqc-glow)" />
+
+      {/* binary data rain (above the chip) */}
+      <g className="rpt-ico__rain" fontFamily="ui-monospace, monospace" fontSize="4" fill="#c084fc" textAnchor="middle">
+        {rain.map((col, ci) => col.chars.split("").map((c, ri) => (
+          <text key={`${ci}-${ri}`} x={col.x} y={6 + ri * 5.2} opacity={col.o + (ri === col.chars.length - 1 ? 0.3 : 0)}>{c}</text>
+        )))}
+      </g>
+
+      {/* circuit traces radiating on the ground */}
+      <g stroke="#7c3aed" strokeWidth="0.7" strokeOpacity="0.6" fill="none">
+        <path d="M40 50 V56M22 44 H8V50M58 44 H72V50M30 50 V54H24M50 50 V54H56" />
+      </g>
+      <g fill="#a855f7">
+        <rect x="6.5" y="48.5" width="2.4" height="2.4" /><rect x="71" y="48.5" width="2.4" height="2.4" />
+        <rect x="22.8" y="52.6" width="2" height="2" /><rect x="55" y="52.6" width="2" height="2" />
+      </g>
+
+      {/* isometric chip body (layered rhombus + side depth) */}
+      <path d="M40 50 L16 40 L16 36 L40 46 L64 36 L64 40 Z" fill="#160a38" stroke="#7c3aed" strokeOpacity="0.55" strokeWidth="0.5" />
+      <path d="M40 46 L16 36 L40 26 L64 36 Z" fill="url(#tqc-top)" stroke="#b06cf6" strokeWidth="0.9" />
+      <path d="M40 42 L23 35 L40 28 L57 35 Z" fill="none" stroke="#a855f7" strokeOpacity="0.5" strokeWidth="0.6" />
+      {/* chip edge pins */}
+      <g stroke="#c084fc" strokeWidth="0.6" strokeOpacity="0.7">
+        <path d="M22 40.5l-3 -1.2M28 43l-3 -1.2M46 43l3 -1.2M52 40.5l3 -1.2" />
+      </g>
+
+      {/* glowing atom symbol on the chip top face */}
+      <g className="rpt-ico__atom" filter="url(#tqc-glow-f)">
+        <ellipse cx={CX} cy="35" rx="12" ry="4.6" stroke="#c084fc" strokeWidth="0.9" fill="none" transform="rotate(24 40 35)" />
+        <ellipse cx={CX} cy="35" rx="12" ry="4.6" stroke="#a855f7" strokeWidth="0.9" fill="none" transform="rotate(-24 40 35)" />
+      </g>
+      <circle className="rpt-ico__core" cx={CX} cy="35" r="6" fill="url(#tqc-core)" />
+      <circle cx={CX} cy="35" r="1.8" fill="#fff" />
     </svg>
   );
 }
