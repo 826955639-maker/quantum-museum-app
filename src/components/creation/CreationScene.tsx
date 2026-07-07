@@ -30,59 +30,72 @@ function generateTarget(index: number, shape: "alive" | "dead" | "superposition"
   target.set(0, 0, 0);
 
   if (shape === "alive") {
-    if (index < PARTICLE_COUNT * 0.32) {
-      const step = index / (PARTICLE_COUNT * 0.32);
-      const x = -0.7 + step * 1.6;
-      const y = -0.55 + 1.6 * Math.pow(step, 1.4);
-      const radius = 0.38 * (1 - 0.35 * Math.abs(step - 0.5));
-      const angle = Math.random() * Math.PI * 2;
-      target.set(x - 0.1, y + Math.cos(angle) * radius, Math.sin(angle) * radius);
-    } else if (index < PARTICLE_COUNT * 0.52) {
-      const step = index - PARTICLE_COUNT * 0.32;
-      const ratio = step / (PARTICLE_COUNT * 0.2);
-      const theta = ratio * Math.PI;
-      const phi = ratio * Math.PI * 24;
-      const radius = 0.35;
+    // Stretching cat (play-bow pose): head low at front-left, an arched back
+    // rising to the raised hindquarters, front legs reaching forward along the
+    // ground, and a tail curling up behind. Still an abstract particle cloud.
+    const rand = Math.random;
+    if (index < PARTICLE_COUNT * 0.34) {
+      // arched body — a tapering tube swept along the spine
+      const t = index / (PARTICLE_COUNT * 0.34);
+      const cx = -0.75 + t * 1.75;
+      const cy = -0.32 + t * 0.7 + Math.sin(t * Math.PI) * 0.3;
+      const radius = 0.2 + 0.24 * Math.sin(t * Math.PI) + 0.12 * t;
+      const angle = rand() * Math.PI * 2;
+      const rr = Math.sqrt(rand()) * radius;
+      target.set(cx, cy + Math.cos(angle) * rr, Math.sin(angle) * rr);
+    } else if (index < PARTICLE_COUNT * 0.5) {
+      // head — a soft sphere at the front-left, lowered toward the ground
+      const theta = Math.acos(2 * rand() - 1);
+      const phi = rand() * Math.PI * 2;
+      const r = 0.3 * Math.cbrt(rand());
       target.set(
-        -1.05 + Math.sin(theta) * Math.cos(phi) * radius,
-        -0.45 + Math.cos(theta) * radius,
-        Math.sin(theta) * Math.sin(phi) * radius,
+        -1.06 + r * Math.sin(theta) * Math.cos(phi),
+        -0.44 + r * Math.sin(theta) * Math.sin(phi),
+        r * Math.cos(theta),
       );
-    } else if (index < PARTICLE_COUNT * 0.62) {
-      const step = index - PARTICLE_COUNT * 0.52;
-      const ear = step % 2;
-      const ratio = (step / (PARTICLE_COUNT * 0.1)) * 2;
-      const width = 0.15 * (1 - ratio);
+    } else if (index < PARTICLE_COUNT * 0.58) {
+      // two upright ears atop the head
+      const ear = index % 2;
+      const t = rand();
+      const width = 0.12 * (1 - t);
       target.set(
-        -1.08 + (Math.random() - 0.5) * width,
-        -0.15 + ratio * 0.38,
-        (ear === 0 ? -0.18 : 0.18) + (Math.random() - 0.5) * width,
+        -1.12 + (rand() - 0.5) * width,
+        -0.2 + t * 0.34,
+        (ear === 0 ? -0.17 : 0.17) + (rand() - 0.5) * width,
       );
-    } else if (index < PARTICLE_COUNT * 0.76) {
-      const step = index - PARTICLE_COUNT * 0.62;
-      const leg = step % 2;
-      const ratio = step / (PARTICLE_COUNT * 0.14);
+    } else if (index < PARTICLE_COUNT * 0.74) {
+      // front legs stretched forward and down to the paws
+      const leg = index % 2;
+      const t = rand();
+      const jitter = 0.05 + (t > 0.9 ? 0.06 : 0);
       target.set(
-        -0.7 - ratio * 1.05,
-        -0.6 - ratio * 0.55,
-        (leg === 0 ? -0.22 : 0.22) + (Math.random() - 0.5) * 0.07,
+        -0.85 - t * 1.0 + (rand() - 0.5) * jitter,
+        -0.32 - t * 0.62 + (rand() - 0.5) * jitter,
+        (leg === 0 ? -0.2 : 0.2) + (rand() - 0.5) * 0.08,
       );
-    } else if (index < PARTICLE_COUNT * 0.9) {
-      const step = index - PARTICLE_COUNT * 0.76;
-      const leg = step % 2;
-      const ratio = step / (PARTICLE_COUNT * 0.14);
+    } else if (index < PARTICLE_COUNT * 0.88) {
+      // hind legs / haunches — thick near the raised hip, tapering to the paws
+      const leg = index % 2;
+      const t = rand();
+      const cx = 0.92 - t * 0.03;
+      const cy = 0.34 - t * 1.28;
+      const radius = 0.26 * (1 - t) + 0.05;
+      const angle = rand() * Math.PI * 2;
+      const rr = rand() * radius;
       target.set(
-        0.9 + ratio * 0.12,
-        1.05 - ratio * 2.15,
-        (leg === 0 ? -0.25 : 0.25) + (Math.random() - 0.5) * 0.07,
+        cx + Math.cos(angle) * rr * 0.7,
+        cy + Math.sin(angle) * rr,
+        (leg === 0 ? -0.24 : 0.24) + Math.cos(angle) * rr * 0.7,
       );
     } else {
-      const ratio = (index - PARTICLE_COUNT * 0.9) / (PARTICLE_COUNT * 0.1);
-      target.set(
-        0.9 + ratio * 0.55 + Math.sin(ratio * Math.PI) * 0.12,
-        1.05 + ratio * 1.15 + Math.cos(ratio * Math.PI) * 0.15,
-        Math.sin(ratio * Math.PI * 1.5) * 0.12,
-      );
+      // tail curling up and back from the rear
+      const t = (index - PARTICLE_COUNT * 0.88) / (PARTICLE_COUNT * 0.12);
+      const x = 1.15 + t * 0.75 + Math.sin(t * Math.PI * 0.5) * 0.12;
+      const y = 0.4 + t * 0.55 + Math.sin(t * Math.PI) * 0.18;
+      const radius = 0.1 * (1 - t * 0.55);
+      const angle = rand() * Math.PI * 2;
+      const rr = rand() * radius;
+      target.set(x + Math.cos(angle) * rr, y + Math.sin(angle) * rr, Math.sin(angle) * rr);
     }
   } else if (shape === "dead") {
     if (index < PARTICLE_COUNT * 0.6) {
